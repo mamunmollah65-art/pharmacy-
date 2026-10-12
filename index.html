@@ -417,55 +417,63 @@ let RV=null,RVC=null,RVAb=null;
 const nz=x=>String(x||'').toLowerCase().replace(/[^a-z0-9\u0980-\u09FF]+/g,' ').trim();
 function mkMap(){const m=new Map();db.meds.forEach(x=>m.set(nz(x.n),x));return m}
 function bestMed(name){const n=nz(name);if(!n)return null;const e=RVC.get(n);if(e)return e;const t=new Set(n.split(' ')),nums=[...t].filter(w=>/\d/.test(w));let best=null,bs=0;for(const m of db.meds){const mt=new Set(nz(m.n).split(' '));let i=0;t.forEach(w=>{if(mt.has(w))i++});const sc=i/(t.size+mt.size-i);if(nums.length&&!nums.every(w=>mt.has(w)))continue;if(sc>bs){bs=sc;best=m}}return bs>=.6?best:null}
-function scanInv(){if(!aiKey()){toast('আগে AI API Key বসান');return aiKeyForm()}
-const i=document.createElement('input');i.type='file';i.accept='image/*';i.multiple=true;i.onchange=()=>{const fs=[...i.files].slice(0,5);if(fs.length)readInv(fs)};i.click()}
+let SCI=[],RVF=[];
+function scanInv(){if(!aiKey()){toast('আগে AI API Key বসান');return aiKeyForm()}SCI=[];scanUi()}
+function scanUi(){setH('md',`<div class=box><h3>ইনভয়েসের ছবি</h3><small>ক্যামেরায় ছবি তুলুন বা গ্যালারি থেকে নিন। একাধিক পাতা থাকলে একে একে যোগ করুন (সর্বোচ্চ ৫টি)।</small>
+<div class=g2 style="margin:10px 0"><button onclick="scanAdd(1)">📷 ক্যামেরা</button><button onclick="scanAdd(0)">🖼 গ্যালারি</button></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">${SCI.map((x,i)=>`<div style="position:relative"><img src="${x.u}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--ln)"><button onclick="scanRm(${i})" style="position:absolute;top:-8px;right:-8px;padding:0 6px;border-radius:10px">✕</button></div>`).join('')}</div>
+<div class=bar style="margin-top:12px"><button onclick=closeM()>বাতিল</button><button class=pr onclick="scanGo()" ${SCI.length?'':'disabled'}>স্ক্যান করুন (${SCI.length})</button></div></div>`);$('md').className='m on'}
+function scanAdd(c){const i=document.createElement('input');i.type='file';i.accept='image/*';if(c)i.setAttribute('capture','environment');else i.multiple=true;i.onchange=()=>{[...i.files].forEach(f=>{if(SCI.length<5)SCI.push({f,u:URL.createObjectURL(f)})});scanUi()};i.click()}
+function scanRm(i){SCI.splice(i,1);scanUi()}
+function scanGo(){if(SCI.length)readInv(SCI.map(x=>x.f))}
 function shrink(f){return new Promise((ok,no)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const M=1800,r=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.85).split(',')[1])};im.onerror=()=>no('img');im.src=u})}
 const AIP=`You are reading a photo of a pharmacy purchase invoice (Bangladesh, may include Bengali text). Extract every medicine line. Reply with ONLY one JSON object, no markdown:
-{"supplier":string|null,"date":"YYYY-MM-DD"|null,"invoice_total":number|null,"items":[{"name":string (brand name with strength, as printed),"generic":string|null,"company":string|null,"qty":number,"unit":"piece"|"strip"|"box","pieces_per_strip":number|null,"cost":number|null (purchase/trade price per ONE unit as printed),"mrp":number|null (selling price/MRP per ONE PIECE only if clearly printed),"batch":string|null,"expiry":"YYYY-MM-DD"|null (use last day of month if only month/year),"line_total":number|null}]}
+{"supplier":string|null,"date":"YYYY-MM-DD"|null,"invoice_total":number|null,"items":[{"name":string (brand name with strength as printed, WITHOUT the pack size text),"generic":string|null,"company":string|null,"qty":number (how many packs/boxes were purchased on this line),"pack_text":string|null (pack size text exactly as printed, e.g. "3*10's", "50's", "P size 100"),"pieces_per_pack":number|null (total pieces in ONE pack: "3*10's" means 3 strips x 10 = 30; "50's" or "P size 50" means 50; null if nothing is printed),"pieces_per_strip":number|null (only when printed as A*B's, then B; otherwise null),"unit_price":number|null (purchase/trade price of ONE pack as printed),"line_total":number|null,"mrp":number|null (MRP only if clearly printed),"mrp_per":"piece"|"strip"|"pack"|null,"batch":string|null,"expiry":"YYYY-MM-DD"|null (use last day of month if only month/year)}]}
 Use null when unsure. Never invent values. Keep every line, in invoice order.`;
-
 const AIMS=[AIM,'gemini-flash-lite-latest','gemini-2.5-flash'];
 const slp=ms=>new Promise(r=>setTimeout(r,ms));
 async function gem(body,sig){let last='';for(const md of AIMS){for(let k=0;k<2;k++){let r,j;try{r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+md+':generateContent',{method:'POST',signal:sig,headers:{'content-type':'application/json','x-goog-api-key':aiKey()},body:JSON.stringify(body)});j=await r.json()}catch(e){if(e&&e.name=='AbortError')throw e;last='ইন্টারনেট সংযোগ দেখুন';await slp(1500);continue}
 if(r.ok)return j;if(r.status==400||r.status==401||r.status==403){if(/key|permission|API_KEY/i.test((j.error&&j.error.message)||'')||r.status!=400)throw 'API Key ঠিক নয় বা অনুমতি নেই';last=(j.error&&j.error.message)||'ত্রুটি 400';break}
 last=r.status==429?'ফ্রি সীমা শেষ, কিছুক্ষণ পরে আবার চেষ্টা করুন':r.status==503?'Google-এর সার্ভারে এখন চাপ বেশি, একটু পরে আবার চেষ্টা করুন':((j.error&&j.error.message)||('ত্রুটি '+r.status));if(r.status==429)break;await slp(1500)}}throw last||'ত্রুটি'}
-async function readInv(fs){RVAb=new AbortController();setH('md',`<div class=box><h3>ইনভয়েস পড়া হচ্ছে…</h3><p class=mut>ছবি থেকে ওষুধের তালিকা বের করা হচ্ছে, একটু অপেক্ষা করুন।</p><div class=bar><button onclick="RVAb.abort();closeM()">বাতিল</button></div></div>`);$('md').className='m on';
+async function readInv(fs){RVF=fs;RVAb=new AbortController();setH('md',`<div class=box><h3>ইনভয়েস পড়া হচ্ছে…</h3><p class=mut>ছবি থেকে ওষুধের তালিকা বের করা হচ্ছে, একটু অপেক্ষা করুন।</p><div class=bar><button onclick="RVAb.abort();closeM()">বাতিল</button></div></div>`);$('md').className='m on';
 try{const imgs=await Promise.all(fs.map(shrink));
 const j=await gem({contents:[{parts:[...imgs.map(d=>({inline_data:{mime_type:'image/jpeg',data:d}})),{text:AIP}]}],generationConfig:{temperature:0,responseMimeType:'application/json'}},RVAb.signal);
-const t=(((j.candidates||[])[0]||{}).content||{parts:[]}).parts.map(x=>x.text||'').join(''),a=t.indexOf('{'),b=t.lastIndexOf('}');
-const d=JSON.parse(t.slice(a,b+1));
+const t=(((j.candidates||[])[0]||{}).content||{parts:[]}).parts.map(x=>x.text||'').join(''),a=t.indexOf('{'),b=t.lastIndexOf('}');const d=JSON.parse(t.slice(a,b+1));
 if(!d.items||!d.items.length)throw 'কোনো ওষুধ পাওয়া যায়নি';
-RVC=mkMap();
-RV={sup:d.supplier||'',d:d.date||today(),tot:d.invoice_total,paid:'',pm:'ক্যাশ',rows:d.items.map(x=>{const m=bestMed(x.name),u=x.unit=='piece'?'p':'s',sz=+x.pieces_per_strip||(m&&SZ(m))||'';
-return {n:m?m.n:(x.name||''),g:x.generic||'',c:x.company||'',q:+x.qty||'',u:(u=='s'&&!sz)?'p':u,sz:sz||'',cost:x.cost??'',mrp:x.mrp??(m?m.p:''),b:x.batch||'',e:x.expiry||'',skip:0}})};
-rvShow()}catch(e){if(e&&e.name=='AbortError')return;setH('md',`<div class=box><h3>স্ক্যান হয়নি</h3><p>${esc(typeof e=='string'?e:(e&&e.message)||'ত্রুটি')}</p><div class=bar><button onclick=closeM()>বন্ধ করুন</button><button class=pr onclick=scanInv()>আবার চেষ্টা</button></div></div>`)}}
-function rvCalc(){let t=0;RV.rows.forEach(r=>{if(r.skip)return;const k=r.u=='s'?(+r.sz||0):1,q=(+r.q||0)*k;r._t=(r.u=='s'?(+r.q||0):q)*(+r.cost||0)});RV.rows.forEach(r=>{if(!r.skip)t+=r._t||0});return t}
+RVC=mkMap();const R2=(v,n)=>Math.round(v*n)/n;
+RV={sup:d.supplier||'',d:d.date||today(),tot:d.invoice_total,paid:'',pm:'ক্যাশ',rows:d.items.map(x=>{const m=bestMed(x.name),q=+x.qty||'',pk=+x.pieces_per_pack>0?+x.pieces_per_pack:1,sz=+x.pieces_per_strip>1?+x.pieces_per_strip:((m&&SZ(m))||'');
+let cost=x.unit_price!=null?+x.unit_price:(x.line_total!=null&&q?+x.line_total/q:'');
+let mrp='';if(x.mrp!=null){const v=+x.mrp;mrp=x.mrp_per=='pack'?v/pk:x.mrp_per=='strip'?(sz?v/sz:''):v}else if(m)mrp=m.p;
+return {n:m?m.n:(x.name||''),g:x.generic||'',c:x.company||'',q,pk,sz,cost:cost===''?'':R2(cost,100),mrp:mrp===''?'':R2(mrp,1000),b:x.batch||'',e:x.expiry||'',skip:0}})};
+rvShow()}catch(e){if(e&&e.name=='AbortError')return;setH('md',`<div class=box><h3>স্ক্যান হয়নি</h3><p>${esc(typeof e=='string'?e:(e&&e.message)||'ত্রুটি')}</p><div class=bar><button onclick=closeM()>বন্ধ করুন</button><button class=pr onclick="readInv(RVF)">আবার চেষ্টা</button></div></div>`)}}
+function rvCalc(){let t=0;RV.rows.forEach(r=>{r._t=r.skip?0:(+r.q||0)*(+r.cost||0);t+=r._t});return t}
+function rvInfo(r){const pk=+r.pk||1,q=+r.q||0,cp=(+r.cost||0)/pk,sz=+r.sz>1?+r.sz:0,mp=+r.mrp||0;return 'মোট '+(q*pk)+' পিস · প্রতি পিস ক্রয় '+tk(cp)+' · লাইন মোট '+tk(q*(+r.cost||0))+(sz&&mp?' · স্ট্রিপের দাম '+tk(mp*sz):'')}
 function rvTot(){const t=rvCalc();$('rvT').innerHTML=L('আপনার মোট: ')+'<b>'+tk(t)+'</b>'+(RV.tot?` <small>${L('ইনভয়েসে লেখা মোট: ')}${tk(RV.tot)}${Math.abs(RV.tot-t)>1?' ⚠':' ✓'}</small>`:'')}
-function rvSet(i,k,v){RV.rows[i][k]=v;if(k=='n'){const m=RVC.get(nz(v)),e=$('rvS'+i);e.className=m?'':'mut';e.style.color=m?'var(--pr)':'var(--wn)';e.textContent=L(m?'✓ আগের ওষুধ · স্টক '+m.q+' পিস':'➕ নতুন ওষুধ হিসেবে যোগ হবে')}rvTot()}
-function rvU(i,v){RV.rows[i].u=v;rvShow()}
+function rvSet(i,k,v){RV.rows[i][k]=v;if(k=='n'){const m=RVC.get(nz(v)),e=$('rvS'+i);e.style.color=m?'var(--pr)':'var(--wn)';e.textContent=L(m?'✓ আগের ওষুধ · স্টক '+m.q+' পিস':'➕ নতুন ওষুধ হিসেবে যোগ হবে')}$('rvI'+i).textContent=L(rvInfo(RV.rows[i]));rvTot()}
 function rvDel(i){RV.rows[i].skip=RV.rows[i].skip?0:1;rvShow()}
 function rvShow(){const bx=document.querySelector('#md .box'),sc=bx?bx.scrollTop:0,E=x=>esc(x??''),W=v=>v===''||v==null?' style="border-color:var(--wn)"':'';
 const rows=RV.rows.map((r,i)=>{const m=RVC.get(nz(r.n));return `<div class=card style="${r.skip?'opacity:.4':''}"><div class=bar style="margin:0"><b>${i+1}.</b><input value="${E(r.n)}" list=rvDl oninput="rvSet(${i},'n',this.value)" style="flex:1"><button onclick="rvDel(${i})">${r.skip?'↩':'✕'}</button></div>
 <small id=rvS${i} style="color:${m?'var(--pr)':'var(--wn)'}">${m?'✓ আগের ওষুধ · স্টক '+m.q+' পিস':'➕ নতুন ওষুধ হিসেবে যোগ হবে'}</small>
-<div class=g2><label>পরিমাণ<input type=number step=any inputmode=decimal value="${E(r.q)}"${W(r.q)} oninput="rvSet(${i},'q',this.value)"></label>
-<label>একক<select onchange="rvU(${i},this.value)"><option value=p ${r.u=='p'?'selected':''}>পিস</option><option value=s ${r.u=='s'?'selected':''}>স্ট্রিপ</option></select></label>
-${r.u=='s'?`<label>প্রতি স্ট্রিপে পিস<input type=number inputmode=numeric value="${E(r.sz)}"${W(r.sz)} oninput="rvSet(${i},'sz',this.value)"></label>`:''}
-<label>ক্রয়মূল্য (প্রতি ${r.u=='s'?'স্ট্রিপ':'পিস'})<input type=number step=any inputmode=decimal value="${E(r.cost)}"${W(r.cost)} oninput="rvSet(${i},'cost',this.value)"></label>
+<div class=g2><label>পরিমাণ (প্যাক/বক্স)<input type=number step=any inputmode=decimal value="${E(r.q)}"${W(r.q)} oninput="rvSet(${i},'q',this.value)"></label>
+<label>প্রতি প্যাকে পিস<input type=number inputmode=numeric value="${E(r.pk)}" oninput="rvSet(${i},'pk',this.value)"></label>
+<label>প্রতি স্ট্রিপে পিস (না থাকলে খালি)<input type=number inputmode=numeric value="${E(r.sz)}" oninput="rvSet(${i},'sz',this.value)"></label>
+<label>প্যাকের দাম (ইনভয়েস অনুযায়ী)<input type=number step=any inputmode=decimal value="${E(r.cost)}"${W(r.cost)} oninput="rvSet(${i},'cost',this.value)"></label>
 <label>বিক্রয়মূল্য (প্রতি পিস)<input type=number step=any inputmode=decimal value="${E(r.mrp)}"${W(r.mrp)} oninput="rvSet(${i},'mrp',this.value)"></label>
 <label>ব্যাচ<input value="${E(r.b)}" oninput="rvSet(${i},'b',this.value)"></label>
-<label>মেয়াদ<input type=date value="${E(r.e)}" oninput="rvSet(${i},'e',this.value)"></label></div></div>`}).join('');
-setH('md',`<div class=box style="max-width:560px"><h3>ইনভয়েস যাচাই করুন</h3><small>সব ঠিক আছে কিনা দেখুন, ভুল থাকলে ঠিক করুন। কমলা ঘর = ফাঁকা। নিশ্চিত না করা পর্যন্ত কিছু যোগ হবে না।</small>
+<label>মেয়াদ<input type=date value="${E(r.e)}" oninput="rvSet(${i},'e',this.value)"></label></div><small id=rvI${i}>${L(rvInfo(r))}</small></div>`}).join('');
+setH('md',`<div class=box style="max-width:560px"><h3>ইনভয়েস যাচাই করুন</h3><small>সব ঠিক আছে কিনা দেখুন, ভুল থাকলে ঠিক করুন। কমলা ঘর = ফাঁকা। নিশ্চিত না করা পর্যন্ত কিছু যোগ হবে না।<br>প্যাক সাইজ: 3*10's = প্রতি প্যাকে ৩০ পিস, প্রতি স্ট্রিপে ১০ পিস। 50's = প্রতি প্যাকে ৫০ পিস।</small>
 <div class=g2 style="margin-top:8px"><label>সরবরাহকারী<input value="${E(RV.sup)}" list=rvSl oninput="RV.sup=this.value"></label><label>তারিখ<input type=date value="${E(RV.d)}" oninput="RV.d=this.value"></label></div>
 <datalist id=rvSl>${db.sups.map(s=>`<option value="${E(s.n)}">`).join('')}</datalist><datalist id=rvDl>${db.meds.map(m=>`<option value="${E(m.n)}">`).join('')}</datalist>
 ${rows}<div class=g2><label>পরিশোধ (খালি = পুরো)<input type=number step=any inputmode=decimal value="${E(RV.paid)}" oninput="RV.paid=this.value"></label><label>পেমেন্ট মাধ্যম<select onchange="RV.pm=this.value">${PM.map(o=>`<option value="${o[0]}" ${o[0]==RV.pm?'selected':''}>${o[1]}</option>`).join('')}</select></label></div>
 <div class=tt id=rvT></div><div class=bar><button onclick=closeM()>বাতিল</button><button class=pr onclick=rvOk()>ঠিক আছে, যোগ করুন</button></div></div>`);$('md').className='m on';rvTot();const nb=document.querySelector('#md .box');if(nb)nb.scrollTop=sc}
 function rvOk(){const rs=RV.rows.filter(r=>!r.skip);if(!rs.length)return toast('কোনো ওষুধ নেই');
-for(const r of rs){if(!r.n.trim())return toast('ওষুধের নাম দিন');if(!(+r.q>0))return toast(r.n+': পরিমাণ দিন');if(r.cost===''||r.cost==null||+r.cost<0)return toast(r.n+': ক্রয়মূল্য দিন');if(r.u=='s'&&!(+r.sz>1))return toast(r.n+': স্ট্রিপে কয় পিস দিন')}
+for(const r of rs){if(!r.n.trim())return toast('ওষুধের নাম দিন');if(!(+r.q>0))return toast(r.n+': পরিমাণ দিন');if(!(+r.pk>=1))return toast(r.n+': প্রতি প্যাকে কয় পিস দিন');if(r.cost===''||r.cost==null||+r.cost<0)return toast(r.n+': দাম দিন')}
 const sn=RV.sup.trim();let s=null;if(sn){s=db.sups.find(z=>z.n.toLowerCase()==sn.toLowerCase());if(!s)db.sups.push(s={id:nid(),n:sn,ph:'',due:0})}
-const tot=rvCalc();let left=RV.paid===''?tot:Math.max(0,+RV.paid||0),nw=0,up=0;
-rs.forEach(r=>{let m=RVC.get(nz(r.n));if(!m){m={id:nid(),n:r.n.trim(),g:r.g,c:r.c,sp:sn,b:'',e:'',cost:0,p:0,sz:0,ps:0,q:0,min:0};db.meds.push(m);RVC.set(nz(m.n),m);nw++}else up++;
-const k=r.u=='s'?+r.sz:1,qp=+r.q*k,c=+r.cost/k,t=qp*c,pd=Math.min(t,left);left-=pd;
-if(r.u=='s'&&!SZ(m))m.sz=+r.sz;m.q+=qp;m.cost=c;if(r.mrp!==''&&r.mrp!=null&&+r.mrp>=0)m.p=+r.mrp;if(r.b)m.b=r.b;if(r.e)m.e=r.e;if(s)s.due+=Math.max(0,t-pd);
+const tot=rvCalc();let left=RV.paid===''?tot:Math.max(0,+RV.paid||0),nw=0;
+rs.forEach(r=>{let m=RVC.get(nz(r.n));if(!m){m={id:nid(),n:r.n.trim(),g:r.g,c:r.c,sp:sn,b:'',e:'',cost:0,p:0,sz:0,ps:0,q:0,min:0};db.meds.push(m);RVC.set(nz(m.n),m);nw++}
+const pk=+r.pk||1,qp=Math.round(+r.q*pk),c=+r.cost/pk,t=+r.q*(+r.cost),pd=Math.min(t,left),sz=+r.sz>1?+r.sz:0,mrp=(r.mrp!==''&&r.mrp!=null&&+r.mrp>=0)?+r.mrp:null;left-=pd;
+if((sz&&sz!=SZ(m))||(mrp!=null&&mrp!=m.p))m.ps=0;if(sz)m.sz=sz;if(mrp!=null)m.p=mrp;
+m.q+=qp;m.cost=c;if(r.b)m.b=r.b;if(r.e)m.e=r.e;if(s)s.due+=Math.max(0,t-pd);
 db.buys.push({id:nid(),d:RV.d||today(),m:m.n,mid:m.id,sid:s?s.id:'',sn:s?s.n:'',q:qp,c,t,p:pd,pm:RV.pm})});
 save();closeM();render();toast(rs.length+'টি ওষুধ যোগ হয়েছে'+(nw?' (নতুন '+nw+')':''))}
 
