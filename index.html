@@ -194,7 +194,7 @@ function bellUi(){const n=alts().length,e=$('bc');if(!e)return;e.textContent=n>9
 function alerts(){const l=alts();shell(`<h3>নোটিফিকেশন</h3><div style="max-height:55vh;overflow:auto">${l.map(a=>`<div class=row><span>${esc(a[0])}</span><i class=${a[2]}>${a[1]}</i></div>`).join('')||'<p class=mut>কোনো সতর্কতা নেই</p>'}</div>${mi('#f57c00',P.inv,'ইনভেন্টরি দেখুন',"go('inv')")}`)}
 function menu(){const a=getA()||{},p=prf(),A=isAdm();shell(`<div class=mh>${av(p)}<div><h3>${esc(p.n||a.u||'')}</h3><small>${A?'ম্যানেজার':'কাউন্টার স্টাফ'}</small></div></div>${mi('#2f6fed',MI.u,'প্রোফাইল','profMenu()')}${mi('#5c6bc0',MI.s,'সেটিংস','settings()')}${mi('#f57c00',MI.b,'নোটিফিকেশন','alerts()')}${A?mi('#7c4dff',MI.c,'লগইন হিস্ট্রি','lhist()')+mi('#e91e8c',P.cus,'স্টাফ ব্যবস্থাপনা','stf()'):''}${mi('#e53935',MI.o,'লগআউট',"ask('লগআউট করবেন?',logout)")}`)}
 function profMenu(){const a=getA()||{},p=prf();shell(`<div class=mh>${av(p)}<div><h3>${esc(p.n||a.u||'')}</h3><small>${isAdm()?'ম্যানেজার':'কাউন্টার স্টাফ'}</small><small>${esc([p.ph,p.em].filter(Boolean).join(' · '))}</small></div></div>${mi('#2f6fed',MI.u,'প্রোফাইল সম্পাদনা','profForm()')}${mi('#e91e8c',MI.cam,'ছবি বদলান','photoPick()')}`)}
-function settings(){const a=getA()||{},A=isAdm();shell(`<h3>সেটিংস</h3>${mi('#12a150',MI.g,UI.lang=='en'?'বাংলা':'English','setLang()')}${mi('#455a64',MI.m,UI.theme=='dark'?'লাইট মোড':'ডার্ক মোড','setTheme()')}${A?mi('#f59e0b',MI.k,'ইউজারনেম ও পাসওয়ার্ড','credForm()')+(a.g?'':mi('#ea4335',MI.e,'Gmail যুক্ত করুন','linkG()'))+mi('#00a3a3',MI.d,'Drive-এ ব্যাকআপ','driveBackup()')+mi('#12a150',MI.r,abOn()?'অটো ব্যাকআপ বন্ধ করুন':'অটো ব্যাকআপ চালু করুন','abToggle()')+mi('#2f6fed',MI.d,'Drive থেকে ডাটা ফিরিয়ে আনুন','driveRestore()')+mi('#f57c00',P.buy,'ওষুধের তালিকা ইমপোর্ট','impMeds()')+mi('#78909c',MI.db,'ব্যাকআপ ও রিস্টোর (কোড)',"go('rep')")+`<small>${esc(L(bkInfo()))}</small>`:''}`)}
+function settings(){const a=getA()||{},A=isAdm();shell(`<h3>সেটিংস</h3>${mi('#12a150',MI.g,UI.lang=='en'?'বাংলা':'English','setLang()')}${mi('#455a64',MI.m,UI.theme=='dark'?'লাইট মোড':'ডার্ক মোড','setTheme()')}${A?mi('#f59e0b',MI.k,'ইউজারনেম ও পাসওয়ার্ড','credForm()')+(a.g?'':mi('#ea4335',MI.e,'Gmail যুক্ত করুন','linkG()'))+mi('#00a3a3',MI.d,'Drive-এ ব্যাকআপ','driveBackup()')+mi('#12a150',MI.r,abOn()?'অটো ব্যাকআপ বন্ধ করুন':'অটো ব্যাকআপ চালু করুন','abToggle()')+mi('#2f6fed',MI.d,'Drive থেকে ডাটা ফিরিয়ে আনুন','driveRestore()')+mi('#f57c00',P.buy,'ওষুধের তালিকা ইমপোর্ট','impMeds()')+mi('#f57c00',P.buy,'ক্রয়ের বিল ইমপোর্ট','impBuy()')+mi('#f57c00',P.buy,'এক্সেল তালিকা ইমপোর্ট','impX()')+mi('#78909c',MI.db,'ব্যাকআপ ও রিস্টোর (কোড)',"go('rep')")+`<small>${esc(L(bkInfo()))}</small>`:''}`)}
 function profForm(){form('প্রোফাইল',[['n','নাম'],['ph','ফোন'],['em','ইমেইল','email']],o=>{if(isAdm())db.prof=Object.assign({},db.prof,o);else Object.assign(me(),o)},prf())}
 function photoPick(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.onchange=()=>{const f=i.files[0];if(!f)return;const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),m=Math.min(im.width,im.height);c.width=c.height=160;c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,160,160);const p=isAdm()?(db.prof=db.prof||{}):me();p.img=c.toDataURL('image/jpeg',.8);save();render();toast('ছবি যোগ হয়েছে')};im.src=URL.createObjectURL(f)};i.click()}
 function regForm(){form('কাউন্টার স্টাফ নিবন্ধন',[['n','নাম'],['ph','ফোন'],['u','ইউজারনেম'],['p','পাসওয়ার্ড','password']],o=>{const a=getA()||{};if(!o.n||!o.u||(o.p||'').length<4)return toast('নাম, ইউজারনেম ও পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর) দিন'),false;if(o.u==a.u||(db.staff||[]).some(x=>x.u==o.u))return toast('এই ইউজারনেম আছে'),false;hs(o.p).then(h=>{(db.staff=db.staff||[]).push({id:nid(),n:o.n,ph:o.ph||'',u:o.u,h,st:'pending',t:Date.now()});save();toast('নিবন্ধন হয়েছে। ম্যানেজার অনুমোদন দিলে ঢুকতে পারবেন')})})}
@@ -266,6 +266,136 @@ Cosarin|Diacerein 50 mg + Glucosamine 750 mg|Opsonin
 Jointec Max|Diacerein 50 mg + Glucosamine 750 mg|Beximco
 Orthogen|Glucosamine + Collagen + Boswellia + Boron|ACME`;
 function impMeds(){const have=new Set(db.meds.map(m=>m.n.toLowerCase())),a=IMPL.split('\n').map(l=>l.split('|')).filter(x=>x[0]&&!have.has(x[0].toLowerCase()));if(!a.length)return toast('নতুন কোনো ওষুধ নেই');ask(a.length+'টি নতুন ওষুধ যোগ হবে (দাম ও স্টক ০ থাকবে)। চালিয়ে যাবেন?',()=>{a.forEach(x=>db.meds.push({id:nid(),n:x[0],g:x[1]||'',c:x[2]||'',sp:'',b:'',e:'',cost:0,p:0,q:0,min:0}))})}
+const IMPB=`Bexitrol F 25/250 Inhaler|Salmeterol 25 mcg + Fluticasone Propionate 250 mcg|Beximco|B|795|665|1|1
+Comprid XR 30|Gliclazide 30 mg (MR)|Square|B|350|305|1|1
+Doxiva 400|Doxofylline 400 mg|Nipro JMI Pharma|B|600|510|1|1
+Lijenta-M 850|Linagliptin 2.5 mg + Metformin 850 mg|Nipro JMI Pharma|B|480|440|32|2
+Monas 10|Montelukast 10 mg|ACME|B|525|417.74|30|2
+Budicort 0.5 Nebuliser|Budesonide 0.5 mg/2 ml|Incepta|I||463.08|12|2
+Quiet 25|Quetiapine 25 mg|Incepta|I||128.64|50|1
+Pogo Syrup|Multivitamin + Cod Liver Oil|Healthcare Pharmaceuticals|H||77|1|8
+Sergel 20|Esomeprazole 20 mg|Healthcare Pharmaceuticals|H||616.04|100|1
+Cefotil Plus 500|Cefuroxime Axetil 500 mg + Clavulanic Acid 125 mg|Square|S||617.48|12|1
+Ezex 0.05% Cream|Clobetasone Butyrate 0.05%|Square|S||64.75|1|2
+Maxrin 0.4|Tamsulosin 0.4 mg|Square|S||308.84|30|1
+Neuro-B|Vitamin B1 + B6 + B12|Square|S||257.4|30|2
+Rosuva EZ 20/10|Rosuvastatin 20 mg + Ezetimibe 10 mg|Square|S||566.06|20|1
+Amilin Plus|Amitriptyline 12.5 mg + Chlordiazepoxide 5 mg|Opsonin|B|420|363|56|1
+Becoral-D|Coral Calcium 500 mg + Vitamin D3 200 IU|Beximco|B|600|510|1|1
+Fexomin 180|Fexofenadine 180 mg|Ibn Sina|B|270|230|30|1
+Fixocard 5/50|Amlodipine 5 mg + Atenolol 50 mg|Incepta|B|400|352|50|1
+Losectil 20|Omeprazole 20 mg|Eskayef (SK+F)|B|600|510|1|1
+Mycofree 250|Terbinafine 250 mg|Drug International|B|380|327|1|1
+Renova Suspension 60ml|Paracetamol|Opsonin|B|35|31|1|3
+Bislol 5|Bisoprolol 5 mg|Opsonin|M|644|553.13|56|1
+Cifibet 100|Ciprofibrate 100 mg|Eskayef (SK+F)|M|450|398.07|30|1
+Freedom Sanitary Napkin Heavy Flow Wings||ACI|M|200|138|1|6
+SMC Fruity Orange Sachet|Oral Rehydration Salt (flavoured)|SMC Enterprise|M|192|142.91|24|2
+Ace P-Drop 30ml|Paracetamol (paediatric drop)|Square|S||25.73|1|3
+Alatrol P-Drop 15ml|Cetirizine (paediatric drop)|Square|S||24.01|1|3
+Ambrox Syrup 100ml|Ambroxol|Square|S||42.88|1|10
+Antazol 0.1% Nasal Drop|Xylometazoline 0.1%|Square|S||205.78|12|1
+Bilista 20|Bilastine 20 mg|Square|S||385.76|30|1
+Comet 850|Metformin 850 mg|Square|S||257.97|50|1
+DK 4000|Cholecalciferol (Vitamin D3) 4000 IU|Square|S||250.86|30|1
+Emjard 10|Empagliflozin 10 mg|Square|S||428.78|20|1
+Probio Sachet 1g|Probiotic|Square|S||668.97|20|1
+Tryptin 10|Amitriptyline 10 mg|Square|S||146.36|200|1
+Atrizin Syrup 60ml|Cetirizine|Beximco|X||25.73|1|2
+Bizoran 5/40|Amlodipine 5 mg + Olmesartan Medoxomil 40 mg|Beximco|X||514.47|30|1
+D-Rise 2000|Cholecalciferol (Vitamin D3) 2000 IU|Beximco|X||64.19|30|1
+Diapro 80|Gliclazide 80 mg|Beximco|X||360.36|60|1
+Dextrim Syrup||Beximco|X||80|1|11
+Omestin 150|Fluconazole 150 mg|Beximco|X||377.3|20|1
+Telmacal 5/40|Amlodipine 5 mg + Telmisartan 40 mg|Beximco|X||321.59|30|1
+Bislol 2.5|Bisoprolol 2.5 mg|Opsonin|M|490|421.99|70|1
+Caridol 250|Carisoprodol 250 mg|Eskayef (SK+F)|M|210|182.7|30|1
+Denixil 0.5|Clonazepam 0.5 mg|Renata|M|520|428.38|80|1
+Diclofenac TR 100|Diclofenac Sodium 100 mg (TR)|Albion|M|150|48|50|1
+Dsec 30|Dexlansoprazole 30 mg||M|300|266.01|30|1
+E Cap Plus|||M|150|133|30|1
+Fluclox 500|Flucloxacillin 500 mg||M|560|466.48|40|1
+Linatin M 850|Linagliptin 2.5 mg + Metformin 850 mg|Delta Pharma|M|240|181.01|30|1
+Neuralgin|Vitamin B1 100 mg + B6 200 mg + B12 200 mcg||M|360|291.2|60|1
+Norix 1 (1.5 mg)|||M|700|487.97|1|1
+Pantonix 40|Pantoprazole 40 mg||M|980|851.13|98|1
+Prindol 3|Pridinol 3 mg|ACME|M|300|249.9|30|1
+Safe Care HCG Pregnancy Test|HCG pregnancy test|Safe Care|M|800|200|10|1
+Thyrox 50|Levothyroxine 50 mcg|Renata|M|198|172.99|90|2
+Vildamet 50/500|Vildagliptin 50 mg + Metformin 500 mg|Opsonin|M|661.8|571.2|30|1`;
+const SUPB={B:'Bangladesh Medicine (BDM)',I:'Incepta Pharmaceuticals',H:'Healthcare Pharmaceuticals',S:'Square Pharmaceuticals',M:'MedBox',X:'Beximco Pharmaceuticals'};
+const IMPX=`Cefaclav 500|Cefuroxime Axetil + Clavulanic Acid|Incepta|720.35|14|1
+Valex CR 300|Sodium Valproate + Valproic Acid|Incepta|385.91|50|1
+Aceclofenac 100|Aceclofenac|Albion|82.0|1|1
+Delfex 120|Fexofenadine Hydrochloride|Delta Pharma|232.0|1|2
+Dimerol 80|Gliclazide|Drug International|388.0|1|1
+Maxpro 20|Esomeprazole|Renata|820.0|1|1
+Maxpro 40|Esomeprazole|Renata|460.0|1|1
+Nature E 400|Vitamin E (Alpha Tocopheryl Acetate)|UniMed UniHealth|182.0|1|1
+Vildapin Plus 500|Vildagliptin + Metformin HCl|ACME|470.0|1|1
+Zatral 10|Alfuzosin Hydrochloride|Eskayef (SK+F)|340.0|40|1
+Bicozin|Vitamin B Complex + Zinc|Square|142.8|30|2
+Cef-3 DS|Cefixime Trihydrate|Square|719.67|14|1
+Fexo 120|Fexofenadine Hydrochloride|Square|386.11|50|1
+Fexo 180|Fexofenadine Hydrochloride|Square|310.84|30|1
+Burna Cream 25g|Silver Sulfadiazine|Square|95.09|1|2
+Ceevit 250|Vitamin C (Ascorbic acid)|Square|406.23|250|1
+Comprid XR 60|Gliclazide|Square|312.04|30|1
+Volinac Gel 50g|Diclofenac + Methyl Salicylate + Menthol|Square|85.71|1|1
+Xfin Cream 10g|Terbinafine Hydrochloride|Square|68.57|1|1
+Avamist Nasal Spray 27.5 mcg|Fluticasone Furoate|Nipro JMI Pharma|238.0|1|1
+Becobion 100|Vitamin B1 + B6 + B12|Beacon|329.0|1|1
+Bextram Silver|Multivitamin & Multimineral (A-Z silver)|Beximco|315.0|1|1
+Milam 7.5|Midazolam|Eskayef (SK+F)|410.0|1|1
+Ternilla 100|Aceclofenac|Healthcare Pharmaceuticals|215.0|1|1
+Reumacap SR|Indomethacin|Aristopharma|346.02|100|1
+Neobion|Vitamin B1 + B6 + B12|Aristopharma|622.85|60|1
+Xpa XR|Paracetamol|Aristopharma|346.02|200|1
+Apetiz Suspension 100ml|Cyproheptadine|Aristopharma|422.38|1|1
+Xpa Suspension 60ml|Paracetamol|Aristopharma|302.85|1|10
+Ameloss 5|Donepezil Hydrochloride|Incepta|257.27|30|1
+Montair 10|Montelukast Sodium|Incepta|443.27|30|1
+Telmipres 80|Telmisartan|Incepta|283.0|30|1
+Ecosprin Plus|Clopidogrel Bisulfate + Aspirin|ACME|400.0|1|1
+Fenocap 200|Fenofibrate|Orion|250.0|1|1
+Gacozema Ointment 10g|Dithranol + Boric Acid + Salicylic Acid|Gaco|88.0|1|2
+NRG Oral Powder|Dextrose Monohydrate|Eskayef (SK+F)|180.0|30|1
+Ostocal D|Calcium Carbonate + Vitamin D3|Eskayef (SK+F)|200.0|1|1
+Zofra ODT 4|Ondansetron|Eskayef (SK+F)|205.0|1|1
+Carex Condom|Barrier Method (Sexual Wellbeing)|Technokit (Imported)|582.43|1|1
+Dlac Oral Solution 100ml|Lactulose|Drug International|124.4|1|1
+Gastona|Sufoof Humuzin|Safeco|42.36|100|1
+Sanbur 30|Dexlansoprazole|Opsonin|480.0|50|1
+Alatrol Syrup 50ml|Cetirizine Hydrochloride|Square|90.1|1|3
+Angilock 50|Losartan Potassium|Square|429.0|50|1
+Bactrocin Ointment 2% 10g|Mupirocin|Square|128.63|1|1
+Maximilk|Fennel + Fenugreek + Cumin + Aniseed|Square|376.29|30|1
+Montene 10|Montelukast Sodium|Square|300.28|30|1
+Motigut|Domperidone Maleate|Square|343.2|100|1
+Nebita 2.5|Nebivolol Hydrochloride|Square|300.86|50|1
+Secrin 4|Glimepiride|Square|385.76|30|1
+Viodin 1% M-Wash 100ml|Povidone-Iodine|Square|85.75|1|2
+Abetis 40|Olmesartan Medoxomil|ACI|1060.04|70|1
+Cildip 10|Cilnidipine|Opsonin|478.46|56|1
+Cora Dx|Calcium + Vitamin D3|ACI|526.98|40|1
+Coral Condom Chocolate|Condom (Sexual Wellbeing)|Imported|242.48|1|1
+Fenadin 120|Fexofenadine Hydrochloride|Renata|372.51|50|1
+Gavisol 200ml|Sodium Alginate + Potassium Bicarbonate|Radiant|359.8|1|2
+MM Kit|Mifepristone + Misoprostol|Ziska|231.0|1|1
+Montela 10|Montelukast Sodium|Popular|480.96|30|2
+Supraphen 0.5% 10ml|Chloramphenicol|Popular|109.0|1|5
+Gavicool Sachet 10ml|Sodium Alginate + Bicarbonate + Calcium|Pharmasia|239.01|1|1
+RTV 20|Rosuvastatin Calcium|Delta Pharma|192.53|30|1
+Uromax 0.4|Tamsulosin Hydrochloride|UniMed UniHealth|311.87|30|1
+Febus 40|Febuxostat|ACI|326.79|30|1
+Micoral Oral Gel 15g|Miconazole Nitrate|ACI|326.88|1|5
+Maxwit|Multivitamin & Multimineral [A-Z Gold]|Beximco|712.28|1|1
+Monocast 10|Montelukast Sodium|Beximco|262.4|1|1
+Napa Syrup 60ml|Paracetamol|Beximco|314.88|1|13`;
+;(()=>{const X={'ক্রয়ের বিল ইমপোর্ট':'Import purchase bills','এক্সেল তালিকা ইমপোর্ট':'Import Excel list','ক্রয়ের বিল আগেই ইমপোর্ট হয়েছে':'Purchase bills already imported','ক্রয়ের বিল ইমপোর্ট হয়েছে':'Purchase bills imported','এক্সেল তালিকা আগেই ইমপোর্ট হয়েছে':'Excel list already imported'};for(const k in X)if(!(k in EN))EN[k]=X[k]})();
+const nk=s=>(s||'').toLowerCase().replace(/\b(mg|tab|tablet|cap|capsule)\b/g,'').replace(/[^a-z0-9.\/+]/g,'');
+function impBuy(){if(db.impB)return toast('ক্রয়ের বিল আগেই ইমপোর্ট হয়েছে');const rows=IMPB.split('\n').map(l=>l.split('|'));ask(rows.length+'টি ওষুধ যোগ/আপডেট হবে। ক্রয়মূল্য ও MRP প্রতি পিস হিসেবে, স্টক পিসে যোগ হবে। চালিয়ে যাবেন?',()=>{const ix=new Map(db.meds.map(m=>[nk(m.n),m]));rows.forEach(r=>{const[n,g,c,s,mrp,cost,k,qty]=r,K=+k||1,cp=Math.round(cost/K*1e4)/1e4,p=mrp?Math.round(mrp/K*1e4)/1e4:0,q=qty*K,sp=SUPB[s]||'';if(sp&&!db.sups.find(x=>x.n.toLowerCase()==sp.toLowerCase()))db.sups.push({id:nid(),n:sp,ph:'',due:0});let m=ix.get(nk(n));if(m){m.q=(+m.q||0)+q;m.cost=cp;if(p>0)m.p=p;if(!m.g)m.g=g;if(!m.c)m.c=c;if(!m.sp)m.sp=sp}else{m={id:nid(),n,g,c,sp,b:'',e:'',cost:cp,p,q,min:0};db.meds.push(m);ix.set(nk(n),m)}});db.impB=1;toast('ক্রয়ের বিল ইমপোর্ট হয়েছে')})}
+function impX(){if(db.impX)return toast('এক্সেল তালিকা আগেই ইমপোর্ট হয়েছে');const rows=IMPX.split('\n').map(l=>l.split('|'));ask(rows.length+'টি ওষুধ যোগ হবে (প্রতি বক্সের দাম ÷ বক্সে পিস)। যেটা আগে থেকে অ্যাপে আছে সেটা আবার যোগ হবে না। চালিয়ে যাবেন?',()=>{const ix=new Map(db.meds.map(m=>[nk(m.n),m]));let a=0,s=0;rows.forEach(r=>{const[n,g,c,cost,k,qty]=r,K=+k||1,Q=+qty||1,cp=Math.round(cost/Q/K*1e4)/1e4,q=Q*K;let m=ix.get(nk(n));if(m&&(+m.cost>0||+m.q>0)){if(!m.g)m.g=g;if(!m.c)m.c=c;s++;return}if(m){m.cost=cp;m.q=q;if(!m.g)m.g=g;if(!m.c)m.c=c;a++;return}m={id:nid(),n,g,c,sp:'',b:'',e:'',cost:cp,p:0,q,min:0};db.meds.push(m);ix.set(nk(n),m);a++});db.impX=1;toast(a+'টি যোগ হয়েছে, '+s+'টি আগে থেকেই ছিল')})}
 let bkT,bkPend=0,bkFail=0;const BK='pharma_bk',AB='pharma_ab',abOn=()=>localStorage.getItem(AB)!=='0';
 function bkUi(){const e=$('bkb');if(!e)return;e.style.display=bkFail?'block':'none';e.textContent=L('ব্যাকআপ বাকি — ট্যাপ করুন')}
 function bkSched(){const a=getA();if(!a||!isAdm()||!a.g||!abOn()||document.body.className=='lo')return;bkPend=1;clearTimeout(bkT);bkT=setTimeout(autoBk,45000)}
