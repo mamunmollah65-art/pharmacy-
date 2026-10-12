@@ -423,10 +423,15 @@ function shrink(f){return new Promise((ok,no)=>{const im=new Image(),u=URL.creat
 const AIP=`You are reading a photo of a pharmacy purchase invoice (Bangladesh, may include Bengali text). Extract every medicine line. Reply with ONLY one JSON object, no markdown:
 {"supplier":string|null,"date":"YYYY-MM-DD"|null,"invoice_total":number|null,"items":[{"name":string (brand name with strength, as printed),"generic":string|null,"company":string|null,"qty":number,"unit":"piece"|"strip"|"box","pieces_per_strip":number|null,"cost":number|null (purchase/trade price per ONE unit as printed),"mrp":number|null (selling price/MRP per ONE PIECE only if clearly printed),"batch":string|null,"expiry":"YYYY-MM-DD"|null (use last day of month if only month/year),"line_total":number|null}]}
 Use null when unsure. Never invent values. Keep every line, in invoice order.`;
+
+const AIMS=[AIM,'gemini-flash-lite-latest','gemini-2.5-flash'];
+const slp=ms=>new Promise(r=>setTimeout(r,ms));
+async function gem(body,sig){let last='';for(const md of AIMS){for(let k=0;k<2;k++){let r,j;try{r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+md+':generateContent',{method:'POST',signal:sig,headers:{'content-type':'application/json','x-goog-api-key':aiKey()},body:JSON.stringify(body)});j=await r.json()}catch(e){if(e&&e.name=='AbortError')throw e;last='ইন্টারনেট সংযোগ দেখুন';await slp(1500);continue}
+if(r.ok)return j;if(r.status==400||r.status==401||r.status==403){if(/key|permission|API_KEY/i.test((j.error&&j.error.message)||'')||r.status!=400)throw 'API Key ঠিক নয় বা অনুমতি নেই';last=(j.error&&j.error.message)||'ত্রুটি 400';break}
+last=r.status==429?'ফ্রি সীমা শেষ, কিছুক্ষণ পরে আবার চেষ্টা করুন':r.status==503?'Google-এর সার্ভারে এখন চাপ বেশি, একটু পরে আবার চেষ্টা করুন':((j.error&&j.error.message)||('ত্রুটি '+r.status));if(r.status==429)break;await slp(1500)}}throw last||'ত্রুটি'}
 async function readInv(fs){RVAb=new AbortController();setH('md',`<div class=box><h3>ইনভয়েস পড়া হচ্ছে…</h3><p class=mut>ছবি থেকে ওষুধের তালিকা বের করা হচ্ছে, একটু অপেক্ষা করুন।</p><div class=bar><button onclick="RVAb.abort();closeM()">বাতিল</button></div></div>`);$('md').className='m on';
 try{const imgs=await Promise.all(fs.map(shrink));
-const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+AIM+':generateContent',{method:'POST',signal:RVAb.signal,headers:{'content-type':'application/json','x-goog-api-key':aiKey()},body:JSON.stringify({contents:[{parts:[...imgs.map(d=>({inline_data:{mime_type:'image/jpeg',data:d}})),{text:AIP}]}],generationConfig:{temperature:0,responseMimeType:'application/json'}})});
-const j=await r.json();if(!r.ok)throw (r.status==429?'ফ্রি সীমা শেষ, কিছুক্ষণ পরে আবার চেষ্টা করুন':(r.status==400||r.status==403)?'API Key ঠিক নয় বা অনুমতি নেই':(j.error&&j.error.message)||('ত্রুটি '+r.status));
+const j=await gem({contents:[{parts:[...imgs.map(d=>({inline_data:{mime_type:'image/jpeg',data:d}})),{text:AIP}]}],generationConfig:{temperature:0,responseMimeType:'application/json'}},RVAb.signal);
 const t=(((j.candidates||[])[0]||{}).content||{parts:[]}).parts.map(x=>x.text||'').join(''),a=t.indexOf('{'),b=t.lastIndexOf('}');
 const d=JSON.parse(t.slice(a,b+1));
 if(!d.items||!d.items.length)throw 'কোনো ওষুধ পাওয়া যায়নি';
