@@ -1,0 +1,658 @@
+<!DOCTYPE html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Update Pharmacy</title><meta name="theme-color" content="#1b7a4b"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><link rel="manifest" href="manifest.json">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;700&display=swap" rel="stylesheet">
+<style>html,body{overscroll-behavior-y:contain}
+:root{--bg:#fff;--ic:#0b5d36;--cd:#fff;--ink:#15261b;--mu:#5f7266;--pr:#1b7a4b;--pl:#e3f1e8;--wn:#9a5b00;--wb:#fff1d6;--bd:#b3261e;--bb:#fde6e3;--ln:#dce5de;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0f1a14;--ic:#4cc38a;--cd:#16251c;--ink:#e6f0e9;--mu:#9bb0a2;--pr:#4cc38a;--pl:#1d3a2b;--wn:#f0b44c;--wb:#3a2e12;--bd:#ff8a80;--bb:#3b1c19;--ln:#25382d}}
+:root[data-theme=dark]{--bg:#0f1a14;--ic:#4cc38a;--cd:#16251c;--ink:#e6f0e9;--mu:#9bb0a2;--pr:#4cc38a;--pl:#1d3a2b;--wn:#f0b44c;--wb:#3a2e12;--bd:#ff8a80;--bb:#3b1c19;--ln:#25382d}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif}
+.app{display:grid;grid-template-columns:200px 1fr;min-height:100vh}
+aside{background:var(--bg);color:var(--ink);padding:16px 10px;border-right:1px solid var(--ln)}aside h1{font-size:18px;margin:0 8px 14px}
+nav button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--ink);margin-bottom:8px;padding:10px;border-radius:8px;font:inherit;cursor:pointer}
+nav button.on{background:var(--pl);font-weight:700}nav button svg{width:22px;height:22px;stroke:var(--ic);fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-right:12px}.ctl{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}.ctl button{flex:1;font-size:12px;padding:6px 4px}#login{display:none;position:fixed;inset:0;background:var(--bg);z-index:8;align-items:center;justify-content:center;padding:16px}.lo #login{display:flex}.lo .app{display:none}.rv{background:#fff;color:#000;padding:10px;border-radius:8px;font-size:13px}.rv table{min-width:0}.rv small{color:#555}.rv th{color:#555}
+main{padding:16px;max-width:100%;min-width:0}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+.card{background:var(--cd);border:1px solid var(--ln);border-radius:10px;padding:12px;margin-bottom:12px}
+.st{margin:0}.st small{display:block;color:var(--mu)}.st b{font-size:22px}.st.bad b{color:var(--bd)}.st.warn b{color:var(--wn)}
+h3{margin:0 0 8px;font-size:16px}svg{width:100%;height:auto}svg text{font-size:11px;fill:var(--mu)}
+.bar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:0 0 10px;flex-wrap:wrap}
+.bar input{flex:1;min-width:140px}
+input,select,textarea{width:100%;padding:9px;border:1px solid var(--ln);border-radius:8px;background:var(--cd);color:var(--ink);font:inherit}
+label{display:block;margin:8px 0;color:var(--mu)}
+button{font:inherit;border:1px solid var(--ln);background:var(--cd);color:var(--ink);padding:7px 11px;border-radius:8px;cursor:pointer}
+button.pr{background:var(--pr);border-color:var(--pr);color:#fff}button.bad{background:var(--bd);border-color:var(--bd);color:#fff}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--pr);outline-offset:2px}
+.tw{overflow-x:auto;background:var(--cd);border:1px solid var(--ln);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:480px}th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--ln);vertical-align:top}th{color:var(--mu);font-weight:500}
+td button{margin:0 4px 4px 0}small{display:block;color:var(--mu)}
+i{font-style:normal;font-size:12px;padding:1px 7px;border-radius:9px;margin-right:4px}i.bad{background:var(--bb);color:var(--bd)}i.warn{background:var(--wb);color:var(--wn)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;padding:8px 6px;border:0;border-bottom:1px solid var(--ln);border-radius:0;background:none}
+.list{max-height:380px;overflow:auto;margin-top:8px;background:var(--cd);border:1px solid var(--ln);border-radius:10px}
+.qt{white-space:nowrap}.qt button{padding:2px 9px}
+.tt{display:flex;justify-content:space-between;font-size:17px;margin:4px 0}
+.mut{color:var(--mu);padding:8px}
+.m{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);align-items:center;justify-content:center;padding:16px;z-index:9}.m.on{display:flex}
+.box{background:var(--cd);border-radius:12px;padding:16px;width:100%;max-width:400px;max-height:90vh;overflow:auto}
+#cb{display:none;position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:11;justify-content:space-between;align-items:center;gap:8px;background:var(--pr);color:#fff;padding:14px 16px;border-radius:12px;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer}
+.ad{display:flex;flex-direction:column;gap:6px;flex-shrink:0}.ad button{white-space:nowrap}.sp{height:84px}.bh h3{margin:0}.sb{margin-top:8px}.bh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+@media(max-width:899px){#bil{display:none;position:fixed;inset:0;z-index:12;margin:0;border:0;border-radius:0;overflow:auto;padding:12px 16px 100px;background:var(--bg)}body.bo #bil{display:block}.sb{position:fixed;left:0;right:0;bottom:0;z-index:13;margin:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--ln)}#pl.list{max-height:none;overflow:visible}#pq{position:sticky;top:0;z-index:5}}
+@media(min-width:900px){#cb,.sp{display:none!important}.bh button{display:none}}
+#ts{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:20px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}#ts.on{opacity:1}
+#rc{display:none}.mi{display:flex;align-items:center;gap:12px;padding:8px 4px;border-radius:10px;cursor:pointer}.mi:active{background:var(--pl)}.mh{display:flex;align-items:center;gap:12px;margin-bottom:10px}.mh .av{width:56px;height:56px}#bell{margin-left:auto;position:relative;background:none;border:0;padding:6px}.lg #bell svg{width:24px;height:24px;fill:none;stroke:var(--ink);stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}#bc{position:absolute;top:0;right:0;min-width:16px;height:16px;border-radius:8px;background:#e53935;color:#fff;font-size:11px;display:none;align-items:center;justify-content:center;padding:0 4px}#hav{padding:0;border:0;background:none;margin:0}#hn,.lg img{cursor:pointer}#alb{display:none;position:fixed;left:12px;right:12px;bottom:20px;z-index:10;background:var(--wb);color:var(--wn);border:1px solid var(--wn);padding:10px 14px;border-radius:12px;text-align:center;cursor:pointer}.av{width:44px;height:44px;border-radius:50%;object-fit:cover;background:var(--wb);display:inline-flex;align-items:center;justify-content:center;flex:none}.lg img.av{width:32px;height:32px;border-radius:50%}#hav .av{width:32px;height:32px}.lk{text-decoration:underline dotted;cursor:pointer}.chip{padding:6px 12px;border:1px solid currentColor;border-radius:16px;font-size:13px}#bkb{display:none;position:fixed;left:12px;bottom:72px;z-index:10;background:var(--wb);color:var(--wn);border:1px solid var(--wn);padding:6px 12px;border-radius:20px;font-size:13px;cursor:pointer}
+.lg{display:flex;align-items:center;gap:10px}.lg img{width:36px;height:36px;border-radius:8px;flex:none}#gear{margin-left:auto;padding:6px 8px}.lg #gear svg{width:22px;height:22px;fill:var(--ink);stroke:none}.lg svg{width:36px;height:36px;flex:none}
+@media(max-width:899px){.app{grid-template-columns:1fr}aside{padding:12px 10px}aside h1{margin-bottom:10px}nav{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}nav button{text-align:center;padding:8px 2px;font-size:12px;margin:0;background:var(--pl)}nav button svg{display:block;margin:0 auto 3px;width:24px;height:24px}.g2{grid-template-columns:1fr}}
+@media print{.app,#md,#ts,#login{display:none!important}#rc{display:block;color:#000;font-size:12px;max-width:360px}#rc table{min-width:0}}
+nav button[data-k=dash]{--c:#2f6fed}nav button[data-k=pos]{--c:#12a150}nav button[data-k=sl]{--c:#7c4dff}nav button[data-k=inv]{--c:#f57c00}nav button[data-k=buy]{--c:#00a3a3}nav button[data-k=cus]{--c:#e91e8c}nav button[data-k=sup]{--c:#a1662f}nav button[data-k=exp]{--c:#e53935}nav button[data-k=rep]{--c:#5c6bc0}
+nav button svg{box-sizing:content-box;padding:9px;border-radius:12px;stroke:#fff;background:var(--c,var(--pr));width:22px;height:22px}nav button.on svg{box-shadow:0 0 0 2px var(--cd),0 0 0 4px var(--c,var(--pr))}
+.st{display:flex;align-items:center;gap:10px;background:var(--cd);background:color-mix(in srgb,var(--c,#888) 12%,var(--cd))}.st.k0{--c:#2f6fed}.st.k1{--c:#e53935}.st.k2{--c:#f59e0b}.st.k3{--c:#12a150}.st.k4{--c:#7c4dff}
+.ib{flex:none;width:40px;height:40px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;background:var(--c)}.ib svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style></head><body class="lo">
+<div class="app"><aside><h1 class="lg"><img src="icon-192.png" alt="" onclick="menu()"><span id="hn" onclick="menu()"></span><button id="bell" onclick="alerts()" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/></svg><b id="bc"></b></button><button id="hav" onclick="profMenu()" aria-label="Profile"></button></h1><nav id="nav"></nav></aside><main id="main"></main></div>
+<div id="login"></div><div id="md" class="m"></div><div id="ts"></div><div id="bkb" onclick="driveBackup()"></div><div id="alb" onclick="driveRestore(1)"></div><div id="rc"></div>
+<script>
+const $=i=>document.getElementById(i),K='pharma1',AK='pharma_auth',UK='pharma_ui';
+let UI={lang:'bn',theme:matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'};
+try{Object.assign(UI,JSON.parse(localStorage.getItem(UK)))}catch(e){}
+const EN={'ড্যাশবোর্ড':'Dashboard','বিক্রি':'Sales','বিক্রয় তালিকা':'Sales List','ইনভেন্টরি':'Inventory','ক্রয়':'Purchases','কাস্টমার':'Customer','সরবরাহকারী':'Supplier','খরচ':'Expenses','রিপোর্ট':'Reports','স্টক কম':'Low stock','মেয়াদ শেষ':'Expired','মেয়াদ কাছে':'Expiring soon','স্টক':'Stock','দিন বাকি':'days left','মোট ওষুধ':'Total medicines','মেয়াদ শেষের পথে':'Near expiry','আজকের বিক্রি':"Today's sales",'কাস্টমার বাকি':'Customer dues','গত ৭ দিনের বিক্রি':'Last 7 days sales','সতর্কতা':'Alerts','সব ঠিক আছে':'All good','ওষুধ খুঁজুন':'Search medicine','+ নতুন ওষুধ':'+ New medicine','ওষুধের নাম লিখুন':'Type medicine name','বিল':'Bill','কাস্টমারের নাম':'Customer name','ছাড়':'Discount','যেমন ৫ বা ১০০':'e.g. 5 or 100','৳ (নির্দিষ্ট)':'৳ (Fixed)','পরিশোধ (খালি = পুরো)':'Paid (blank = full)','পরিশোধ':'Paid','পরিশোধযোগ্য':'Payable','পেমেন্ট মাধ্যম':'Payment method','পেমেন্ট':'Payment','মোবাইল ব্যাংকিং':'Mobile banking','ক্যাশ':'Cash','কার্ড':'Card','বিকাশ':'bKash','নগদ':'Nagad','রকেট':'Rocket','উপায়':'Upay','ক্রয়ের তালিকা':'Purchase list','+ ক্রয় এন্ট্রি':'+ Purchase entry','তারিখ':'Date','ওষুধ':'Medicine','পরিমাণ':'Quantity','মোট':'Total','মুছুন':'Delete','সম্পাদনা':'Edit','মুছবেন?':'Delete this?','হ্যাঁ':'Yes','না':'No','বাতিল':'Cancel','সংরক্ষণ':'Save','+ নতুন':'+ New','নাম':'Name','ফোন':'Phone','বাকি':'Due','আদায়':'Collect','এখনো কেউ নেই।':'Nobody yet.','+ খরচ':'+ Expense','বিবরণ':'Description','টাকা':'Amount','আজ':'Today','এই মাস':'This month','মোট লাভ':'Gross profit','নিট লাভ':'Net profit','সময়':'Period','স্টকের মূল্য':'Stock value','কাস্টমারের কাছে পাওনা':'Receivable from customers','সরবরাহকারীকে দেনা':'Payable to suppliers','সবচেয়ে বেশি বিক্রি':'Top sellers','পিস':'pcs','এখনো বিক্রি নেই':'No sales yet','সাম্প্রতিক বিক্রি':'Recent sales','রসিদ':'Receipt','সেটিংস ও ব্যাকআপ':'Settings & backup','ফার্মেসির নাম':'Pharmacy name','ব্যাকআপ কোড এখানে':'Paste backup code here','ব্যাকআপ কোড নিন':'Get backup code','রিস্টোর করুন':'Restore','রিস্টোর হয়েছে':'Restored','কোড সঠিক নয়':'Invalid code','মেয়াদ':'Expiry','দাম':'Price','কোনো ওষুধ নেই।':'No medicines.','ওষুধ সম্পাদনা':'Edit medicine','নতুন ওষুধ':'New medicine','ওষুধের নাম':'Medicine name','Medex-এ দাম খুঁজুন':'Search price on Medex','জেনেরিক নাম':'Generic name','কোম্পানি':'Company','সরবরাহকারীর নাম':'Supplier name','ব্যাচ নম্বর':'Batch no.','মেয়াদ শেষের তারিখ':'Expiry date','ক্রয়মূল্য (প্রতি পিস)':'Cost price (per pc)','বিক্রয়মূল্য (MRP, প্রতি পিস)':'Selling price (MRP, per pc)','স্টক (পিস)':'Stock (pcs)','সর্বনিম্ন স্টক':'Minimum stock','ওষুধের নাম দিন':'Enter medicine name','পাওয়া যায়নি':'Not found','নতুন যোগ':'Add new','নাম দিন':'Enter name','সঠিক পরিমাণ দিন':'Enter a valid amount','পরিমাণ (৳)':'Amount (৳)','নতুন খরচ':'New expense','খরচ সম্পাদনা':'Edit expense','বিবরণ (ভাড়া, বেতন...)':'Description (rent, salary...)','বিবরণ ও টাকা দিন':'Enter description and amount','আগে ওষুধ যোগ করুন':'Add a medicine first','ক্রয় এন্ট্রি':'Purchase entry','ক্রয় সম্পাদনা':'Edit purchase','পরিমাণ (পিস)':'Quantity (pcs)','ব্যাচ':'Batch','পরিমাণ দিন':'Enter quantity','বিলে ওষুধ যোগ করুন':'Add medicine to the bill','বাকি থাকলে কাস্টমারের নাম দিন':'Enter customer name if there is a due','বিক্রি সম্পন্ন করুন':'Complete sale','বিক্রি সম্পন্ন। রসিদ দেখবেন?':'Sale complete. View receipt?','ওষুধ বেছে যোগ করুন':'Select medicines to add','ইনভয়েস':'Invoice','মোট দাম':'Subtotal','প্রিন্ট':'Print','পিডিএফ শেয়ার':'Share PDF','বন্ধ করুন':'Close','পিডিএফ তৈরি করা যায়নি':'Could not create PDF','বিক্রি মুছবেন? স্টক ফিরে আসবে।':'Delete this sale? Stock will be restored.','বিক্রয় সম্পাদনা':'Edit sale','লগইন':'Login','ইউজারনেম':'Username','পাসওয়ার্ড':'Password','প্রথমবার ইউজারনেম ও পাসওয়ার্ড তৈরি করুন':'First time: create a username and password','অ্যাকাউন্ট তৈরি করুন':'Create account','ইউজারনেম বা পাসওয়ার্ড ভুল':'Wrong username or password','ইউজারনেম দিন ও পাসওয়ার্ড কমপক্ষে ৪ অক্ষর':'Enter username and a password of at least 4 characters','লগআউট':'Logout','ইউজারনেম/পাসওয়ার্ড পরিবর্তন':'Change username/password','নতুন ইউজারনেম':'New username','নতুন পাসওয়ার্ড':'New password','পরিবর্তন হয়েছে':'Updated','ডার্ক মোড':'Dark mode','লাইট মোড':'Light mode'};
+;(()=>{const X={"প্রোফাইল": "Profile", "লগইন হিস্ট্রি": "Login history", "সফল": "Success", "ব্যর্থ": "Failed", "অন্যান্য": "Others", "অথবা নতুন সরবরাহকারীর নাম": "Or add a new supplier name", "ব্যাকআপ ও সেটিংস": "Backup & settings", "বন্ধ করুন": "Close", "লগআউট করবেন?": "Log out?", "আরও দেখান": "Show more", "নাম": "Name", "ফোন": "Phone", "ইমেইল": "Email", "ইউজারনেম/পাসওয়ার্ড": "Username/Password", "এই ডিভাইসের লগইন": "Logins on this device", "তথ্য সংরক্ষণ হয়নি! ব্যাকআপ নিন": "Data not saved! Take a backup", "লগআউট": "Logout"};for(const k in X)if(!(k in EN))EN[k]=X[k]})();
+;(()=>{const X={"Google দিয়ে লগইন": "Sign in with Google", "Google দিয়ে অ্যাকাউন্ট তৈরি": "Create account with Google", "Gmail যুক্ত করুন": "Link Gmail", "Google লগইন হয়নি": "Google sign-in failed", "Gmail যুক্ত হয়নি": "Could not link Gmail", "Gmail যুক্ত হয়েছে:": "Gmail linked:", "এই Gmail এই অ্যাকাউন্টের সাথে মেলেনি": "This Gmail does not match this account", "আগে ইউজারনেম-পাসওয়ার্ডে ঢুকে মেনু থেকে Gmail যুক্ত করুন": "First log in with username/password and link Gmail from the menu", "এই অ্যাকাউন্ট Google দিয়ে লগইন করতে হবে": "This account must sign in with Google"};for(const k in X)if(!(k in EN))EN[k]=X[k]})();
+;(()=>{const X={"সেটিংস":"Settings","নোটিফিকেশন":"Notifications","প্রোফাইল সম্পাদনা":"Edit profile","ছবি বদলান":"Change photo","প্রোফাইল":"Profile","লগআউট":"Logout","Drive থেকে ডাটা ফিরিয়ে আনুন":"Restore data from Drive","ম্যানেজার":"Manager","কাউন্টার স্টাফ":"Counter Staff","স্টাফ ব্যবস্থাপনা":"Staff management","ছবি":"Photo","কাউন্টার স্টাফ হিসেবে নিবন্ধন":"Register as Counter Staff","জেনেরিক":"Generic","কোম্পানি":"Company","✕ সব দেখান":"✕ Show all","ওষুধের তালিকা ইমপোর্ট":"Import medicine list","অটো ব্যাকআপ চালু":"Auto backup on","অটো ব্যাকআপ বন্ধ":"Auto backup off","শেষ:":"Last:","এখনো হয়নি":"Not yet","অটো ব্যাকআপের জন্য আগে Gmail যুক্ত করুন":"Link Gmail first for auto backup","Drive-এ ব্যাকআপ":"Backup to Drive","অটো বন্ধ করুন":"Turn auto off","অটো চালু করুন":"Turn auto on","ব্যাকআপ বাকি — ট্যাপ করুন":"Backup pending — tap","এই Google অ্যাকাউন্ট লিঙ্ক করা Gmail-এর সাথে মেলেনি":"This Google account does not match the linked Gmail","এই Gmail-এর Drive-এ ব্যাকআপ পাওয়া গেছে। ফিরিয়ে আনবেন?":"A backup was found in this Gmail's Drive. Restore it?"};for(const k in X)if(!(k in EN))EN[k]=X[k]})();
+let RX;
+function L(s){if(UI.lang!='en')return s;if(!RX){const ks=Object.keys(EN).sort((a,b)=>b.length-a.length);RX=new RegExp('(?<![\u0980-\u09FF])('+ks.map(k=>k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|')+')(?![\u0980-\u09FF])','g')}return s.replace(RX,m=>EN[m])}
+const setH=(id,h)=>{$(id).innerHTML=L(h)};
+const SSK='pharma_sess',SSM=10*60*1000,LUK='pharma_lu';
+const SS={_g(){try{const s=JSON.parse(localStorage.getItem(SSK));if(s&&s.v&&Date.now()-s.t<SSM)return s}catch(e){}return null},
+getItem(k){const s=this._g();return s&&s.v[k]!==undefined?s.v[k]:null},
+setItem(k,v){const s=this._g()||{v:{}};s.v[k]=String(v);s.t=Date.now();try{localStorage.setItem(SSK,JSON.stringify(s))}catch(e){}},
+removeItem(k){const s=this._g();if(!s)return;delete s.v[k];try{localStorage.setItem(SSK,JSON.stringify(s))}catch(e){}},
+touch(){const s=this._g();if(s&&s.v.pin=='1'){s.t=Date.now();try{localStorage.setItem(SSK,JSON.stringify(s))}catch(e){}}}};
+let _lt=0;const _act=()=>{const n=Date.now();if(n-_lt>10000){_lt=n;SS.touch()}};
+['pointerdown','keydown','touchstart','scroll','input'].forEach(e=>document.addEventListener(e,_act,{passive:true,capture:true}));
+const _chk=()=>{if(document.body&&!document.body.classList.contains('lo')&&typeof getA=='function'&&getA()&&SS.getItem('pin')!='1')boot()};
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible')_chk()});setInterval(_chk,30000);
+const saveUI=()=>{try{localStorage.setItem(UK,JSON.stringify(UI))}catch(e){}};
+const applyUI=()=>{document.documentElement.dataset.theme=UI.theme;document.documentElement.lang=UI.lang=='en'?'en':'bn'};
+const setLang=()=>{UI.lang=UI.lang=='en'?'bn':'en';saveUI();boot()},setTheme=()=>{UI.theme=UI.theme=='dark'?'light':'dark';saveUI();boot()};
+const ctls=()=>`<button onclick=setLang()>${UI.lang=='en'?'বাংলা':'English'}</button><button onclick=setTheme()>${UI.theme=='dark'?'লাইট মোড':'ডার্ক মোড'}</button>`;
+const today=()=>new Date().toISOString().slice(0,10),fd=n=>new Date(Date.now()+n*864e5).toISOString().slice(0,10);
+const tk=n=>'৳'+(Math.round(n*100)/100).toLocaleString(UI.lang=='en'?'en-US':'bn-BD'),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dl=e=>e?Math.ceil((new Date(e)-new Date(today()))/864e5):999,sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+let LM=100,db,view='dash',cart=[],cust='',iq='',FCB,FF,AF,nx=1,RID;
+const nid=()=>Date.now()*100+(nx++%100);
+function initDb(x){db=x||{name:'Update Pharmacy',meds:[
+{id:1,n:'Napa 500mg',g:'Paracetamol',c:'Beximco',sp:'',b:'B101',e:fd(400),cost:1.2,p:1.5,q:500,min:100},
+{id:2,n:'Seclo 20mg',g:'Omeprazole',c:'Square',sp:'',b:'S77',e:fd(15),cost:5,p:7,q:30,min:50},
+{id:3,n:'Ace Plus',g:'Paracetamol+Caffeine',c:'Square',sp:'',b:'A9',e:fd(200),cost:1.8,p:2.5,q:200,min:60}],custs:[],sups:[],sales:[],buys:[],exps:[],pays:[]};
+if(!db.name||db.name=='আমার ফার্মেসি'||db.name=='আপডেট ফার্মেসি')db.name='Update Pharmacy';['meds','custs','sups','sales','buys','exps','pays','lh','cashh','cashx'].forEach(k=>db[k]=db[k]||[]);db.prof=db.prof||{};
+db.buys.forEach(b=>{b.id=b.id||nid();if(!b.mid){const m=db.meds.find(x=>x.n==b.m);if(m)b.mid=m.id}});if(!x)db.meds=[];if(!db.impL)seedMeds();dedupMeds();SNAP=snapMake();fillGen();normCo()}
+const GENP=[["napa extra", "Paracetamol + Caffeine"], ["\\bnapa\\b", "Paracetamol"], ["alatrol", "Cetirizine Hydrochloride"], ["avloclav", "Amoxicillin + Clavulanic Acid"], ["cerox cv", "Cefuroxime Axetil + Clavulanic Acid"], ["esoral|nexum|sergel|maxpro", "Esomeprazole"], ["pantonix", "Pantoprazole"], ["famodin", "Famotidine"], ["itopa", "Itopride Hydrochloride"], ["\\brupa\\b", "Rupatadine"], ["osartil", "Losartan Potassium"], ["ulfate", "Sucralfate"], ["nebita", "Nebivolol"], ["viodin|betadine", "Povidone Iodine"], ["prelica", "Pregabalin"], ["rivotril", "Clonazepam"], ["uromax d", "Tamsulosin + Dutasteride"], ["uromax", "Tamsulosin Hydrochloride"], ["delfex|fexo\\b", "Fexofenadine Hydrochloride"], ["lumona", "Montelukast"], ["normens", "Norethisterone"], ["nupralgin plus|naproxen plus", "Naproxen + Esomeprazole"], ["toradolin|\\bket 10", "Ketorolac Tromethamine"], ["carbizol", "Carbimazole"], ["dexilend", "Dexlansoprazole"], ["\\be cap 400", "Tocopherol (Vitamin E)"], ["fluclox", "Flucloxacillin"], ["clotrim", "Clotrimazole"], ["omidon", "Domperidone"], ["duralax", "Bisacodyl"], ["\\balice\\b", "Ivermectin"], ["ansulin", "Insulin Human (30% Soluble + 70% Isophane)"], ["calbo-d", "Calcium + Vitamin D3"], ["calbo 500", "Calcium Carbonate"], ["linatab m|liglimet|ligazid", "Linagliptin + Metformin Hydrochloride"], ["siglimet", "Sitagliptin + Metformin Hydrochloride"], ["rosuva ez", "Rosuvastatin + Ezetimibe"], ["rosuva", "Rosuvastatin"], ["olmetab", "Olmesartan Medoxomil"], ["mm kit", "Mifepristone + Misoprostol"], ["neuro-b", "Thiamine + Pyridoxine + Cyanocobalamin"], ["oramet", "Metformin Hydrochloride"], ["neobet", "Betamethasone + Neomycin"], ["adovas", "Adhatoda vasica (Vasaka)"], ["dextrim", "Dextromethorphan + Phenylephrine + Triprolidine"], ["norix 1", "Levonorgestrel"], ["apsol", "Amlexanox"], ["rynex", "Oxymetazoline Hydrochloride"], ["riboson", "Riboflavin"]];function fillGen(){let c=0;db.meds.forEach(m=>{if((m.g||"").trim())return;const r=GENP.find(p=>new RegExp(p[0],"i").test(m.n));if(r){m.g=r[1];c++}});if(c)save();return c}
+function dedupMeds(){const g=new Map(),rm=new Map(),h=m=>+m.q>0||+m.p>0||+m.cost>0||m.b||m.e;db.meds.forEach(m=>{const k=nk(m.n),o=g.get(k);if(!o){g.set(k,m);return}const w=(h(m)&&!h(o))?m:o,l=w===m?o:m;['g','c','sp','b','e'].forEach(f=>{if(!w[f]&&l[f])w[f]=l[f]});w.q=(+w.q||0)+(+l.q||0);rm.set(l.id,w.id);g.set(k,w)});if(!rm.size)return;db.meds=db.meds.filter(m=>!rm.has(m.id));db.buys.forEach(b=>{if(rm.has(b.mid))b.mid=rm.get(b.mid)});db.sales.forEach(s=>(s.items||[]).forEach(i=>{if(rm.has(i.mid))i.mid=rm.get(i.mid)}));db.tomb=db.tomb||{};rm.forEach((v,k)=>db.tomb['meds:'+k]=new Date().toISOString())}
+let sT,dirty=0;
+const idb=()=>new Promise((ok,no)=>{try{const r=indexedDB.open('pharma_db',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)}catch(e){no(e)}});
+const idbGet=async()=>{const d=await idb();return new Promise((ok,no)=>{const q=d.transaction('kv').objectStore('kv').get('db');q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)})};
+const idbPut=async v=>{const d=await idb();return new Promise((ok,no)=>{const t=d.transaction('kv','readwrite');t.objectStore('kv').put(v,'db');t.oncomplete=ok;t.onerror=()=>no(t.error);t.onabort=()=>no(t.error)})};
+async function flush(){if(!dirty)return;dirty=0;stampDb();db._t=Date.now();try{await idbPut(db)}catch(e){try{localStorage.setItem(K,JSON.stringify(db))}catch(e2){toast('তথ্য সংরক্ষণ হয়নি! ব্যাকআপ নিন')}}}
+const save=()=>{dirty=1;clearTimeout(sT);sT=setTimeout(flush,250);bkSched()};
+addEventListener('pagehide',flush);document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='hidden')flush()});
+async function loadDb(){let a=null,b=null;try{a=await idbGet()}catch(e){}try{b=JSON.parse(localStorage.getItem(K))}catch(e){}const x=a&&(!b||(a._t||0)>=(b._t||0))?a:b;FRESH=!x;GUARD=FRESH;initDb(x);try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}if(x&&x===b)save()}
+const med=id=>db.meds.find(m=>m.id==id);
+const fc=n=>db.custs.find(x=>x.n.toLowerCase()==(n||'').trim().toLowerCase());
+function cdue(n,d){n=(n||'').trim();let c=fc(n);if(!c&&d>0&&n)db.custs.push(c={id:nid(),n,ph:'',due:0});if(c)c.due=Math.max(0,c.due+d)}
+function toast(t){const e=$('ts');e.textContent=L(t);e.className='on';setTimeout(()=>e.className='',2500)}
+function closeM(){$('md').className='m'}
+const PM=[['ক্যাশ','ক্যাশ'],['কার্ড','কার্ড'],['বিকাশ','বিকাশ (মোবাইল ব্যাংকিং)'],['নগদ','নগদ (মোবাইল ব্যাংকিং)'],['রকেট','রকেট (মোবাইল ব্যাংকিং)'],['উপায়','উপায় (মোবাইল ব্যাংকিং)'],['অন্যান্য','অন্যান্য']];
+function form(t,f,cb,v={}){setH('md',`<div class=box><h3>${t}</h3>${f.map(x=>x[2]=='note'?x[1]:`<label>${x[1]}${x[2]=='sel'?`<select id=f_${x[0]}>${x[3].map(o=>`<option value="${o[0]}" ${v[x[0]]!==undefined&&o[0]==v[x[0]]?'selected':''}>${esc(o[1])}</option>`).join('')}</select>`:`<input id=f_${x[0]} type=${x[2]||'text'} ${x[2]=='number'?'step=any inputmode=decimal':''} ${x[3]?'list=dl_'+x[0]:''} value="${esc(v[x[0]]??'')}">${x[3]?`<datalist id=dl_${x[0]}>${x[3].map(o=>`<option value="${esc(o)}">`).join('')}</datalist>`:''}`}</label>`).join('')}<div class=bar><button onclick=closeM()>বাতিল</button><button class=pr onclick=subF()>সংরক্ষণ</button></div></div>`);$('md').className='m on';FCB=cb;FF=f}
+function subF(){const o={};for(const x of FF){if(x[2]=='note')continue;const v=$('f_'+x[0]).value.trim();o[x[0]]=x[2]=='number'?(v===''?null:+v):v}if(FCB(o)===false)return;closeM();save();render()}
+function ask(t,fn){setH('md',`<div class=box><p>${t}</p><div class=bar><button onclick=closeM()>না</button><button class="pr" onclick=AF()>হ্যাঁ</button></div></div>`);$('md').className='m on';AF=()=>{closeM();fn();save();render()}}
+const NAV=[['dash','ড্যাশবোর্ড'],['pos','বিক্রি'],['sl','বিক্রয় তালিকা'],['inv','ইনভেন্টরি'],['buy','ক্রয়'],['cus','কাস্টমার'],['sup','সরবরাহকারী'],['exp','খরচ'],['cash','ক্যাশ হিসাব'],['rep','রিপোর্ট']];
+const P={dash:'<path d="M3 11l9-8 9 8M5 10v10h14V10"/>',pos:'<circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l3 12h11l2-8H6"/>',sl:'<path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2zM9 8h6M9 12h6"/>',inv:'<rect x="2.5" y="8.5" width="19" height="7" rx="3.5" transform="rotate(-40 12 12)"/><path d="M9.5 8.5l6 6"/>',buy:'<path d="M12 3v12m-5-5l5 5 5-5M4 20h16"/>',cus:'<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-4 3-6 7-6s7 2 7 6M17 5a3.5 3.5 0 010 7M22 20c0-3-2-5-4-5.5"/>',sup:'<path d="M2 6h12v10H2zM14 10h4l4 3v3h-8"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',exp:'<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M16 15h2"/>',rep:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',cash:'<circle cx="12" cy="12" r="9"/><path d="M12 6.5v11M9.2 9.3c0-1.1 1.2-1.8 2.8-1.8s2.8.7 2.8 1.9-1.2 1.6-2.8 2-2.8.9-2.8 2.1 1.2 1.9 2.8 1.9 2.8-.7 2.8-1.8"/>'};
+let IS=null;const go=v=>{IS=null;view=v;LM=100;render()};function dg(i){IF=null;iq='';IS=i==1?'low':i==2?'exp':null;view=['inv','inv','inv','sl','cus'][i];LM=100;render()};
+function render(){if(!$('nav'))return;$('hn').textContent=db.name;setH('hav',av(prf()));bellUi();setH('nav',NAV.filter(([k])=>isAdm()||'dash pos sl inv cus'.includes(k)).map(([k,l])=>`<button data-k="${k}" class="${k==view?'on':''}" onclick="go('${k}')"><svg viewBox="0 0 24 24">${P[k]}</svg>${l}</button>`).join(''));if(document.body.classList.contains('bo'))billClose();setH('main',V[view]());if(view=='pos')posUpd()}
+const bd=m=>(m.q<=m.min?'<i class=bad>স্টক কম</i>':'')+(dl(m.e)<0?'<i class=bad>মেয়াদ শেষ</i>':dl(m.e)<=30?'<i class=warn>মেয়াদ কাছে</i>':'');
+const SZ=m=>+m.sz>1?+m.sz:0,SP=m=>m.ps>0?+m.ps:m.p*SZ(m),up=(m,u)=>u=='s'?SP(m):m.p,pc=(m,u)=>u=='s'&&SZ(m)?SZ(m):1,amt=i=>i.u=='s'?i.up*i.uq:i.p*i.q,ql=i=>i.u=='s'?i.uq+' স্ট্রিপ × '+i.up:i.q+' × '+i.p,stk=m=>SZ(m)?Math.floor(m.q/SZ(m))+' স্ট্রিপ'+(m.q%SZ(m)?' '+m.q%SZ(m)+' পিস':'')+' (মোট '+m.q+' পিস)':m.q+'';
+const SI=[P.inv,'<path d="M12 3l10 18H2zM12 10v5M12 18v.5"/>','<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',P.sl,P.cus];
+const V={
+cash(){return cashV()},
+dash(){const lo=db.meds.filter(m=>m.q<=m.min),ex=db.meds.filter(m=>dl(m.e)<=30),t=today();
+const days=[...Array(7)].map((_,i)=>{const d=fd(i-6);return[d.slice(8),sum(db.sales.filter(s=>s.d==d),s=>s.total)]}),mx=Math.max(1,...days.map(x=>x[1]));
+const al=[...lo.map(m=>[m.n,'স্টক '+m.q,'bad']),...ex.map(m=>[m.n,dl(m.e)<0?'মেয়াদ শেষ':dl(m.e)+' দিন বাকি',dl(m.e)<0?'bad':'warn'])];
+return `<div class=cards>${[['মোট ওষুধ',db.meds.length],['স্টক কম',lo.length,lo.length&&'bad'],['মেয়াদ শেষের পথে',ex.length,ex.length&&'warn'],['আজকের বিক্রি',tk(sum(db.sales.filter(s=>s.d==t),s=>s.total))],['কাস্টমার বাকি',tk(sum(db.custs,c=>c.due))]].map((c,i)=>`<div class="card st k${i} ${c[2]||''}" style="cursor:pointer" onclick="dg(${i})"><span class=ib><svg viewBox="0 0 24 24">${SI[i]}</svg></span><div><small>${c[0]}</small><b>${c[1]}</b></div></div>`).join('')}</div>
+<div class=card><h3>গত ৭ দিনের বিক্রি</h3><svg viewBox="0 0 350 130">${days.map((d,i)=>`<rect x="${i*50+10}" y="${105-d[1]/mx*90}" width="30" height="${d[1]/mx*90}" rx="4" fill="var(--pr)"/><text x="${i*50+25}" y="122" text-anchor="middle">${d[0]}</text>`).join('')}</svg></div>`},
+inv(){return `<div class=bar><input id=iq placeholder="ওষুধ, জেনেরিক বা কোম্পানির নাম" value="${esc(iq)}" oninput="iq=this.value;setH('il',invRows())">${isAdm()?'<button onclick=fillGenAI()>🔎 জেনেরিক ভরুন</button>':''}${isAdm()?'<button class=pr onclick=medForm()>+ নতুন ওষুধ</button>':''}</div><div class=bar><select onchange="IO=this.value;LM=100;setH('il',invRows())">${[['','সাজান: সাধারণ'],['ph','বিক্রয়মূল্য: বেশি → কম'],['pl','বিক্রয়মূল্য: কম → বেশি'],['vh','স্টকের মূল্য: বেশি → কম'],['vl','স্টকের মূল্য: কম → বেশি']].map(o=>`<option value="${o[0]}" ${o[0]==IO?'selected':''}>${o[1]}</option>`).join('')}</select></div>${IF?`<div class=bar><span class=chip>${IF.t=='g'?'জেনেরিক':'কোম্পানি'}: ${esc(ifName())} (${ifList().length})</span><button onclick="IF=null;LM=100;render()">✕ সব দেখান</button></div>`:''}${IS?`<div class=bar><span class=chip>${IS=='low'?'স্টক কম':'মেয়াদ শেষের পথে'}</span><button onclick="IS=null;LM=100;render()">✕ সব দেখান</button></div>`:''}<div id=il>${invRows()}</div>`},
+pos(){return `<div class=g2><div><input id=pq placeholder="ওষুধের নাম লিখুন" oninput=posUpd() autocomplete=off><div id=pl class=list></div></div><div class=card id=bil><div class=bh><button onclick=billClose()>← ফিরুন</button><h3>বিল</h3></div><div id=cl></div>
+<label>কাস্টমারের নাম<input id=cu list=cul value="${esc(cust)}" oninput="cust=this.value" autocomplete=off><datalist id=cul>${db.custs.map(c=>`<option value="${esc(c.n)}">`).join('')}</datalist></label>
+<label>ছাড়<div class=bar style="margin:0"><input id=dc type=number inputmode=decimal placeholder="যেমন ৫ বা ১০০" oninput=cartUpd()><select id=dt onchange=cartUpd() style="width:110px"><option value=p>%</option><option value=f>৳ (নির্দিষ্ট)</option></select></div></label>
+<label>পেমেন্ট মাধ্যম<select id=pm>${PM.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></label>
+<label>পরিশোধ (খালি = পুরো)<input id=pd type=number oninput=tot()></label><div id=ct></div><div class=sb><button id=sbtn class=pr style="width:100%" onclick=sell()>বিক্রি সম্পন্ন করুন</button></div></div></div><div id=cb onclick=billOpen()></div><div class=sp></div>`},
+sl(){return `<div class=bar><b>বিক্রয় তালিকা</b></div>${db.sales.length?`<div class=tw><table><tr><th>তারিখ<th>কাস্টমার<th>পেমেন্ট<th>মোট<th>বাকি<th></tr>${db.sales.slice().reverse().slice(0,100).map(s=>`<tr><td>${s.d}<td>${esc(s.cn)||'—'}<td>${esc(s.pm||'—')}<td>${tk(s.total)}<td>${tk(s.due)}<td><button onclick="rcpt(${s.id})">রসিদ</button><button onclick="saleForm(${s.id})">সম্পাদনা</button><button onclick="delSale(${s.id})">মুছুন</button></tr>`).join('')}</table></div>`:'<p class=mut>এখনো বিক্রি নেই</p>'}`},
+buy(){return `<div class=bar><b>ক্রয়ের তালিকা</b><span><button onclick=scanInv()>📷 ইনভয়েস স্ক্যান</button> <button class=pr onclick=buyForm()>+ ক্রয় এন্ট্রি</button></span></div><div class=tw><table><tr><th>তারিখ<th>ওষুধ<th>পরিমাণ<th>মোট<th></tr>${db.buys.slice().reverse().slice(0,100).map(b=>`<tr><td>${b.d}<td>${esc(b.m)}${b.sn?`<small>${esc(b.sn)}</small>`:''}<td>${b.q}<td>${tk(b.t)}<td><button onclick="buyForm(${b.id})">সম্পাদনা</button><button onclick="delBuy(${b.id})">মুছুন</button></tr>`).join('')}</table></div>`},
+cus(){return `<div class=bar><b>কাস্টমার</b><button class=pr onclick="partyForm('custs')">+ নতুন</button></div>${party('custs')}`},
+sup(){return `<div class=bar><b>সরবরাহকারী</b><button class=pr onclick="partyForm('sups')">+ নতুন</button></div>${party('sups')}`},
+exp(){return `<div class=bar><b>খরচ</b><button class=pr onclick=expForm()>+ খরচ</button></div><div class=tw><table><tr><th>তারিখ<th>বিবরণ<th>টাকা<th></tr>${db.exps.slice().reverse().map(e=>`<tr><td>${e.d}<td>${esc(e.n)}<td>${tk(e.a)}<td><button onclick="expForm(${e.id})">সম্পাদনা</button><button onclick="ask('মুছবেন?',()=>db.exps=db.exps.filter(x=>x.id!=${e.id}))">মুছুন</button></tr>`).join('')}</table></div>`},
+rep(){const mo=today().slice(0,7),per=[['আজ',s=>s.d==today()],['এই মাস',s=>s.d.slice(0,7)==mo],['মোট',()=>1]];
+const rows=per.map(([l,f])=>{const ss=db.sales.filter(f),rv=sum(ss,s=>s.total),cg=sum(ss,s=>sum(s.it,i=>i.c*i.q)),ex=sum(db.exps.filter(e=>f({d:e.d})),e=>e.a);return `<tr><td>${l}<td>${tk(rv)}<td>${tk(rv-cg)}<td>${tk(ex)}<td><b>${tk(rv-cg-ex)}</b></tr>`}).join('');
+const top={};db.sales.forEach(s=>s.it.forEach(i=>top[i.n]=(top[i.n]||0)+i.q));
+return `<div class=tw><table><tr><th>সময়<th>বিক্রি<th>মোট লাভ<th>খরচ<th>নিট লাভ</tr>${rows}</table></div>
+<div class=cards style="margin-top:12px">${[['স্টকের মূল্য',tk(sum(db.meds,m=>m.q*m.cost))],['কাস্টমারের কাছে পাওনা',tk(sum(db.custs,c=>c.due))],['সরবরাহকারীকে দেনা',tk(sum(db.sups,c=>c.due))]].map(c=>`<div class="card st"><small>${c[0]}</small><b>${c[1]}</b></div>`).join('')}</div>
+<div class=card><h3>সবচেয়ে বেশি বিক্রি</h3>${Object.entries(top).sort((a,b)=>b[1]-a[1]).slice(0,5).map(t=>`<div class=row><span>${esc(t[0])}</span><b>${t[1]} পিস</b></div>`).join('')||'<p class=mut>এখনো বিক্রি নেই</p>'}</div>
+<div class=card><h3>সাম্প্রতিক বিক্রি</h3>${db.sales.slice(-8).reverse().map(s=>`<div class=row><span>${s.d} ${esc(s.cn)}</span><span>${tk(s.total)} <button onclick="rcpt(${s.id})">রসিদ</button></span></div>`).join('')||'<p class=mut>এখনো বিক্রি নেই</p>'}</div>
+<div class=card><h3>সেটিংস ও ব্যাকআপ</h3><label>ফার্মেসির নাম<input value="${esc(db.name)}" onchange="db.name=this.value;save();render()"></label><button onclick=credForm()>ইউজারনেম/পাসওয়ার্ড পরিবর্তন</button><div class=bar style="margin-top:8px"><button class=pr onclick=driveBackup()>Drive ব্যাকআপ</button></div><small>${esc(L(bkInfo()))}</small></div>`}};
+let IF=null;
+const gk=g=>(g||'').toLowerCase().replace(/\b(sodium|potassium|hydrochloride|hcl|tromethamine|tromethamol|besylate|magnesium|sulphate|sulfate|bp|usp|inn)\b/g,'').replace(/\d+(\.\d+)?\s*(mg|gm|g|ml|mcg)?/g,'').replace(/\s*\+\s*/g,' + ').replace(/[\s+]+$/,'').replace(/\s+/g,' ').trim(),ck=c=>(c||'').toLowerCase().replace(/eskayef\s*\(sk\+f\)|\bsk\s*\+\s*f\b|\beskayef\b/g,'sk+f').replace(/g\.\s*a\.\s*company/g,'gaco').replace(/[().,]/g,' ').replace(/\b(pharmaceuticals?|pharma|ltd|limited|plc|pvt|private|bangladesh|industries|company|co|laboratories|laboratory|labs)\b/g,' ').replace(/\s+/g,' ').trim();
+const COD={square:'Square','sk+f':'Eskayef (SK+F)',incepta:'Incepta','nipro jmi':'NIPRO JMI',radiant:'Radiant','ibn sina':'Ibn Sina',gaco:'Gaco',mundipharma:'MundiPharma'};const BADCO=/bdm|medbox|med box|pharmacy|drug house|distribut|traders|enterprise|store|mart\b|online|supplier/i;function coFix(c){const k=ck(c);if(!k)return '';if(COD[k])return COD[k];const e=db.meds.find(m=>ck(m.c)==k);return e?e.c:String(c).trim()}
+function normCo(){let c=0;db.meds.forEach(m=>{const d=COD[ck(m.c)];if(d&&m.c!==d){m.c=d;c++}});if(c)save();return c}
+const ifList=()=>db.meds.filter(m=>(IF.t=='g'?gk(m.g):ck(m.c))==IF.k);function ifName(){const m=ifList()[0];return m?(IF.t=='g'?m.g:m.c):IF.k}
+function setF(t,id){const m=med(id);if(!m)return;IF={t,k:t=='g'?gk(m.g):ck(m.c)};iq='';LM=100;render()}
+var IO='';const SORTS={ph:(a,b)=>b.p-a.p,pl:(a,b)=>a.p-b.p,vh:(a,b)=>b.q*b.cost-a.q*a.cost,vl:(a,b)=>a.q*a.cost-b.q*b.cost};
+function invRows(){const q=iq.toLowerCase(),l=db.meds.filter(m=>(!IS||(IS=='low'?m.q<=m.min:dl(m.e)<=30))&&(!IF||(IF.t=='g'?gk(m.g):ck(m.c))==IF.k)&&((m.n+m.g+m.c+(m.sp||'')).toLowerCase().includes(q)||(ck(q)&&ck(m.c).includes(ck(q)))));
+IO&&SORTS[IO]&&l.sort(SORTS[IO]);
+return l.length?`<div class=tw><table><tr><th>নাম<th>মেয়াদ<th>স্টক<th>দাম<th></tr>${l.slice(0,LM).map(m=>`<tr><td><b>${esc(m.n)}</b><small>${m.g?`<a class=lk onclick="setF('g',${m.id})">${esc(m.g)}</a>`:''}, ${m.c?`<a class=lk onclick="setF('c',${m.id})">${esc(m.c)}</a>`:''}${m.sp?' · '+esc(m.sp):''}</small>${bd(m)}<td>${m.e}<td>${stk(m)}${IO[0]=='v'?'<small>মূল্য '+tk(m.q*m.cost)+'</small>':''}<td>${tk(m.p)}${SZ(m)?'<small>স্ট্রিপ '+tk(SP(m))+'</small>':''}<td>${isAdm()?`<button onclick="medForm(${m.id})">সম্পাদনা</button><button onclick="ask('মুছবেন?',()=>db.meds=db.meds.filter(x=>x.id!=${m.id}))">মুছুন</button>`:''}</tr>`).join('')}</table></div>${l.length>LM?`<button style="width:100%;margin-top:8px" onclick="LM+=100;setH('il',invRows())">আরও দেখান (${l.length-LM})</button>`:''}`:'<p class=mut>কোনো ওষুধ নেই।</p>'}
+function medForm(id){const m=med(id);form(m?'ওষুধ সম্পাদনা':'নতুন ওষুধ',[['n','ওষুধের নাম'],['','<button type=button onclick=medex()>Medex-এ দাম খুঁজুন</button>','note'],['g','জেনেরিক নাম'],['c','কোম্পানি'],['sp','সরবরাহকারীর নাম','text',db.sups.map(s=>s.n)],['b','ব্যাচ নম্বর'],['e','মেয়াদ শেষের তারিখ','date'],['cost','ক্রয়মূল্য (প্রতি পিস)','number'],['p','বিক্রয়মূল্য (MRP, প্রতি পিস)','number'],['sz','প্রতি স্ট্রিপে কয় পিস (না থাকলে খালি)','number'],['ps','স্ট্রিপের বিক্রয়মূল্য (খালি = পিস দাম × পিস সংখ্যা)','number'],['q','স্টক (পিস)','number'],['min','সর্বনিম্ন স্টক','number']],o=>{if(!o.n)return toast('ওষুধের নাম দিন'),false;['cost','p','q','min','sz','ps'].forEach(k=>o[k]=o[k]||0);if(o.sp&&!db.sups.find(s=>s.n.toLowerCase()==o.sp.toLowerCase()))db.sups.push({id:nid(),n:o.sp,ph:'',due:0});if(m)Object.assign(m,o);else db.meds.push({id:nid(),...o})},m||{})}
+
+async function medexAI0(name){if(!aiKey()){toast('আগে AI API Key বসান');aiKeyForm();return null}
+const q=String(name||'').trim();if(!q){toast('ওষুধের নাম দিন');return null}
+const url='https://medex.com.bd/search?search='+encodeURIComponent(q.replace(/^\s*[A-Za-z]+\s*:\s*/,'').replace(/\b\d+(\.\d+)?\s*(mg|gm|g|ml|mcg)\b/ig,'').trim());
+const P='Open this Medex Bangladesh search page: '+url+'\nFind the brand that best matches "'+q+'" (match name, strength and dosage form). Open its Medex brand page if needed. Read ONLY from medex.com.bd: the generic name (use " + " between combination ingredients) and the manufacturer company shown for that brand. Do NOT guess, do NOT use memory. If the brand is not on Medex or you are unsure, use null. Reply with ONLY JSON, no markdown: {"brand":string|null,"generic":string|null,"company":string|null,"url":string|null}';
+toast('Medex থেকে খোঁজা হচ্ছে…');
+try{const j=await gem({contents:[{parts:[{text:P}]}],tools:[{url_context:{}},{google_search:{}}],generationConfig:{temperature:0}});
+const t=(((j.candidates||[])[0]||{}).content||{parts:[]}).parts.map(x=>x.text||'').join(''),a=t.indexOf('{'),b=t.lastIndexOf('}');
+const d=JSON.parse(t.slice(a,b+1));const w=x=>nz(x).split(' ')[0];
+if(!d.brand||w(d.brand)!=w(q)||(!d.generic&&!d.company)){toast('Medex-এ ঠিকমতো পাওয়া যায়নি');return null}
+return {g:d.generic||'',c:d.company?coFix(d.company):'',b:d.brand}}catch(e){toast(typeof e=='string'?e:'Medex থেকে তথ্য আনা যায়নি');return null}}
+const mxUrl=q=>'https://medex.com.bd/search?search='+encodeURIComponent(String(q||'').replace(/^\s*[A-Za-z]+\s*:\s*/,'').replace(/\b\d+(\.\d+)?\s*(mg|gm|g|ml|mcg)\b/ig,'').trim());
+async function medexAI(name,btn){const r=await medexAI0(name);if(!r&&btn&&btn.isConnected&&String(name||'').trim()){let a=btn.nextElementSibling;if(!a||a.className!='mxfb'){a=document.createElement('a');a.className='mxfb';a.target='_blank';a.style.cssText='display:block;margin:6px 0;color:var(--pr);font-weight:700';btn.insertAdjacentElement('afterend',a)}a.href=mxUrl(name);a.textContent='👉 Medex-এ নিজে দেখুন (ফ্রি) — তারপর এখানে লিখুন'}return r}
+async function medexFillForm(b){const r=await medexAI($('f_n').value,b);if(!r)return;if(r.g)$('f_g').value=r.g;if(r.c)$('f_c').value=r.c;toast('Medex: '+r.b+' — দেখে সংরক্ষণ করুন')}
+async function medexFillRow(i,b){const r=await medexAI(RV.rows[i].n,b);if(!r)return;const x=RV.rows[i];if(r.g){x.g=r.g;$('rvG'+i).value=r.g}if(r.c){x.c=r.c;$('rvK'+i).value=r.c}toast('Medex: '+r.b+' — দেখে নিন')}
+function medex(){const n=$('f_n').value.trim();window.open('https://medex.com.bd/search?search='+encodeURIComponent(n),'_blank')}
+function party(k){const l=db[k];return l.length?`<div class=tw><table><tr><th>নাম<th>ফোন<th>বাকি<th></tr>${l.slice(0,LM).map(c=>`<tr><td><b>${esc(c.n)}</b><td>${esc(c.ph)}<td>${tk(c.due)}<td><button onclick="payForm('${k}',${c.id})">${k=='custs'?'আদায়':'পরিশোধ'}</button><button onclick="partyForm('${k}',${c.id})">সম্পাদনা</button><button onclick="ask('মুছবেন?',()=>db.${k}=db.${k}.filter(x=>x.id!=${c.id}))">মুছুন</button></tr>`).join('')}</table></div>${l.length>LM?`<button style="width:100%;margin-top:8px" onclick="LM+=100;render()">আরও দেখান (${l.length-LM})</button>`:''}`:'<p class=mut>এখনো কেউ নেই।</p>'}
+function partyForm(k,id){const c=id&&db[k].find(x=>x.id==id);form(c?'সম্পাদনা':'নতুন যোগ',[['n','নাম'],['ph','ফোন']],o=>{if(!o.n)return toast('নাম দিন'),false;if(c)Object.assign(c,o);else db[k].push({id:nid(),...o,due:0})},c||{})}
+function payForm(k,id){const c=db[k].find(x=>x.id==id);form(esc(c.n)+', বাকি '+tk(c.due),[['a','পরিমাণ (৳)','number']],o=>{const a=Math.min(o.a||0,c.due);if(a<=0)return toast('সঠিক পরিমাণ দিন'),false;c.due-=a;db.pays.push({id:nid(),d:today(),t:k,a})})}
+/* ===== ক্যাশ হিসাব ===== */
+const cashCfg=()=>(db.cashh||[]).find(r=>r.id=='cfg'),cashHeads=()=>(db.cashh||[]).filter(r=>r.id!='cfg'),stockVal=()=>sum(db.meds,m=>(m.q||0)*(m.cost||0));
+const CK={sim:['📱','সিম রিচার্জ'],mfs:['💳','মোবাইল ব্যাংকিং'],other:['🏦','অন্যান্য']};
+function cashNow(){const c=cashCfg();if(!c)return null;const lim=c.since*100,ok=r=>r&&r.id>=lim;let v=c.open;
+v+=sum(db.sales.filter(s=>ok(s)&&s.pm=='ক্যাশ'),s=>+s.paid||0);
+v+=sum((db.pays||[]).filter(p=>ok(p)&&p.t=='custs'),p=>+p.a||0);
+v-=sum((db.pays||[]).filter(p=>ok(p)&&p.t=='sups'),p=>+p.a||0);
+v-=sum(db.buys.filter(b=>ok(b)&&(!b.pm||b.pm=='ক্যাশ')),b=>+(b.p??b.t)||0);
+v-=sum(db.exps.filter(ok),e=>+e.a||0);
+v-=sum((db.cashx||[]).filter(ok),x=>x.dir*x.a);return Math.round(v*100)/100}
+function cashV(){const c=cashCfg(),H=cashHeads(),st=stockVal(),rc=sum(db.custs,x=>x.due),pb=sum(db.sups,x=>x.due),hd=sum(H,h=>h.bal||0);
+const row=(ic,n,sub,v,btn='')=>`<div class=card style="margin:8px 0;padding:12px"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:28px">${ic}</span><div style="flex:1"><b>${esc(n)}</b>${sub?`<div class=mut style="font-size:13px">${sub}</div>`:''}</div><b style="font-size:18px">${v}</b></div>${btn?`<div class=bar style="justify-content:flex-start;margin-top:8px;flex-wrap:wrap">${btn}</div>`:''}</div>`;
+const heads=['sim','mfs','other'].map(k=>H.filter(h=>h.k==k).map(h=>row(CK[k][0],h.n,CK[k][1],tk(h.bal||0),`<button onclick="cashTrForm(${h.id})">ক্যাশ ↔ খাত</button><button onclick="cashBalForm(${h.id})">ব্যালেন্স আপডেট</button><button onclick="cashHeadForm(${h.id})">নাম</button><button onclick="cashDel(${h.id})">মুছুন</button>`)).join('')).join('');
+if(!c)return `<div class=bar><b>ক্যাশ হিসাব</b></div><div class=card style="padding:14px"><p><b>শুরুর ধাপ</b></p><p class=mut>১) নিচে সিম রিচার্জ ও মোবাইল ব্যাংকিংয়ের খাতগুলো যোগ করুন (এখনকার ব্যালেন্স সহ)।<br>২) তারপর "শুরুর ক্যাশ সেট করুন" চেপে মোট পুঁজি দিন। স্টক, বাকি ও খাতগুলো বাদ দিয়ে বাকিটা আপনার হাতের ক্যাশ ধরা হবে।</p><div class=bar style="justify-content:flex-start;flex-wrap:wrap"><button onclick="cashHeadForm()">+ নতুন খাত</button><button class=pr onclick="cashSetup()">শুরুর ক্যাশ সেট করুন</button></div></div>${row('📦','স্টক','ইনভেন্টরি থেকে নিজে হিসাব হয়',tk(st))}${heads}${row('🧾','কাস্টমার বাকি','পাওনা',tk(rc))}${row('🚚','সরবরাহকারীর দেনা','দিতে হবে','−'+tk(pb))}`;
+const cash=cashNow(),net=cash+st+hd+rc-pb,pf=net-c.cap,tx=(db.cashx||[]).slice().reverse().slice(0,10);
+return `<div class=bar><b>ক্যাশ হিসাব</b><button onclick="cashHeadForm()">+ নতুন খাত</button></div>
+<div class=card style="padding:16px;text-align:center;background:${cash<0?'#fdecea':'#e6f4ea'}"><div style="font-size:34px">💵</div><div class=mut>হাতের ক্যাশ এখন</div><div style="font-size:30px;font-weight:700">${tk(cash)}</div>${cash<0?'<div class=mut>ক্যাশ ঋণাত্মক, কোনো খাতের টাকা বা খরচ ঠিক আছে কি না দেখুন</div>':''}</div>
+${row('📦','স্টক','ক্রয়মূল্য ধরে, নিজে হিসাব হয়',tk(st))}${heads}${row('🧾','কাস্টমার বাকি','পাওনা',tk(rc))}${row('🚚','সরবরাহকারীর দেনা','দিতে হবে','−'+tk(pb))}
+<div class=card style="padding:12px;margin:8px 0"><div style="display:flex;justify-content:space-between"><span>মোট সম্পদ (ক্যাশ+স্টক+খাত+বাকি−দেনা)</span><b>${tk(net)}</b></div><div style="display:flex;justify-content:space-between"><span>শুরুর পুঁজি (${esc(c.start)})</span><b>${tk(c.cap)}</b></div><div style="display:flex;justify-content:space-between"><span>${pf>=0?'লাভ':'ক্ষতি'} (শুরু থেকে)</span><b style="color:${pf>=0?'#1b7a4b':'#c62828'}">${tk(Math.abs(pf))}</b></div></div>
+<div class=bar style="justify-content:flex-start"><button onclick="cashSetup()">শুরুর ক্যাশ আবার সেট করুন</button></div>
+${tx.length?`<p class=mut style="margin:12px 0 4px">সাম্প্রতিক ট্রান্সফার</p>${tx.map(x=>{const h=cashHeads().find(h=>h.id==x.h);return `<div class=card style="padding:8px;margin:4px 0;font-size:14px">${esc(x.d)} · ${x.dir==1?'ক্যাশ → ':''}${esc(h?h.n:'(মোছা খাত)')}${x.dir==1?'':' → ক্যাশ'} · <b>${tk(x.a)}</b>${x.note?' · '+esc(x.note):''}</div>`}).join('')}`:''}
+<p class=mut style="font-size:12px;margin-top:10px">ক্যাশে ধরা হয়: ক্যাশে বিক্রি, কাস্টমারের বাকি আদায়, ক্যাশে ক্রয়ের টাকা, সরবরাহকারীকে পরিশোধ, খরচ ও ট্রান্সফার। বিকাশ/নগদ/কার্ডে বিক্রি ক্যাশে ধরা হয় না, ওই খাতের ব্যালেন্স নিজে আপডেট করুন।</p>`}
+function cashSetup(){const c=cashCfg();form('শুরুর ক্যাশ সেট করুন',[['','<p class=mut>মোট পুঁজি − (স্টক + সিম/মোবাইল ব্যাংকিং + কাস্টমার বাকি − সরবরাহকারীর দেনা) = শুরুর ক্যাশ। এখন থেকে হওয়া লেনদেন ক্যাশে যোগ-বিয়োগ হবে।</p>','note'],['cap','মোট শুরুর পুঁজি (৳)','number']],o=>{if(o.cap==null||o.cap<0)return toast('মোট পুঁজি দিন'),false;const st=stockVal(),hd=sum(cashHeads(),h=>h.bal||0),rc=sum(db.custs,x=>x.due),pb=sum(db.sups,x=>x.due),open=Math.round((o.cap-st-hd-rc+pb)*100)/100;db.cashh=(db.cashh||[]).filter(r=>r.id!='cfg');db.cashh.push({id:'cfg',cap:o.cap,open,since:Date.now(),start:today()});toast('শুরুর ক্যাশ '+tk(open)+(open<0?' (ঋণাত্মক! পুঁজি কম ধরেছেন)':''))},c?{cap:c.cap}:{})}
+function cashHeadForm(id){const h=id&&(db.cashh||[]).find(x=>x.id==id);form(h?'খাত সম্পাদনা':'নতুন খাত',[['k','ধরন','sel',[['sim','📱 সিম রিচার্জ'],['mfs','💳 মোবাইল ব্যাংকিং'],['other','🏦 অন্যান্য']]],['n','নাম (যেমন GP, বিকাশ)'],...(h?[]:[['bal','এখনকার ব্যালেন্স (৳)','number']])],o=>{if(!o.n)return toast('নাম দিন'),false;if(h){h.k=o.k;h.n=o.n;return}const b=Math.max(0,o.bal||0),n={id:nid(),k:o.k,n:o.n,bal:b};db.cashh=db.cashh||[];db.cashh.push(n);if(cashCfg()&&b>0){db.cashx=db.cashx||[];db.cashx.push({id:nid(),d:today(),h:n.id,dir:1,a:b,note:'নতুন খাত, ক্যাশ থেকে'})}},h||{k:'sim'})}
+function cashBalForm(id){const h=(db.cashh||[]).find(x=>x.id==id);form(esc(h.n)+' — ব্যালেন্স আপডেট',[['','<p class=mut>শুধু এই খাতের ব্যালেন্স ঠিক করবে, ক্যাশে প্রভাব ফেলবে না।</p>','note'],['bal','এখনকার ব্যালেন্স (৳)','number']],o=>{if(o.bal==null||o.bal<0)return toast('ব্যালেন্স দিন'),false;h.bal=o.bal},{bal:h.bal||0})}
+function cashTrForm(id){const h=(db.cashh||[]).find(x=>x.id==id);form(esc(h.n)+' — ট্রান্সফার',[['dir','কী হয়েছে','sel',[['1','ক্যাশ থেকে এই খাতে দিলাম (খাত বাড়ে, ক্যাশ কমে)'],['-1','এই খাত থেকে ক্যাশে পেলাম (খাত কমে, ক্যাশ বাড়ে)']]],['a','টাকা (৳)','number'],['note','নোট (ঐচ্ছিক)']],o=>{if(!cashCfg())return toast('আগে শুরুর ক্যাশ সেট করুন'),false;const a=o.a,d=+o.dir;if(!(a>0))return toast('সঠিক টাকা দিন'),false;if(d==-1&&a>(h.bal||0))return toast('খাতের ব্যালেন্সের চেয়ে বেশি'),false;h.bal=Math.round(((h.bal||0)+d*a)*100)/100;db.cashx=db.cashx||[];db.cashx.push({id:nid(),d:today(),h:h.id,dir:d,a,note:o.note||''})},{dir:'1'})}
+function cashDel(id){const h=(db.cashh||[]).find(x=>x.id==id);ask('"'+esc(h.n)+'" খাত মুছবেন? এর ব্যালেন্স মোট সম্পদ থেকে বাদ যাবে।',()=>{db.cashh=db.cashh.filter(x=>x.id!=id)})}
+function expForm(id){const e=db.exps.find(x=>x.id==id);form(e?'খরচ সম্পাদনা':'নতুন খরচ',[['n','বিবরণ (ভাড়া, বেতন...)'],['a','টাকা','number'],['d','তারিখ','date']],o=>{if(!o.n||!o.a)return toast('বিবরণ ও টাকা দিন'),false;if(e)Object.assign(e,{n:o.n,a:o.a,d:o.d||today()});else db.exps.push({id:nid(),n:o.n,a:o.a,d:o.d||today()})},e||{d:today()})}
+function undoBuy(b){const m=med(b.mid);if(m)m.q=Math.max(0,m.q-b.q);const s=db.sups.find(x=>x.id==b.sid);if(s)s.due=Math.max(0,s.due-Math.max(0,b.t-(b.p??b.t)))}
+function delBuy(id){ask('মুছবেন?',()=>{const b=db.buys.find(x=>x.id==id);undoBuy(b);db.buys=db.buys.filter(x=>x.id!=id)})}
+let BF=null;
+function bfN(i){const e=$('bf_'+i);if(!e)return null;const v=e.value.trim();return v===''?null:+v}
+function bfV(i){const e=$('bf_'+i);return e?e.value.trim():''}
+function buyForm(id){const b0=db.buys.find(x=>x.id==id);if(!b0&&0)return;
+const m0=b0?med(b0.mid):null,hasT=b0&&b0.tp!=null,v={u:b0?(hasT?b0.bu:'p'):'p',q:b0?(hasT?b0.bq:b0.q):'',tp:b0?(hasT?b0.tp:b0.c):'',vat:b0&&hasT&&b0.vt?b0.vt:'',dc:b0&&hasT&&b0.dc?b0.dc:'',b:b0&&m0?(m0.b||''):'',e:b0&&m0?(m0.e||''):'',p:b0?b0.p:'',pm:b0?b0.pm:'ক্যাশ',d:b0?b0.d:today(),s:b0?b0.sid:''};
+BF={b0,mid:m0?m0.id:'',nn:''};
+setH('md',`<div class=box><h3>${b0?'ক্রয় সম্পাদনা':'ক্রয় এন্ট্রি'}</h3>
+<label>ওষুধ খুঁজুন বা নতুন নাম লিখুন<input id=bf_mq autocomplete=off value="${esc(m0?m0.n:'')}" oninput=bfSearch() onfocus=bfSearch()></label>
+<small id=bf_st></small>
+<div id=bf_res style="max-height:190px;overflow:auto;border:1px solid var(--ln);border-radius:8px;margin:6px 0"></div>
+<div id=bf_nb class=card style="display:none"><b>নতুন ওষুধের তথ্য</b>
+<label>জেনেরিক নাম<input id=bf_g></label><label>কোম্পানি<input id=bf_c></label>
+<div class=g2><label>প্রতি স্ট্রিপে পিস (না থাকলে খালি)<input id=bf_sz type=number inputmode=numeric></label><label>বিক্রয়মূল্য (MRP, প্রতি পিস)<input id=bf_mrp type=number step=any inputmode=decimal></label></div></div>
+<label>সরবরাহকারী<select id=bf_s>${[['','—'],...db.sups.map(s=>[s.id,s.n])].map(o=>`<option value="${o[0]}" ${o[0]==v.s?'selected':''}>${esc(o[1])}</option>`).join('')}</select></label>
+<label>অথবা নতুন সরবরাহকারীর নাম<input id=bf_ns></label>
+<div class=g2><label>একক<select id=bf_u onchange=bfPv()><option value=p ${v.u=='p'?'selected':''}>পিস</option><option value=s ${v.u=='s'?'selected':''}>স্ট্রিপ</option></select></label>
+<label>পরিমাণ<input id=bf_q type=number step=any inputmode=decimal value="${esc(v.q)}" oninput=bfPv()></label></div>
+<div class=g2><label>ইউনিট TP (প্রতি একক, খালি = আগের দাম)<input id=bf_tp type=number step=any inputmode=decimal value="${esc(v.tp)}" oninput=bfPv()></label>
+<label>ইউনিট VAT (থাকলে)<input id=bf_vat type=number step=any inputmode=decimal value="${esc(v.vat)}" oninput=bfPv()></label></div>
+<label>ছাড় % (ইউনিট TP থেকে)<input id=bf_dc type=number step=any inputmode=decimal value="${esc(v.dc)}" oninput=bfPv()></label>
+<div class=card id=bf_pv style="margin:6px 0"></div>
+<div class=g2><label>ব্যাচ<input id=bf_b value="${esc(v.b)}"></label><label>মেয়াদ<input id=bf_e type=date value="${esc(v.e)}"></label></div>
+<div class=g2><label>পরিশোধ (খালি = পুরো)<input id=bf_p type=number step=any inputmode=decimal value="${esc(v.p)}"></label>
+<label>পেমেন্ট মাধ্যম<select id=bf_pm>${PM.map(o=>`<option value="${o[0]}" ${o[0]==v.pm?'selected':''}>${esc(o[1])}</option>`).join('')}</select></label></div>
+<label>তারিখ<input id=bf_d type=date value="${esc(v.d)}"></label>
+<div class=bar><button onclick=closeM()>বাতিল</button><button class=pr onclick=bfOk()>সংরক্ষণ</button></div></div>`);
+$('md').className='m on';bfSt();bfPv();if(!b0)bfSearch()}
+function bfSt(){const nb=$('bf_nb'),st=$('bf_st');if(!nb)return;nb.style.display=BF.mid=='new'?'block':'none';const m=BF.mid&&BF.mid!='new'?med(BF.mid):null;
+st.style.color=m?'var(--pr)':'var(--wn)';st.textContent=L(m?'✓ আগের ওষুধ · স্টক '+m.q+' পিস':(BF.mid=='new'?'➕ নতুন ওষুধ হিসেবে যোগ হবে':''))}
+function bfSearch(){const raw=bfV('mq'),q=nz(raw),cur=BF.mid&&BF.mid!='new'?med(BF.mid):null;
+if(cur&&nz(cur.n)!=q)BF.mid='';if(BF.mid=='new')BF.nn=raw;
+if(BF.mid&&BF.mid!='new'&&cur&&nz(cur.n)==q){setH('bf_res','');return bfSt()}
+if(BF.mid=='new'&&q){setH('bf_res','');return bfSt()}
+const ts=q.split(' ').filter(Boolean),all=!ts.length;
+const r=db.meds.filter(m=>all||ts.every(w=>nz(m.n+' '+(m.g||'')+' '+(m.c||'')).includes(w))).slice(0,all?100:30);
+const bs='display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--ln);border-radius:0;background:none';
+let h=r.map(m=>`<button type=button style="${bs}" onclick="bfPick(${m.id})"><b>${esc(m.n)}</b><small>${esc([m.g,m.c].filter(Boolean).join(' · '))}${m.q!=null?' · স্টক '+m.q+' পিস':''}</small></button>`).join('');
+if(raw&&!db.meds.some(m=>nz(m.n)==q))h+=`<button type=button class=pr style="${bs};color:var(--pr)" onclick="bfNew()">+ নতুন ওষুধ যোগ করুন: ${esc(raw)}</button>`;
+if(!h)h='<p class=mut>কোনো ওষুধ নেই। নাম লিখে নতুন যোগ করুন।</p>';
+setH('bf_res',h);bfSt()}
+function bfPick(id){const m=med(id);if(!m)return;BF.mid=m.id;BF.nn='';$('bf_mq').value=m.n;setH('bf_res','');bfSt();bfPv()}
+function bfNew(){const raw=bfV('mq');if(!raw)return;BF.mid='new';BF.nn=raw;setH('bf_res','');bfSt()}
+function bfPv(){const tp=bfN('tp'),vat=bfN('vat')||0,dc=bfN('dc')||0,q=bfN('q')||0,e=$('bf_pv');if(!e)return;
+if(tp==null){e.innerHTML=L('দাম না দিলে আগের ক্রয়মূল্য ধরা হবে');return}
+const d=tp*dc/100,cu=tp+vat-d;
+e.innerHTML=L('ক্রয়মূল্য (প্রতি একক)')+': <b>'+tk(cu)+'</b> <small>(TP '+tk(tp)+(vat?' + VAT '+tk(vat):'')+(dc?' − '+L('ছাড়')+' '+tk(d):'')+')</small><br>'+L('মোট')+': <b>'+tk(cu*q)+'</b>'}
+function bfOk(){const b0=BF.b0;let m=BF.mid&&BF.mid!='new'?med(BF.mid):null,isNew=false;
+if(!m){const nm=(BF.mid=='new'?BF.nn:'').trim();if(!nm)return toast('ওষুধ বেছে নিন বা নতুন নাম দিন');m=db.meds.find(x=>nz(x.n)==nz(nm))||null;if(!m)isNew=true}
+const q=bfN('q');if(!q||q<=0)return toast('পরিমাণ দিন');
+const u=bfV('u')||'p',tp=bfN('tp'),vat=bfN('vat')||0,dc=bfN('dc')||0;
+if(dc<0||dc>100)return toast('ছাড় ০–১০০ এর মধ্যে দিন');
+if(tp!=null&&(tp<0||vat<0))return toast('সঠিক দাম দিন');
+if(isNew&&tp==null)return toast('দাম দিন');
+const nsz=isNew?(bfN('sz')>1?bfN('sz'):0):0,sz=isNew?nsz:SZ(m);
+if(u=='s'&&!sz)return toast(isNew?'স্ট্রিপে কয় পিস তা দিন':'আগে ওষুধে প্রতি স্ট্রিপের পিস সংখ্যা দিন');
+if(b0)undoBuy(b0);
+const s=supOf({ns:bfV('ns'),s:bfV('s')});
+if(isNew){m={id:nid(),n:BF.nn.trim(),g:bfV('g'),c:bfV('c'),sp:s?s.n:'',b:'',e:'',cost:0,p:bfN('mrp')||0,sz:nsz,ps:0,q:0,min:0};db.meds.push(m)}
+const k=u=='s'?sz:1,qp=Math.round(q*k),cu=tp==null?m.cost*k:tp+vat-tp*dc/100,c=cu/k,t=Math.round(q*cu*100)/100,p=bfN('p')??t;
+m.q+=qp;m.cost=c;if(bfV('b'))m.b=bfV('b');if(bfV('e'))m.e=bfV('e');if(s)s.due+=Math.max(0,t-p);
+const r={id:b0?b0.id:nid(),d:bfV('d')||today(),m:m.n,mid:m.id,sid:s?s.id:'',sn:s?s.n:'',q:qp,c,t,p,pm:bfV('pm'),bu:u,bq:q};
+if(tp!=null){r.tp=tp;r.vt=vat;r.dc=dc}
+if(b0){delete b0.tp;delete b0.vt;delete b0.dc;Object.assign(b0,r)}else db.buys.push(r);
+closeM();save();render();toast(isNew?'নতুন ওষুধসহ ক্রয় যোগ হয়েছে':'সংরক্ষিত')}
+function stripSet(id){const m=med(id);setH('md',`<div class=box><h3>${esc(m.n)}</h3><p>প্রতি স্ট্রিপে কয় পিস? <small>(একবার দিলেই মনে থাকবে)</small></p><div class=bar style="justify-content:flex-start">${[6,8,10,12,14,15,20,25,30].map(n=>`<button onclick="stripOk(${id},${n})">${n}</button>`).join('')}</div><label>অন্য সংখ্যা<input id=sn type=number inputmode=numeric></label><div class=bar><button onclick=closeM()>বাতিল</button><button class=pr onclick="stripOk(${id},+$('sn').value)">ঠিক আছে</button></div></div>`);$('md').className='m on'}
+function stripOk(id,n){if(!(n>1))return toast('১-এর বেশি সংখ্যা দিন');const m=med(id);m.sz=n;m.ps=0;save();closeM();posUpd();addC(id,'s')}
+function posBadge(){if(view=='pos'&&$('pq')){const y=scrollY;posUpd();scrollTo(0,y)}}
+function posUpd(){const q=($('pq').value||'').toLowerCase();setH('pl',db.meds.filter(m=>m.q>0&&dl(m.e)>=0&&(m.n+m.g+m.c).toLowerCase().includes(q)).slice(0,25).map(m=>{const ic=cart.filter(x=>x.id==m.id).map(x=>x.q+' '+(x.u=='s'?'স্ট্রিপ':'পিস')).join(' + '),np=!(+m.p>0);return `<div class=row style="align-items:flex-start"><span style="flex:1;min-width:0"><b>${esc(m.n)}</b>${ic?`<small style="color:var(--pr);font-weight:600">✓ কার্টে ${ic}</small>`:''}<small>${esc([m.g,m.c].filter(Boolean).join(' · '))}</small><small>স্টক ${stk(m)}${np?' · <span style="color:var(--bd)">বিক্রয়মূল্য নেই</span>':''}</small></span><span class=ad><button class="${np?'':'pr'}" onclick="addC(${m.id},'p')">+ পিস ${tk(m.p)}</button>${SZ(m)?`<button class="${np?'':'pr'}" onclick="addC(${m.id},'s')">+ স্ট্রিপ ${tk(SP(m))}</button>`:`<button onclick="stripSet(${m.id})">+ স্ট্রিপ?</button>`}</span></div>`}).join('')||'<p class=mut>পাওয়া যায়নি</p>');cartUpd()}
+const used=id=>sum(cart.filter(x=>x.id==id),c=>c.q*pc(med(id),c.u));
+function addC(id,u){const m=med(id),k=pc(m,u);u=k>1?'s':'p';if(!(up(m,u)>0))return toast('বিক্রয়মূল্য নেই — ইনভেন্টরি থেকে দাম দিন');if(used(id)+k>m.q)return toast('স্টক নেই');const c=cart.find(x=>x.id==id&&x.u==u);if(c)c.q++;else cart.push({id,u,q:1});cartUpd();posBadge()}
+function chg(id,u,d){setTimeout(posBadge,0);const c=cart.find(x=>x.id==id&&x.u==u),m=med(id);if(d>0&&used(id)+pc(m,u)>m.q)return toast('স্টক নেই');c.q+=d;if(c.q<1)cart=cart.filter(x=>x!=c);cartUpd()}
+function cartUpd(){setH('cl',cart.map(c=>{const m=med(c.id),s=c.u=='s',n=s?'স্ট্রিপ':'পিস';return `<div class=row><span><b>${esc(m.n)}</b><small>${tk(up(m,c.u))} / ${n}</small></span><span class=qt><button onclick="chg(${m.id},'${c.u}',-1)">−</button> ${c.q} ${n} <button onclick="chg(${m.id},'${c.u}',1)">+</button></span><b>${tk(up(m,c.u)*c.q)}</b></div>`}).join('')||'<p class=mut>ওষুধ বেছে যোগ করুন</p>');tot();cbUpd()}
+function cbUpd(){const e=$('cb');if(!e)return;if(!cart.length)document.body.classList.remove('bo');e.style.display=cart.length?'flex':'none';e.innerHTML='<span>🛒 '+sum(cart,c=>c.q)+' '+L('টি যোগ হয়েছে')+'</span><span>'+tk(calc().total)+' · '+L('বিল দেখুন')+' ›</span>'}
+function billOpen(){if(!cart.length)return;document.body.classList.add('bo');try{history.pushState({bo:1},'')}catch(e){}scrollTo(0,0)}
+function billClose(){document.body.classList.remove('bo');try{if(history.state&&history.state.bo)history.back()}catch(e){}}
+addEventListener('popstate',()=>document.body.classList.remove('bo'));
+function calc(){const sub=sum(cart,c=>up(med(c.id),c.u)*c.q),dt=$('dt').value,dv=Math.max(0,+$('dc').value||0),disc=Math.round((dt=='f'?Math.min(dv,sub):sub*Math.min(100,dv)/100)*100)/100,total=Math.round((sub-disc)*100)/100,pv=$('pd').value,paid=pv===''?total:Math.min(+pv,total);return{dt,dv,disc,total,paid,due:Math.round((total-paid)*100)/100}}
+function tot(){const t=calc();const sb=$('sbtn');if(sb)sb.textContent=L('বিক্রি সম্পন্ন করুন')+(t.total>0?' · '+tk(t.total):'');setH('ct',`<div class=tt><span>ছাড়</span><b>${tk(t.disc)}</b></div><div class=tt><span>পরিশোধযোগ্য</span><b>${tk(t.total)}</b></div><div class=tt><span>বাকি</span><b>${tk(t.due)}</b></div>`)}
+function sell(){if(!cart.length)return toast('বিলে ওষুধ যোগ করুন');const t=calc(),n=cust.trim();if(t.due>0&&!n)return toast('বাকি থাকলে কাস্টমারের নাম দিন');
+const it=cart.map(c=>{const m=med(c.id);const k=pc(m,c.u),u=up(m,c.u);return{id:m.id,n:m.n,q:c.q*k,p:u/k,c:m.cost,u:k>1?'s':'p',uq:c.q,up:u}});it.forEach(i=>med(i.id).q-=i.q);
+cdue(n,t.due);const s={id:nid(),d:today(),it,...t,cn:n,pm:$('pm').value};db.sales.push(s);cart=[];cust='';save();render();ask('বিক্রি সম্পন্ন। রসিদ দেখবেন?',()=>rcpt(s.id))}
+function delSale(id){ask('বিক্রি মুছবেন? স্টক ফিরে আসবে।',()=>{const s=db.sales.find(x=>x.id==id);s.it.forEach(i=>{const m=med(i.id);if(m)m.q+=i.q});cdue(s.cn,-s.due);db.sales=db.sales.filter(x=>x.id!=id)})}
+function saleForm(id){const s=db.sales.find(x=>x.id==id);form('বিক্রয় সম্পাদনা',[['cn','কাস্টমারের নাম','text',db.custs.map(c=>c.n)],['d','তারিখ','date'],['pm','পেমেন্ট মাধ্যম','sel',PM],['p','পরিশোধ','number']],o=>{const paid=Math.min(Math.max(o.p??s.paid,0),s.total),due=Math.round((s.total-paid)*100)/100;if(due>0&&!o.cn)return toast('বাকি থাকলে কাস্টমারের নাম দিন'),false;cdue(s.cn,-s.due);Object.assign(s,{cn:o.cn,d:o.d||s.d,pm:o.pm,paid,due});cdue(s.cn,due)},{cn:s.cn,d:s.d,pm:s.pm,p:s.paid})}
+const rHtml=s=>{const sub=sum(s.it,amt);return `<h2>${esc(db.name)}</h2><p>${s.d}, ইনভয়েস ${String(s.id).slice(-5)}${s.cn?'<br>কাস্টমার: '+esc(s.cn):''}${s.pm?'<br>পেমেন্ট: '+esc(s.pm):''}</p><table><tr><th>ওষুধ<th>টাকা</tr>${s.it.map(i=>`<tr><td>${esc(i.n)}<small>${ql(i)}</small><td>${tk(amt(i))}</tr>`).join('')}</table><p>মোট দাম: ${tk(sub)}<br>ছাড়: ${tk(sub-s.total)}<br>পরিশোধযোগ্য: <b>${tk(s.total)}</b><br>পরিশোধ: ${tk(s.paid)}<br>বাকি: ${tk(s.due)}</p>`};
+function rcpt(id){const s=db.sales.find(x=>x.id==id);RID=id;const h=rHtml(s);setH('rc',h);setH('md',`<div class=box><div class=rv>${h}</div><div class=bar style="margin-top:10px"><button onclick=closeM()>বন্ধ করুন</button><button onclick=window.print()>প্রিন্ট</button><button class=pr onclick=sharePdf()>পিডিএফ শেয়ার</button></div></div>`);$('md').className='m on'}
+function mkPdf(jpg,w,h,cw,ch){const e=new TextEncoder(),B=[],off=[];let len=0;const add=x=>{const b=typeof x=='string'?e.encode(x):x;B.push(b);len+=b.length};
+const ob=(n,d,st)=>{off[n]=len;add(n+' 0 obj\n'+d+(st?'\nstream\n':'\n'));if(st){add(st);add('\nendstream\n')}add('endobj\n')};
+add('%PDF-1.4\n');ob(1,'<</Type/Catalog/Pages 2 0 R>>');ob(2,'<</Type/Pages/Kids[3 0 R]/Count 1>>');ob(3,`<</Type/Page/Parent 2 0 R/MediaBox[0 0 ${w} ${h}]/Resources<</XObject<</I 4 0 R>>>>/Contents 5 0 R>>`);
+ob(4,`<</Type/XObject/Subtype/Image/Width ${cw}/Height ${ch}/ColorSpace/DeviceRGB/BitsPerComponent 8/Filter/DCTDecode/Length ${jpg.length}>>`,jpg);
+const cs=`q ${w} 0 0 ${h} 0 0 cm /I Do Q`;ob(5,`<</Length ${cs.length}>>`,cs);const x=len;
+add('xref\n0 6\n0000000000 65535 f \n'+[1,2,3,4,5].map(n=>String(off[n]).padStart(10,'0')+' 00000 n \n').join('')+`trailer\n<</Size 6/Root 1 0 R>>\nstartxref\n${x}\n%%EOF`);return new Blob(B,{type:'application/pdf'})}
+async function sharePdf(){const s=db.sales.find(x=>x.id==RID);try{await document.fonts.ready;const sub=sum(s.it,amt),W=320,LH=24;
+const R=[[db.name,'',2],[s.d+'  #'+String(s.id).slice(-5)],...(s.cn?[['কাস্টমার: '+s.cn]]:[]),...(s.pm?[['পেমেন্ট: '+s.pm]]:[]),['-'],...s.it.flatMap(i=>[[i.n,'',1],['   '+ql(i),tk(amt(i))]]),['-'],['মোট দাম',tk(sub)],['ছাড়',tk(sub-s.total)],['পরিশোধযোগ্য',tk(s.total),1],['পরিশোধ',tk(s.paid)],['বাকি',tk(s.due)]];
+const H=R.length*LH+24,c=document.createElement('canvas');c.width=W*2;c.height=H*2;const x=c.getContext('2d');x.scale(2,2);x.fillStyle='#fff';x.fillRect(0,0,W,H);x.fillStyle='#000';
+R.forEach((r,i)=>{const y=i*LH+28,f="'Hind Siliguri','Noto Sans Bengali',sans-serif";if(r[0]=='-'){x.fillRect(12,y-14,W-24,1);return}
+x.font=(r[2]?'700 ':'')+(r[2]==2?18:14)+'px '+f;const rt=L(r[1]||'');x.textAlign='left';const rw=rt?x.measureText(rt).width+10:0;x.fillText(L(r[0]),12,y,W-24-rw);if(rt){x.textAlign='right';x.fillText(rt,W-12,y)}});
+const d=c.toDataURL('image/jpeg',.92).split(',')[1],jpg=Uint8Array.from(atob(d),k=>k.charCodeAt(0)),blob=mkPdf(jpg,W,H,W*2,H*2),f=new File([blob],'receipt-'+String(s.id).slice(-5)+'.pdf',{type:'application/pdf'});
+if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],title:db.name});else{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=f.name;a.click()}}catch(e){if(e.name!='AbortError')toast('পিডিএফ তৈরি করা যায়নি')}}
+const GCID='823917932511-4iuoue27iklb0k9sfa27j7frj75qljh4.apps.googleusercontent.com',GFN='pharmacy-backup.json',GA='https://www.googleapis.com';let gTok,gExp=0;try{const _g=JSON.parse(sessionStorage.getItem('gT'));if(_g&&_g[1]>Date.now()){gTok=_g[0];gExp=_g[1]}}catch(e){}
+let gP=null,gFail=0;
+function gAuth(s){if(gTok&&Date.now()<gExp)return Promise.resolve(gTok);if(s===2)return Promise.reject('noauto');if(gP)return gP;if(s&&Date.now()<gFail)return Promise.reject('wait');
+gP=Promise.race([gAuth0(s),new Promise((_,no)=>setTimeout(()=>no('timeout'),120000))]).then(t=>{gFail=0;gP=null;return t},e=>{gP=null;gFail=Date.now()+18e5;throw e});return gP}
+function gAuth0(s){return new Promise((ok,no)=>{if(gTok&&Date.now()<gExp)return ok(gTok);if(s===2)return no('noauto');if(!window.google||!google.accounts)return no('gis');google.accounts.oauth2.initTokenClient({client_id:GCID,hint:(getA()||{}).g||undefined,scope:'openid email profile '+GA+'/auth/drive.file',callback:r=>{if(r.error)return no(r.error);gTok=r.access_token;gExp=Date.now()+(r.expires_in-60)*1000;try{sessionStorage.setItem('gT',JSON.stringify([gTok,gExp]))}catch(e){}ok(gTok)},error_callback:e=>no(e.type||'err')}).requestAccessToken(s?{prompt:''}:{})})}
+async function gFind(t){const r=await fetch(GA+'/drive/v3/files?q='+encodeURIComponent("name='"+GFN+"' and trashed=false")+'&fields=files(id)&orderBy=modifiedTime desc',{headers:{Authorization:'Bearer '+t}});if(!r.ok)throw 0;return(await r.json()).files||[]}
+let GUARD=false;
+function guardChk(f,auto){if(!GUARD)return;if(!f){GUARD=false;return}if(auto)throw 'guard';if(confirm(L('Drive-এ আগের ব্যাকআপ পাওয়া গেছে। সেটা ফিরিয়ে আনবেন? (ঠিক আছে = ফিরিয়ে আনুন)'))){driveRestore(1);throw 'cancel'}if(!confirm(L('তাহলে Drive-এর আগের ব্যাকআপ মুছে এই ডিভাইসের নতুন ডেটা বসানো হবে। নিশ্চিত?')))throw 'cancel';GUARD=false}
+let gVer;async function gOk(s){const t=await gAuth(s),a=getA()||{};if(a.g&&gVer!==t){if((await gMail(s))!=a.g){gTok=null;throw 'mail'}gVer=t}return t}
+async function driveBackup(auto){try{stampDb();const t=await gOk(auto),f=(await gFind(t))[0],G=f?await pullMerge(t,f):0,B='pharmabk',body='--'+B+'\r\nContent-Type: application/json\r\n\r\n'+JSON.stringify({name:GFN})+'\r\n--'+B+'\r\nContent-Type: application/json\r\n\r\n'+JSON.stringify(Object.assign({},db,{_acct:getA()}))+'\r\n--'+B+'--',r=await fetch(GA+'/upload/drive/v3/files'+(f?'/'+f.id:'')+'?uploadType=multipart',{method:f?'PATCH':'POST',headers:{Authorization:'Bearer '+t,'Content-Type':'multipart/related; boundary='+B},body});if(!r.ok)throw 0;localStorage.setItem(BK,String(Date.now()));localStorage.removeItem('pharma_bkp');bkPend=0;bkFail=0;bkUi();if(!auto)toast('Drive-এ ব্যাকআপ হয়েছে');return 1}catch(e){if(auto)bkFail=1;bkUi();if(!auto&&e!='cancel')toast(e=='mail'?'এই Google অ্যাকাউন্ট লিঙ্ক করা Gmail-এর সাথে মেলেনি':'Drive ব্যাকআপ হয়নি');return 0}}
+async function driveRestore(y,s){try{const t=await gOk(s),f=(await gFind(t))[0];if(!f)return s?0:toast('Drive-এ কোনো ব্যাকআপ নেই');if(!y&&!confirm('বর্তমান সব তথ্য মুছে Drive-এর ব্যাকআপ বসানো হবে। চালিয়ে যাবেন?'))return;const r=await fetch(GA+'/drive/v3/files/'+f.id+'?alt=media',{headers:{Authorization:'Bearer '+t}});if(!r.ok)throw 0;const d=await r.json();if(!d.meds)throw 0;if(d._acct&&!getA())localStorage.setItem(AK,JSON.stringify(d._acct));delete d._acct;initDb(d);FRESH=false;GUARD=false;save();if(document.body.className=='lo')boot();else render();alUi();toast('Drive থেকে রিস্টোর হয়েছে')}catch(e){if(!s)toast('Drive থেকে ফেরানো যায়নি')}}
+function restore(){try{const d=JSON.parse($('bk').value);if(!d.meds)throw 0;initDb(d);save();render();toast('রিস্টোর হয়েছে')}catch(e){toast('কোড সঠিক নয়')}}
+const hs=async s=>{try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('ph:'+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return btoa(unescape(encodeURIComponent('ph:'+s)))}};
+const getA=()=>{try{return JSON.parse(localStorage.getItem(AK))}catch(e){return null}};
+function boot(){applyUI();const a=getA();if(a&&SS.getItem('pin')=='1'){document.body.className='';render();bkCatch();return}
+document.body.className='lo';setH('login',`<div class=box><div class=lg style="margin-bottom:10px"><img src="icon-192.png" alt=""><b>${esc(db.name)}</b></div><h3>${a?'লগইন':'প্রথমবার ইউজারনেম ও পাসওয়ার্ড তৈরি করুন'}</h3><label>ইউজারনেম<input id=lu autocomplete=username value="${esc(localStorage.getItem(LUK)||'')}"></label><label>পাসওয়ার্ড<input id=lp type=password autocomplete=current-password onkeydown="if(event.key=='Enter')doLogin()"></label><button class=pr style="width:100%;margin-top:8px" onclick=doLogin()>${a?'লগইন':'অ্যাকাউন্ট তৈরি করুন'}</button><button style="width:100%;margin-top:8px" onclick=gLogin()>${a?'Google দিয়ে লগইন':'Google দিয়ে অ্যাকাউন্ট তৈরি'}</button>${a?'<button style="width:100%;margin-top:8px" onclick=regForm()>কাউন্টার স্টাফ হিসেবে নিবন্ধন</button>':''}<div class=bar style="margin:10px 0 0">${ctls()}</div></div>`);setTimeout(()=>{const e=$($('lu')&&$('lu').value?'lp':'lu');e&&e.focus()},80)}
+async function doLogin(){const u=$('lu').value.trim(),p=$('lp').value,a=getA();if(!u||p.length<4)return toast('ইউজারনেম দিন ও পাসওয়ার্ড কমপক্ষে ৪ অক্ষর');const h=await hs(p);if(!a)localStorage.setItem(AK,JSON.stringify({u,h}));else if(a.u!=u||a.h!=h){const t=(db.staff||[]).find(x=>x.u==u&&x.h==h);if(!t){logH(0,'Password',u);return toast('ইউজারনেম বা পাসওয়ার্ড ভুল')}if(t.st!='ok'){logH(0,'Password',t.n);return toast(t.st=='pending'?'ম্যানেজারের অনুমোদনের অপেক্ষায়':'এই অ্যাকাউন্ট বন্ধ আছে')}SS.setItem('who',t.id);localStorage.setItem(LUK,u);logH(1,'Password',t.n);SS.setItem('pin','1');return boot()}SS.setItem('who','admin');localStorage.setItem(LUK,u);logH(1,'Password');SS.setItem('pin','1');boot()}
+function logout(){SS.removeItem('pin');SS.removeItem('who');boot()}
+async function gMail(s){const t=await gAuth(s),r=await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+t}});if(!r.ok)throw 0;const u=await r.json();if(!u.email||u.email_verified===false)throw 0;return u.email.toLowerCase()}
+async function gLogin(){try{const e=await gMail(),a=getA(),first=!a;if(!a)localStorage.setItem(AK,JSON.stringify({u:e,h:null,g:e}));else if(!a.g){logH(0,'Google');return toast('আগে ইউজারনেম-পাসওয়ার্ডে ঢুকে মেনু থেকে Gmail যুক্ত করুন')}else if(a.g!=e){logH(0,'Google');return toast('এই Gmail এই অ্যাকাউন্টের সাথে মেলেনি')}logH(1,'Google');SS.setItem('who','admin');SS.setItem('pin','1');boot();if(first)offerRestore()}catch(x){toast('Google লগইন হয়নি')}}
+async function linkG(){try{const e=await gMail(),a=getA();if(!a)return;a.g=e;localStorage.setItem(AK,JSON.stringify(a));toast('Gmail যুক্ত হয়েছে: '+e);driveBackup(1)}catch(x){toast('Gmail যুক্ত হয়নি')}}
+
+const dev=()=>{const u=navigator.userAgent||'';return/Android/.test(u)?'Android':/iPhone|iPad/.test(u)?'iPhone':/Windows/.test(u)?'Windows':/Mac/.test(u)?'Mac':/Linux/.test(u)?'Linux':'—'};
+function logH(ok,m,w){db.lh=db.lh||[];db.lh.push({t:Date.now(),ok,d:dev(),m,w});db.lh=db.lh.slice(-100);save()}
+function supOf(o){const n=(o.ns||'').trim();if(n){let x=db.sups.find(z=>z.n.toLowerCase()==n.toLowerCase());if(!x)db.sups.push(x={id:nid(),n,ph:'',due:0});return x}return db.sups.find(x=>x.id==o.s)}
+const isAdm=()=>(SS.getItem('who')||'admin')=='admin',me=()=>(db.staff||[]).find(x=>x.id==SS.getItem('who')),prf=()=>(isAdm()?db.prof:me())||{},av=p=>p.img?`<img class=av src="${p.img}" alt="">`:`<span class=av>${esc((p.n||'?').trim()[0]||'?')}</span>`;
+const MI={u:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',s:'<path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',c:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',o:'<path d="M9 4H5v16h4M16 8l4 4-4 4M20 12H9"/>',g:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',m:'<path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z"/>',k:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 8l3 3"/>',e:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',d:'<path d="M7 18a4 4 0 01-.5-8A5 5 0 0116.6 9 4.5 4.5 0 0117 18zM12 11v6M9.5 14l2.5-3 2.5 3"/>',r:'<path d="M20 11a8 8 0 00-14-4M4 4v4h4M4 13a8 8 0 0014 4M20 20v-4h-4"/>',b:'<path d="M6 16v-5a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/>',db:'<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>',cam:'<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>'};
+const mi=(c,i,l,f)=>`<div class=mi style="--c:${c}" onclick="closeM();${f}"><span class=ib><svg viewBox="0 0 24 24">${i}</svg></span><span>${l}</span></div>`,shell=h=>{setH('md',`<div class=box>${h}<div class=bar style="margin-top:8px"><button onclick=closeM()>বন্ধ করুন</button></div></div>`);$('md').className='m on'};
+const alts=()=>[...db.meds.filter(m=>m.q<=m.min).map(m=>[m.n,'স্টক '+m.q,'bad']),...db.meds.filter(m=>dl(m.e)<=30).map(m=>[m.n,dl(m.e)<0?'মেয়াদ শেষ':dl(m.e)+' দিন বাকি',dl(m.e)<0?'bad':'warn'])];
+function bellUi(){const n=alts().length,e=$('bc');if(!e)return;e.textContent=n>99?'99+':n;e.style.display=n?'flex':'none'}
+function alerts(){const l=alts();shell(`<h3>নোটিফিকেশন</h3><div style="max-height:55vh;overflow:auto">${l.map(a=>`<div class=row><span>${esc(a[0])}</span><i class=${a[2]}>${a[1]}</i></div>`).join('')||'<p class=mut>কোনো সতর্কতা নেই</p>'}</div>${mi('#f57c00',P.inv,'ইনভেন্টরি দেখুন',"go('inv')")}`)}
+function menu(){const a=getA()||{},p=prf(),A=isAdm();shell(`<div class=mh>${av(p)}<div><h3>${esc(p.n||a.u||'')}</h3><small>${A?'ম্যানেজার':'কাউন্টার স্টাফ'}</small></div></div>${mi('#2f6fed',MI.u,'প্রোফাইল','profMenu()')}${mi('#5c6bc0',MI.s,'সেটিংস','settings()')}${mi('#f57c00',MI.b,'নোটিফিকেশন','alerts()')}${A?mi('#7c4dff',MI.c,'লগইন হিস্ট্রি','lhist()')+mi('#e91e8c',P.cus,'স্টাফ ব্যবস্থাপনা','stf()'):''}${mi('#e53935',MI.o,'লগআউট',"ask('লগআউট করবেন?',logout)")}`)}
+function profMenu(){const a=getA()||{},p=prf();shell(`<div class=mh>${av(p)}<div><h3>${esc(p.n||a.u||'')}</h3><small>${isAdm()?'ম্যানেজার':'কাউন্টার স্টাফ'}</small><small>${esc([p.ph,p.em].filter(Boolean).join(' · '))}</small></div></div>${mi('#2f6fed',MI.u,'প্রোফাইল সম্পাদনা','profForm()')}${mi('#e91e8c',MI.cam,'ছবি বদলান','photoPick()')}`)}
+function settings(){const a=getA()||{},A=isAdm();shell(`<h3>সেটিংস</h3>${mi('#12a150',MI.g,UI.lang=='en'?'বাংলা':'English','setLang()')}${mi('#455a64',MI.m,UI.theme=='dark'?'লাইট মোড':'ডার্ক মোড','setTheme()')}${A?mi('#f59e0b',MI.k,'ইউজারনেম ও পাসওয়ার্ড','credForm()')+(a.g?'':mi('#ea4335',MI.e,'Gmail যুক্ত করুন','linkG()'))+mi('#00a3a3',MI.d,'Drive ব্যাকআপ','driveBackup()')+mi('#8e24aa',MI.k,aiKey()?'AI API Key (সেট আছে)':'AI API Key বসান','aiKeyForm()')+`<small>${esc(L(bkInfo()))}</small>`:''}<small id=stp style="display:block;margin-top:6px"></small>`);stPer()}
+function stPer(){try{navigator.storage.persisted().then(v=>{const e=$('stp');if(e)e.textContent=L(v?'ডেটা স্টোরেজ: স্থায়ী ✓':'ডেটা স্টোরেজ: অস্থায়ী ⚠ (ফোন মুছে দিতে পারে)')})}catch(e){}}
+function profForm(){form('প্রোফাইল',[['n','নাম'],['ph','ফোন'],['em','ইমেইল','email']],o=>{if(isAdm())db.prof=Object.assign({},db.prof,o);else Object.assign(me(),o)},prf())}
+function photoPick(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.onchange=()=>{const f=i.files[0];if(!f)return;const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),m=Math.min(im.width,im.height);c.width=c.height=160;c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,160,160);const p=isAdm()?(db.prof=db.prof||{}):me();p.img=c.toDataURL('image/jpeg',.8);save();render();toast('ছবি যোগ হয়েছে')};im.src=URL.createObjectURL(f)};i.click()}
+function regForm(){form('কাউন্টার স্টাফ নিবন্ধন',[['n','নাম'],['ph','ফোন'],['u','ইউজারনেম'],['p','পাসওয়ার্ড','password']],o=>{const a=getA()||{};if(!o.n||!o.u||(o.p||'').length<4)return toast('নাম, ইউজারনেম ও পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর) দিন'),false;if(o.u==a.u||(db.staff||[]).some(x=>x.u==o.u))return toast('এই ইউজারনেম আছে'),false;hs(o.p).then(h=>{(db.staff=db.staff||[]).push({id:nid(),n:o.n,ph:o.ph||'',u:o.u,h,st:'pending',t:Date.now()});save();toast('নিবন্ধন হয়েছে। ম্যানেজার অনুমোদন দিলে ঢুকতে পারবেন')})})}
+function stf(){const l=db.staff||[];setH('md',`<div class=box><h3>কাউন্টার স্টাফ</h3><div class=list style="max-height:50vh">${l.map(x=>`<div class=row><span>${esc(x.n)}<small>${esc(x.u)}${x.ph?' · '+esc(x.ph):''} · ${x.st=='ok'?'চালু':x.st=='pending'?'অনুমোদনের অপেক্ষায়':'বন্ধ'}</small></span><span><button onclick="stS(${x.id},'${x.st=='ok'?'off':'ok'}')">${x.st=='ok'?'বন্ধ':'অনুমোদন'}</button><button onclick="stD(${x.id})">মুছুন</button></span></div>`).join('')||'<p class=mut>কেউ নেই</p>'}</div><div class=bar style="margin-top:10px"><button onclick=closeM()>বন্ধ করুন</button></div></div>`);$('md').className='m on'}
+function stS(id,t){db.staff.find(x=>x.id==id).st=t;save();stf()}
+function stD(id){db.staff=db.staff.filter(x=>x.id!=id);save();stf()}
+function lhist(){const l=(db.lh||[]).slice().reverse().slice(0,30);setH('md',`<div class=box><h3>এই ডিভাইসের লগইন</h3><div class=list style="max-height:50vh">${l.map(x=>`<div class=row><span>${new Date(x.t).toLocaleString(UI.lang=='en'?'en-GB':'bn-BD')}<small>${x.w?esc(x.w)+' · ':''}${esc(x.d)}${x.m?' · '+esc(x.m):''}</small></span><i class=${x.ok?'':'bad'}>${x.ok?'সফল':'ব্যর্থ'}</i></div>`).join('')||'<p class=mut>—</p>'}</div><div class=bar style="margin-top:10px"><button onclick=closeM()>বন্ধ করুন</button></div></div>`);$('md').className='m on'}
+
+function credForm(){form('ইউজারনেম/পাসওয়ার্ড পরিবর্তন',[['u','নতুন ইউজারনেম'],['p','নতুন পাসওয়ার্ড','password']],o=>{if(!o.u||(o.p||'').length<4)return toast('ইউজারনেম দিন ও পাসওয়ার্ড কমপক্ষে ৪ অক্ষর'),false;hs(o.p).then(h=>{localStorage.setItem(AK,JSON.stringify(Object.assign({},getA(),{u:o.u,h})));toast('পরিবর্তন হয়েছে')})},{u:(getA()||{}).u})}
+const IMPL=`Torax 10|Ketorolac Tromethamine 10 mg|Square
+Kerolac|Ketorolac 10 mg|G. A. Company
+Pair 10|Ketorolac 10 mg|Drug International
+Toralin|Ketorolac|NIPRO JMI
+Ketonaaf 10|Ketorolac Tromethamine 10 mg|Naafco Pharma
+Nopain-50|Diclofenac Potassium 50 mg|Drug International
+Diclofenac-100 TR|Diclofenac Sodium 100 mg|Albion
+Aceclofenac 100|Aceclofenac 100 mg|Albion
+Aceclofenac SR|Aceclofenac 200 mg|Albion
+Flexi SR|Aceclofenac 200 mg|Square
+Tory 90|Etoricoxib 90 mg|Square
+Tory 120|Etoricoxib 120 mg|Square
+Etorix 60|Etoricoxib 60 mg|Eskayef (SK+F)
+Etorix 90|Etoricoxib 90 mg|Eskayef (SK+F)
+Coxitor 30|Etoricoxib 30 mg|Beacon
+Naprosyn 250|Naproxen 250 mg|Radiant
+Naprosyn 500|Naproxen 500 mg|Radiant
+Naprosyn-Plus 375/20|Naproxen 375 mg + Esomeprazole 20 mg|Radiant
+Naprosyn-Plus 500/20|Naproxen 500 mg + Esomeprazole 20 mg|Radiant
+Naprox 500|Naproxen 500 mg|SK+F
+Napryn 500|Naproxen 500 mg|Healthcare Pharmaceuticals
+Napro-A 500|Naproxen 500 mg|ACME
+Naprotec 500|Naproxen Sodium 500 mg + Esomeprazole 20 mg|Sharif
+Naproxen Plus 375+20|Naproxen Sodium 375 mg + Esomeprazole 20 mg|Zenith
+Anaflex MAX 500|Naproxen + Esomeprazole|ACI
+Nimovo|Naproxen 500 mg + Esomeprazole 20 mg|NIPRO JMI
+Neso|Naproxen 375 mg + Esomeprazole 20 mg|Aristopharma
+Nesotem|Naproxen 375 mg + Esomeprazole 20 mg|Team Pharma
+Anadol|Tramadol 50 mg|Square
+Anadol 100 SR|Tramadol 100 mg|Square
+Anadol Plus|Paracetamol + Tramadol|Square
+Lindac 100|Sulindac 100 mg|Popular
+Lindac 200|Sulindac 200 mg|Popular
+Nabu 500|Nabumetone 500 mg|SK+F
+নাবুমেট ৫০০|Nabumetone 500 mg|SK+F
+টলফ্লেক্স|Tolfenamic Acid 200 mg|DBL
+Oxicam 20|Tenoxicam 20 mg|ACI
+Beklo 5|Baclofen 5 mg|Opsonin
+Beklo 10|Baclofen 10 mg|Opsonin
+Flexibac 10|Baclofen 10 mg|Beacon
+Caridol 250|Carisoprodol 250 mg|SK+F
+Prindol 3 mg|Pridinol 3 mg|ACME
+Myolax 100|Tolperisone 100 mg|Incepta
+Relentus|Tizanidine 2 mg|Beximco
+Flexor 5|Cyclobenzaprine 5 mg|Incepta
+Pregaba 25|Pregabalin 25 mg|Opsonin
+Pregaba 50|Pregabalin 50 mg|Opsonin
+Neurolin 25|Pregabalin 25 mg|Square
+Gabarol 50|Pregabalin 50 mg|ACI
+Gabarol CR 82.5|Pregabalin 82.5 mg|ACI
+Gabastar 300|Gabapentin 300 mg|Square
+Neumig 5|Mirogabalin 5 mg|Square
+Nervion|Mirogabalin Besylate|ACI
+Duloxen 30|Duloxetine 30 mg|Incepta
+Mecolagin|Mecobalamin 0.5 mg|Incepta
+Feluric 40|Febuxostat 40 mg|Healthcare Pharmaceuticals
+Febout 40|Febuxostat 40 mg|Radiant
+Colimax 0.6|Colchicine 0.6 mg|Square
+Cosarin|Diacerein 50 mg + Glucosamine 750 mg|Opsonin
+Jointec Max|Diacerein 50 mg + Glucosamine 750 mg|Beximco
+Orthogen|Glucosamine + Collagen + Boswellia + Boron|ACME`;
+function seedMeds(){const ix=new Set(db.meds.map(m=>nk(m.n))),used=new Set(db.meds.map(m=>m.id));[IMPL,IMPB,IMPX].forEach(t=>t.split('\n').forEach(l=>{const x=l.split('|'),k=nk(x[0]);if(!x[0]||ix.has(k))return;ix.add(k);let id=9e15+[...k].reduce((a,c)=>(a*31+c.charCodeAt(0))%1e9,7);while(used.has(id))id++;used.add(id);db.meds.push({id,n:x[0],g:x[1]||'',c:x[2]||'',sp:'',b:'',e:'',cost:0,p:0,q:0,min:0})}));db.impL=1}
+function impMeds(){const have=new Set(db.meds.map(m=>m.n.toLowerCase())),a=IMPL.split('\n').map(l=>l.split('|')).filter(x=>x[0]&&!have.has(x[0].toLowerCase()));if(!a.length)return toast('নতুন কোনো ওষুধ নেই');ask(a.length+'টি নতুন ওষুধ যোগ হবে (দাম ও স্টক ০ থাকবে)। চালিয়ে যাবেন?',()=>{a.forEach(x=>db.meds.push({id:nid(),n:x[0],g:x[1]||'',c:x[2]||'',sp:'',b:'',e:'',cost:0,p:0,q:0,min:0}))})}
+const IMPB=`Bexitrol F 25/250 Inhaler|Salmeterol 25 mcg + Fluticasone Propionate 250 mcg|Beximco|B|795|665|1|1
+Comprid XR 30|Gliclazide 30 mg (MR)|Square|B|350|305|1|1
+Doxiva 400|Doxofylline 400 mg|Nipro JMI Pharma|B|600|510|1|1
+Lijenta-M 850|Linagliptin 2.5 mg + Metformin 850 mg|Nipro JMI Pharma|B|480|440|32|2
+Monas 10|Montelukast 10 mg|ACME|B|525|417.74|30|2
+Budicort 0.5 Nebuliser|Budesonide 0.5 mg/2 ml|Incepta|I||463.08|12|2
+Quiet 25|Quetiapine 25 mg|Incepta|I||128.64|50|1
+Pogo Syrup|Multivitamin + Cod Liver Oil|Healthcare Pharmaceuticals|H||77|1|8
+Sergel 20|Esomeprazole 20 mg|Healthcare Pharmaceuticals|H||616.04|100|1
+Cefotil Plus 500|Cefuroxime Axetil 500 mg + Clavulanic Acid 125 mg|Square|S||617.48|12|1
+Ezex 0.05% Cream|Clobetasone Butyrate 0.05%|Square|S||64.75|1|2
+Maxrin 0.4|Tamsulosin 0.4 mg|Square|S||308.84|30|1
+Neuro-B|Vitamin B1 + B6 + B12|Square|S||257.4|30|2
+Rosuva EZ 20/10|Rosuvastatin 20 mg + Ezetimibe 10 mg|Square|S||566.06|20|1
+Amilin Plus|Amitriptyline 12.5 mg + Chlordiazepoxide 5 mg|Opsonin|B|420|363|56|1
+Becoral-D|Coral Calcium 500 mg + Vitamin D3 200 IU|Beximco|B|600|510|1|1
+Fexomin 180|Fexofenadine 180 mg|Ibn Sina|B|270|230|30|1
+Fixocard 5/50|Amlodipine 5 mg + Atenolol 50 mg|Incepta|B|400|352|50|1
+Losectil 20|Omeprazole 20 mg|Eskayef (SK+F)|B|600|510|1|1
+Mycofree 250|Terbinafine 250 mg|Drug International|B|380|327|1|1
+Renova Suspension 60ml|Paracetamol|Opsonin|B|35|31|1|3
+Bislol 5|Bisoprolol 5 mg|Opsonin|M|644|553.13|56|1
+Cifibet 100|Ciprofibrate 100 mg|Eskayef (SK+F)|M|450|398.07|30|1
+Freedom Sanitary Napkin Heavy Flow Wings||ACI|M|200|138|1|6
+SMC Fruity Orange Sachet|Oral Rehydration Salt (flavoured)|SMC Enterprise|M|192|142.91|24|2
+Ace P-Drop 30ml|Paracetamol (paediatric drop)|Square|S||25.73|1|3
+Alatrol P-Drop 15ml|Cetirizine (paediatric drop)|Square|S||24.01|1|3
+Ambrox Syrup 100ml|Ambroxol|Square|S||42.88|1|10
+Antazol 0.1% Nasal Drop|Xylometazoline 0.1%|Square|S||205.78|12|1
+Bilista 20|Bilastine 20 mg|Square|S||385.76|30|1
+Comet 850|Metformin 850 mg|Square|S||257.97|50|1
+DK 4000|Cholecalciferol (Vitamin D3) 4000 IU|Square|S||250.86|30|1
+Emjard 10|Empagliflozin 10 mg|Square|S||428.78|20|1
+Probio Sachet 1g|Probiotic|Square|S||668.97|20|1
+Tryptin 10|Amitriptyline 10 mg|Square|S||146.36|200|1
+Atrizin Syrup 60ml|Cetirizine|Beximco|X||25.73|1|2
+Bizoran 5/40|Amlodipine 5 mg + Olmesartan Medoxomil 40 mg|Beximco|X||514.47|30|1
+D-Rise 2000|Cholecalciferol (Vitamin D3) 2000 IU|Beximco|X||64.19|30|1
+Diapro 80|Gliclazide 80 mg|Beximco|X||360.36|60|1
+Dextrim Syrup||Beximco|X||80|1|11
+Omestin 150|Fluconazole 150 mg|Beximco|X||377.3|20|1
+Telmacal 5/40|Amlodipine 5 mg + Telmisartan 40 mg|Beximco|X||321.59|30|1
+Bislol 2.5|Bisoprolol 2.5 mg|Opsonin|M|490|421.99|70|1
+Caridol 250|Carisoprodol 250 mg|Eskayef (SK+F)|M|210|182.7|30|1
+Denixil 0.5|Clonazepam 0.5 mg|Renata|M|520|428.38|80|1
+Diclofenac TR 100|Diclofenac Sodium 100 mg (TR)|Albion|M|150|48|50|1
+Dsec 30|Dexlansoprazole 30 mg||M|300|266.01|30|1
+E Cap Plus|||M|150|133|30|1
+Fluclox 500|Flucloxacillin 500 mg||M|560|466.48|40|1
+Linatin M 850|Linagliptin 2.5 mg + Metformin 850 mg|Delta Pharma|M|240|181.01|30|1
+Neuralgin|Vitamin B1 100 mg + B6 200 mg + B12 200 mcg||M|360|291.2|60|1
+Norix 1 (1.5 mg)|||M|700|487.97|1|1
+Pantonix 40|Pantoprazole 40 mg||M|980|851.13|98|1
+Prindol 3|Pridinol 3 mg|ACME|M|300|249.9|30|1
+Safe Care HCG Pregnancy Test|HCG pregnancy test|Safe Care|M|800|200|10|1
+Thyrox 50|Levothyroxine 50 mcg|Renata|M|198|172.99|90|2
+Vildamet 50/500|Vildagliptin 50 mg + Metformin 500 mg|Opsonin|M|661.8|571.2|30|1`;
+const SUPB={B:'Bangladesh Medicine (BDM)',I:'Incepta Pharmaceuticals',H:'Healthcare Pharmaceuticals',S:'Square Pharmaceuticals',M:'MedBox',X:'Beximco Pharmaceuticals'};
+const IMPX=`Cefaclav 500|Cefuroxime Axetil + Clavulanic Acid|Incepta|720.35|14|1
+Valex CR 300|Sodium Valproate + Valproic Acid|Incepta|385.91|50|1
+Aceclofenac 100|Aceclofenac|Albion|82.0|1|1
+Delfex 120|Fexofenadine Hydrochloride|Delta Pharma|232.0|1|2
+Dimerol 80|Gliclazide|Drug International|388.0|1|1
+Maxpro 20|Esomeprazole|Renata|820.0|1|1
+Maxpro 40|Esomeprazole|Renata|460.0|1|1
+Nature E 400|Vitamin E (Alpha Tocopheryl Acetate)|UniMed UniHealth|182.0|1|1
+Vildapin Plus 500|Vildagliptin + Metformin HCl|ACME|470.0|1|1
+Zatral 10|Alfuzosin Hydrochloride|Eskayef (SK+F)|340.0|40|1
+Bicozin|Vitamin B Complex + Zinc|Square|142.8|30|2
+Cef-3 DS|Cefixime Trihydrate|Square|719.67|14|1
+Fexo 120|Fexofenadine Hydrochloride|Square|386.11|50|1
+Fexo 180|Fexofenadine Hydrochloride|Square|310.84|30|1
+Burna Cream 25g|Silver Sulfadiazine|Square|95.09|1|2
+Ceevit 250|Vitamin C (Ascorbic acid)|Square|406.23|250|1
+Comprid XR 60|Gliclazide|Square|312.04|30|1
+Volinac Gel 50g|Diclofenac + Methyl Salicylate + Menthol|Square|85.71|1|1
+Xfin Cream 10g|Terbinafine Hydrochloride|Square|68.57|1|1
+Avamist Nasal Spray 27.5 mcg|Fluticasone Furoate|Nipro JMI Pharma|238.0|1|1
+Becobion 100|Vitamin B1 + B6 + B12|Beacon|329.0|1|1
+Bextram Silver|Multivitamin & Multimineral (A-Z silver)|Beximco|315.0|1|1
+Milam 7.5|Midazolam|Eskayef (SK+F)|410.0|1|1
+Ternilla 100|Aceclofenac|Healthcare Pharmaceuticals|215.0|1|1
+Reumacap SR|Indomethacin|Aristopharma|346.02|100|1
+Neobion|Vitamin B1 + B6 + B12|Aristopharma|622.85|60|1
+Xpa XR|Paracetamol|Aristopharma|346.02|200|1
+Apetiz Suspension 100ml|Cyproheptadine|Aristopharma|422.38|1|1
+Xpa Suspension 60ml|Paracetamol|Aristopharma|302.85|1|10
+Ameloss 5|Donepezil Hydrochloride|Incepta|257.27|30|1
+Montair 10|Montelukast Sodium|Incepta|443.27|30|1
+Telmipres 80|Telmisartan|Incepta|283.0|30|1
+Ecosprin Plus|Clopidogrel Bisulfate + Aspirin|ACME|400.0|1|1
+Fenocap 200|Fenofibrate|Orion|250.0|1|1
+Gacozema Ointment 10g|Dithranol + Boric Acid + Salicylic Acid|Gaco|88.0|1|2
+NRG Oral Powder|Dextrose Monohydrate|Eskayef (SK+F)|180.0|30|1
+Ostocal D|Calcium Carbonate + Vitamin D3|Eskayef (SK+F)|200.0|1|1
+Zofra ODT 4|Ondansetron|Eskayef (SK+F)|205.0|1|1
+Carex Condom|Barrier Method (Sexual Wellbeing)|Technokit (Imported)|582.43|1|1
+Dlac Oral Solution 100ml|Lactulose|Drug International|124.4|1|1
+Gastona|Sufoof Humuzin|Safeco|42.36|100|1
+Sanbur 30|Dexlansoprazole|Opsonin|480.0|50|1
+Alatrol Syrup 50ml|Cetirizine Hydrochloride|Square|90.1|1|3
+Angilock 50|Losartan Potassium|Square|429.0|50|1
+Bactrocin Ointment 2% 10g|Mupirocin|Square|128.63|1|1
+Maximilk|Fennel + Fenugreek + Cumin + Aniseed|Square|376.29|30|1
+Montene 10|Montelukast Sodium|Square|300.28|30|1
+Motigut|Domperidone Maleate|Square|343.2|100|1
+Nebita 2.5|Nebivolol Hydrochloride|Square|300.86|50|1
+Secrin 4|Glimepiride|Square|385.76|30|1
+Viodin 1% M-Wash 100ml|Povidone-Iodine|Square|85.75|1|2
+Abetis 40|Olmesartan Medoxomil|ACI|1060.04|70|1
+Cildip 10|Cilnidipine|Opsonin|478.46|56|1
+Cora Dx|Calcium + Vitamin D3|ACI|526.98|40|1
+Coral Condom Chocolate|Condom (Sexual Wellbeing)|Imported|242.48|1|1
+Fenadin 120|Fexofenadine Hydrochloride|Renata|372.51|50|1
+Gavisol 200ml|Sodium Alginate + Potassium Bicarbonate|Radiant|359.8|1|2
+MM Kit|Mifepristone + Misoprostol|Ziska|231.0|1|1
+Montela 10|Montelukast Sodium|Popular|480.96|30|2
+Supraphen 0.5% 10ml|Chloramphenicol|Popular|109.0|1|5
+Gavicool Sachet 10ml|Sodium Alginate + Bicarbonate + Calcium|Pharmasia|239.01|1|1
+RTV 20|Rosuvastatin Calcium|Delta Pharma|192.53|30|1
+Uromax 0.4|Tamsulosin Hydrochloride|UniMed UniHealth|311.87|30|1
+Febus 40|Febuxostat|ACI|326.79|30|1
+Micoral Oral Gel 15g|Miconazole Nitrate|ACI|326.88|1|5
+Maxwit|Multivitamin & Multimineral [A-Z Gold]|Beximco|712.28|1|1
+Monocast 10|Montelukast Sodium|Beximco|262.4|1|1
+Napa Syrup 60ml|Paracetamol|Beximco|314.88|1|13`;
+;(()=>{const X={'ক্রয়ের বিল ইমপোর্ট':'Import purchase bills','এক্সেল তালিকা ইমপোর্ট':'Import Excel list','ক্রয়ের বিল আগেই ইমপোর্ট হয়েছে':'Purchase bills already imported','ক্রয়ের বিল ইমপোর্ট হয়েছে':'Purchase bills imported','এক্সেল তালিকা আগেই ইমপোর্ট হয়েছে':'Excel list already imported'};for(const k in X)if(!(k in EN))EN[k]=X[k]})();
+const nk=s=>{let t=(s||'').toLowerCase().replace(/^\s*(tablet|tab|capsule|cap|syrup|syp|suspension|susp|ointment|cream|gel|drops|injection|inj|sachet|powder|pad)\s*:\s*/,'').replace(/(\d)\s*(mg|gm|g|mcg|ml)\b/g,'$1 ').replace(/\b(mg|tab|tablet|cap|capsule)\b/g,' ');const w=t.split(/[^a-z0-9.\/+]+/).filter(Boolean),o=[];w.forEach(x=>{if(o[o.length-1]!==x)o.push(x)});return o.join('')};
+function impBuy(){if(db.impB)return toast('ক্রয়ের বিল আগেই ইমপোর্ট হয়েছে');const rows=IMPB.split('\n').map(l=>l.split('|'));ask(rows.length+'টি ওষুধ যোগ/আপডেট হবে। ক্রয়মূল্য ও MRP প্রতি পিস হিসেবে, স্টক পিসে যোগ হবে। চালিয়ে যাবেন?',()=>{const ix=new Map(db.meds.map(m=>[nk(m.n),m]));rows.forEach(r=>{const[n,g,c,s,mrp,cost,k,qty]=r,K=+k||1,cp=Math.round(cost/K*1e4)/1e4,p=mrp?Math.round(mrp/K*1e4)/1e4:0,q=qty*K,sp=SUPB[s]||'';if(sp&&!db.sups.find(x=>x.n.toLowerCase()==sp.toLowerCase()))db.sups.push({id:nid(),n:sp,ph:'',due:0});let m=ix.get(nk(n));if(m){m.q=(+m.q||0)+q;m.cost=cp;if(p>0)m.p=p;if(!m.g)m.g=g;if(!m.c)m.c=c;if(!m.sp)m.sp=sp}else{m={id:nid(),n,g,c,sp,b:'',e:'',cost:cp,p,q,min:0};db.meds.push(m);ix.set(nk(n),m)}});db.impB=1;toast('ক্রয়ের বিল ইমপোর্ট হয়েছে')})}
+function impX(){if(db.impX)return toast('এক্সেল তালিকা আগেই ইমপোর্ট হয়েছে');const rows=IMPX.split('\n').map(l=>l.split('|'));ask(rows.length+'টি ওষুধ যোগ হবে (প্রতি বক্সের দাম ÷ বক্সে পিস)। যেটা আগে থেকে অ্যাপে আছে সেটা আবার যোগ হবে না। চালিয়ে যাবেন?',()=>{const ix=new Map(db.meds.map(m=>[nk(m.n),m]));let a=0,s=0;rows.forEach(r=>{const[n,g,c,cost,k,qty]=r,K=+k||1,Q=+qty||1,cp=Math.round(cost/Q/K*1e4)/1e4,q=Q*K;let m=ix.get(nk(n));if(m&&(+m.cost>0||+m.q>0)){if(!m.g)m.g=g;if(!m.c)m.c=c;s++;return}if(m){m.cost=cp;m.q=q;if(!m.g)m.g=g;if(!m.c)m.c=c;a++;return}m={id:nid(),n,g,c,sp:'',b:'',e:'',cost:cp,p:0,q,min:0};db.meds.push(m);ix.set(nk(n),m);a++});db.impX=1;toast(a+'টি যোগ হয়েছে, '+s+'টি আগে থেকেই ছিল')})}
+let bkT,bkPend=0,bkFail=0;const BK='pharma_bk',AB='pharma_ab',abOn=()=>true;
+function bkUi(){const e=$('bkb');if(!e)return;e.style.display=bkFail?'block':'none';e.textContent=L('ব্যাকআপ বাকি — ট্যাপ করুন')}
+function bkSched(){const a=getA();if(!a||!a.g||document.body.className=='lo')return;try{localStorage.setItem('pharma_bkp','1')}catch(e){}bkPend=1;clearTimeout(bkT);bkT=setTimeout(autoBk,20000)}
+async function autoBk(){if(!bkPend||!abOn())return;await flush();await driveBackup(1)}
+function bkCatch(){const a=getA();if(!a||!a.g||!abOn())return;const l=+localStorage.getItem(BK)||0;if(Date.now()-l>864e5||localStorage.getItem('pharma_bkp')=='1')bkPend=1;if(bkPend)setTimeout(autoBk,3000)}
+function bkInfo(){const a=getA()||{},l=+localStorage.getItem(BK)||0;return a.g?'অটো ব্যাকআপ চালু'+' · '+a.g+' · '+(l?'শেষ: '+new Date(l).toLocaleString(UI.lang=='en'?'en-GB':'bn-BD'):'এখনো হয়নি'):'অটো ব্যাকআপের জন্য আগে Gmail যুক্ত করুন'}
+function abToggle(){localStorage.setItem(AB,abOn()?'0':'1');closeM();settings()}
+async function offerRestore(){try{const t=await gOk(),f=(await gFind(t))[0];if(f)ask('এই Gmail-এর Drive-এ ব্যাকআপ পাওয়া গেছে। ফিরিয়ে আনবেন?',()=>driveRestore(1))}catch(e){}}
+let FRESH=false;
+function alUi(){const e=$('alb');if(!e)return;e.style.display=FRESH&&!getA()?'block':'none';e.textContent=L('Drive থেকে ডাটা ফিরিয়ে আনুন')}
+async function autoLoad(){if(!FRESH)return;alUi();await driveRestore(1,1);alUi()}
+/* ===== দুই ডিভাইসের ডেটা মেলানো (সিঙ্ক) ===== */
+const SC=['meds','custs','sups','sales','buys','exps','pays','staff','cashh','cashx'];let SNAP=null,lastPull=0;
+const sj=r=>{const x=Object.assign({},r);delete x.ua;return JSON.stringify(x)},TT=x=>Date.parse(x&&x.ua)||0,snapMake=()=>{const s={};SC.forEach(c=>{s[c]=new Map((db[c]||[]).map(r=>[r.id,sj(r)]))});return s};
+function stampDb(){if(!SNAP)return;const iso=new Date().toISOString();db.tomb=db.tomb||{};SC.forEach(c=>{const cur=new Set();(db[c]=db[c]||[]).forEach(r=>{cur.add(r.id);if(SNAP[c].get(r.id)!==sj(r))r.ua=iso});SNAP[c].forEach((v,id)=>{if(!cur.has(id))db.tomb[c+':'+id]=iso})});SNAP=snapMake()}
+function dedupBy(c){const g=new Map(),rm=new Map();db[c].forEach(r=>{const k=(r.n||'').trim().toLowerCase();if(!k)return;const o=g.get(k);if(!o){g.set(k,r);return}const w=TT(r)>TT(o)?r:o,l=w===r?o:r;rm.set(l.id,w.id);g.set(k,w)});if(!rm.size)return;db[c]=db[c].filter(r=>!rm.has(r.id));if(c=='sups')db.buys.forEach(b=>{if(rm.has(b.s))b.s=rm.get(b.s)});db.tomb=db.tomb||{};rm.forEach((v,k)=>db.tomb[c+':'+k]=new Date().toISOString())}
+function mergeDb(R){stampDb();const before=JSON.stringify(db),tb=db.tomb=db.tomb||{},rt=R.tomb||{};for(const k in rt)if(!tb[k]||Date.parse(rt[k])>Date.parse(tb[k]))tb[k]=rt[k];
+SC.forEach(c=>{const m=new Map((db[c]||[]).map(r=>[r.id,r]));(R[c]||[]).forEach(r=>{const l=m.get(r.id);if(!l||TT(r)>TT(l))m.set(r.id,r)});db[c]=[...m.values()].filter(r=>{const t=tb[c+':'+r.id];return !t||TT(r)>Date.parse(t)})});
+if((R._t||0)>(db._t||0)){if(R.name)db.name=R.name;if(R.prof)db.prof=R.prof}['impB','impX','impL'].forEach(k=>{if(R[k])db[k]=1});
+dedupMeds();dedupBy('custs');dedupBy('sups');SNAP=snapMake();return JSON.stringify(db)!==before}
+async function pullMerge(t,f){const r=await fetch(GA+'/drive/v3/files/'+f.id+'?alt=media',{headers:{Authorization:'Bearer '+t}});if(!r.ok)throw 0;const d=await r.json();if(!d.meds)throw 0;if(d._acct&&!getA())localStorage.setItem(AK,JSON.stringify(d._acct));const ch=mergeDb(d);FRESH=false;GUARD=false;
+const up=SC.some(c=>{const m=new Map((d[c]||[]).map(x=>[x.id,x]));return db[c].some(x=>!m.has(x.id)||TT(x)>TT(m.get(x.id)))})||Object.keys(db.tomb||{}).some(k=>!(d.tomb||{})[k]);if(up)bkSched();
+if(ch){dirty=1;await flush();const e=document.activeElement;if(document.body.className!='lo'&&!(e&&/INPUT|TEXTAREA|SELECT/.test(e.tagName)))render();alUi()}return ch}
+async function drivePull(u){const a=getA();if(!a||!a.g||document.body.className=='lo'||Date.now()-lastPull<60000)return;lastPull=Date.now();try{const t=await gOk(u?1:2),f=(await gFind(t))[0];if(f)await pullMerge(t,f)}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible')drivePull(1)});setTimeout(()=>drivePull(1),3000);setInterval(()=>{if(document.visibilityState=='visible')drivePull()},120000);
+
+loadDb().then(()=>{boot();autoLoad();setTimeout(drivePull,3000)});
+history.replaceState({a:0},'');history.pushState({a:1},'');addEventListener('popstate',()=>{let k=1;const md=$('md'),b=document.body;if(b.classList.contains('lo'))k=0;else if(md&&md.classList.contains('on'))closeM();else if(b.classList.contains('bo'))billClose();else if(IF||IS){IF=null;IS=null;LM=100;render()}else if(view!='dash')go('dash');else k=0;if(k)history.pushState({a:1},'');else history.back()});
+
+/* ===== AI ইনভয়েস স্ক্যান ===== */
+const AIK='pharma_aikey',AIM='gemini-flash-latest';
+const aiKey=()=>{try{return localStorage.getItem(AIK)||''}catch(e){return ''}};
+function aiKeyForm(){form('AI API Key (ইনভয়েস স্ক্যানের জন্য)',[['','<small>ফ্রি Gemini Key: aistudio.google.com/apikey থেকে Google অ্যাকাউন্ট দিয়ে নিন।</small>','note'],['k','Gemini API Key (AIza...)','password'],['','<small>চাবিটি শুধু এই ডিভাইসের ব্রাউজারে থাকবে, Drive ব্যাকআপে যাবে না। খালি রেখে সংরক্ষণ করলে মুছে যাবে।</small>','note']],o=>{try{o.k?localStorage.setItem(AIK,o.k.trim()):localStorage.removeItem(AIK)}catch(e){}toast(o.k?'API Key সংরক্ষিত':'API Key মুছে গেছে')},{k:aiKey()})}
+let RV=null,RVC=null,RVAb=null;
+const ft=n=>{const s=String(n||'').toLowerCase().replace(/\b\d+\s*['’]?s\b/g,' ').replace(/(\d)([a-z])/g,'$1 $2').replace(/([a-z])(\d)/g,'$1 $2'),F={tab:'t',tablet:'t',cap:'c',capsule:'c',syp:'l',syrup:'l',susp:'l',suspension:'l',soln:'l',solution:'l',drops:'l',cream:'o',ointment:'o',paste:'o'},X=new Set('mg gm g mcg ml iu pot fc oral nasal ophthalmic s pcs pc x'.split(' ')),t=new Set();s.split(/[^a-z0-9.\/]+/).forEach(w=>{if(!w||X.has(w))return;t.add(F[w]?'#'+F[w]:w)});return [...t].sort().join(' ')};
+const jp=j=>{const t=(((j.candidates||[])[0]||{}).content||{parts:[]}).parts.map(x=>x.text||'').join(''),a=t.indexOf('{'),b=t.lastIndexOf('}');return JSON.parse(t.slice(a,b+1))};
+const GP='For each Bangladeshi pharmacy product name below give its generic name (active ingredients, combinations joined with " + ") and the MANUFACTURER company (e.g. Square, Beximco, Incepta; never a distributor or online seller). Use null when unsure; never guess. Reply ONLY with JSON {"items":[{"name":string,"generic":string|null,"company":string|null}]}.\n';
+async function genAsk(names,sig){const j=await gem({contents:[{parts:[{text:GP+names.join('\n')}]}],generationConfig:{temperature:0,responseMimeType:'application/json'}},sig),M=new Map();(jp(j).items||[]).forEach(x=>x&&x.name&&M.set(String(x.name).trim().toLowerCase(),x));return M}
+async function rvFill(){const KC=new Set(db.meds.map(m=>ck(m.c)).filter(Boolean)),sk=ck(RV.sup),bad=c=>{const k=ck(c);return !k||k==sk||BADCO.test(c)};RV.rows.forEach(r=>{const m=bestMed(r.n);if(m){if(!r.g)r.g=m.g||'';r.c=m.c||(bad(r.c)?'':r.c)}else if(bad(r.c))r.c='';else if(!KC.has(ck(r.c))){r._cx=r.c;r.c=''}if(!r.g){const p=GENP.find(p=>new RegExp(p[0],'i').test(r.n));if(p)r.g=p[1]}});const q=RV.rows.filter(r=>!r.g||!r.c);if(q.length&&aiKey()){try{const M=await genAsk([...new Set(q.map(r=>r.n))],RVAb.signal);q.forEach(r=>{const x=M.get(r.n.trim().toLowerCase());if(!x)return;if(!r.g&&x.generic)r.g=x.generic;})}catch(e){if(e&&e.name=='AbortError')throw e}}RV.rows.forEach(r=>{if(!r.c&&r._cx)r.c=r._cx;delete r._cx;r.c=coFix(r.c)})}
+let GR=[];
+async function fillGenAI(){if(!aiKey()){toast('আগে AI API Key বসান');return aiKeyForm()}const A=db.meds.filter(m=>(!(m.g||'').trim()||!(m.c||'').trim())&&!/napkin|^pad:|condom|floss/i.test(m.n));if(!A.length)return toast('সব ওষুধে জেনেরিক আছে');toast('জেনেরিক খোঁজা হচ্ছে…');GR=[];for(let i=0;i<A.length;i+=30){const b=A.slice(i,i+30);try{const M=await genAsk(b.map(m=>m.n));b.forEach(m=>{const x=M.get(m.n.trim().toLowerCase());if(!x)return;const g=(m.g||'').trim()||x.generic||'',c=(m.c||'').trim();if(g==(m.g||'').trim()&&c==(m.c||'').trim())return;GR.push({id:m.id,n:m.n,g,c,ok:1})})}catch(e){if(typeof e=='string'){toast(e);return}}}if(!GR.length)return toast('কিছু পাওয়া যায়নি');showGR()}
+function showGR(){setH('md',`<div class=box><h3>জেনেরিক ভরুন — দেখে নিন</h3><p class=mut>ভুল থাকলে ঠিক করুন, ভুল ওষুধের টিক তুলে দিন।</p><div style="max-height:55vh;overflow:auto">${GR.map((r,i)=>`<div class=card style="padding:8px;margin:6px 0"><label><input type=checkbox ${r.ok?'checked':''} onchange="GR[${i}].ok=this.checked"> <b>${esc(r.n)}</b></label><input value="${esc(r.g)}" placeholder="জেনেরিক নাম" oninput="GR[${i}].g=this.value"><input value="${esc(r.c)}" placeholder="কোম্পানি" oninput="GR[${i}].c=this.value"></div>`).join('')}</div><div class=bar><button onclick=closeM()>বাতিল</button><button class=pr onclick=applyGR()>প্রয়োগ করুন</button></div></div>`);$('md').className='m on'}
+function applyGR(){let c=0;GR.forEach(r=>{if(!r.ok)return;const m=db.meds.find(x=>x.id==r.id);if(!m)return;let ch=0;if(r.g.trim()&&r.g.trim()!=(m.g||'').trim()){m.g=r.g.trim();ch=1}if(r.c.trim()&&coFix(r.c)!=(m.c||'').trim()){m.c=coFix(r.c);ch=1}c+=ch});normCo();save();closeM();render();toast(c+'টি ওষুধ আপডেট হয়েছে')}
+const nz=x=>String(x||'').toLowerCase().replace(/[^a-z0-9\u0980-\u09FF]+/g,' ').trim();
+function mkMap(){const m=new Map();db.meds.forEach(x=>{m.set(nz(x.n),x);m.set('~'+ft(x.n),x);m.set('k:'+nk(x.n),x)});return m}
+function bestMed(name){const n=nz(name);if(!n)return null;const e=RVC.get(n)||RVC.get('~'+ft(name))||RVC.get('k:'+nk(name));if(e)return e;const t=new Set(n.split(' ')),nums=[...t].filter(w=>/\d/.test(w));let best=null,bs=0;for(const m of db.meds){const mt=new Set(nz(m.n).split(' '));let i=0;t.forEach(w=>{if(mt.has(w))i++});const sc=i/(t.size+mt.size-i);if(nums.length&&!nums.every(w=>mt.has(w)))continue;if(sc>bs){bs=sc;best=m}}return bs>=.6?best:null}
+let SCI=[],RVF=[];
+function scanInv(){if(!aiKey()){toast('আগে AI API Key বসান');return aiKeyForm()}SCI=[];scanUi()}
+function scanUi(){setH('md',`<div class=box><h3>ইনভয়েসের ছবি</h3><small>ক্যামেরায় ছবি তুলুন বা গ্যালারি থেকে নিন। একাধিক পাতা থাকলে একে একে যোগ করুন (সর্বোচ্চ ৫টি)।</small>
+<div class=g2 style="margin:10px 0"><button onclick="scanAdd(1)">📷 ক্যামেরা</button><button onclick="scanAdd(0)">🖼 গ্যালারি</button></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">${SCI.map((x,i)=>`<div style="position:relative"><img src="${x.u}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--ln)"><button onclick="scanRm(${i})" style="position:absolute;top:-8px;right:-8px;padding:0 6px;border-radius:10px">✕</button></div>`).join('')}</div>
+<div class=bar style="margin-top:12px"><button onclick=closeM()>বাতিল</button><button class=pr onclick="scanGo()" ${SCI.length?'':'disabled'}>স্ক্যান করুন (${SCI.length})</button></div></div>`);$('md').className='m on'}
+function scanAdd(c){const i=document.createElement('input');i.type='file';i.accept='image/*';if(c)i.setAttribute('capture','environment');else i.multiple=true;i.onchange=()=>{[...i.files].forEach(f=>{if(SCI.length<5)SCI.push({f,u:URL.createObjectURL(f)})});scanUi()};i.click()}
+function scanRm(i){SCI.splice(i,1);scanUi()}
+function scanGo(){if(SCI.length)readInv(SCI.map(x=>x.f))}
+function shrink(f){return new Promise((ok,no)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const M=1600,r=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*r);c.height=Math.round(im.height*r);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.8).split(',')[1])};im.onerror=()=>no('img');im.src=u})}
+const AIP=`You are reading a photo of a pharmacy purchase invoice (Bangladesh, may include Bengali text). Extract every medicine line. Reply with ONLY one JSON object, no markdown:
+{"supplier":string|null,"date":"YYYY-MM-DD"|null,"invoice_total":number|null,"items":[{"name":string (brand name with strength as printed, WITHOUT the pack size text),"generic":string|null,"company":string|null (the MANUFACTURER printed on that line, e.g. Square, Beximco, Incepta. NEVER the seller, distributor, shop or platform such as BDM, Medbox; null if the manufacturer is not printed),"qty":number (how many packs/boxes were purchased on this line),"pack_text":string|null (pack size text exactly as printed, e.g. "3*10's", "50's", "P size 100"),"pieces_per_pack":number|null (total pieces in ONE pack: "3*10's" means 3 strips x 10 = 30; "50's" or "P size 50" means 50; null if nothing is printed),"pieces_per_strip":number|null (only when printed as A*B's, then B; otherwise null),"unit_price":number|null (TP / trade price of ONE pack as printed, WITHOUT the separate VAT),"unit_vat":number|null (VAT of ONE pack, only when the invoice has a separate Unit Vat / VAT column; null otherwise),"line_total":number|null,"mrp":number|null (MRP only if clearly printed),"mrp_per":"piece"|"strip"|"pack"|null,"batch":string|null,"expiry":"YYYY-MM-DD"|null (use last day of month if only month/year)}]}
+Use null when unsure. Never invent values. Keep every line, in invoice order.`;
+const AIMS=[AIM,'gemini-flash-lite-latest','gemini-3.8-flash'];
+const slp=ms=>new Promise(r=>setTimeout(r,ms));
+async function gem(body,sig){let last='',first='';for(const md of AIMS){for(let k=0;k<2;k++){let r,j;try{r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+md+':generateContent',{method:'POST',signal:sig,headers:{'content-type':'application/json','x-goog-api-key':aiKey()},body:JSON.stringify(body)});j=await r.json()}catch(e){if(e&&e.name=='AbortError')throw e;last='ইন্টারনেট সংযোগ দেখুন';await slp(1500);continue}
+if(r.ok)return j;if(r.status==400||r.status==401||r.status==403){if(/key|permission|API_KEY/i.test((j.error&&j.error.message)||'')||r.status!=400)throw 'API Key ঠিক নয় বা অনুমতি নেই';last=(j.error&&j.error.message)||'ত্রুটি 400';break}
+last=r.status==429?'ফ্রি সীমা শেষ, কিছুক্ষণ পরে আবার চেষ্টা করুন':r.status==503?'Google-এর সার্ভারে এখন চাপ বেশি, একটু পরে আবার চেষ্টা করুন':((j.error&&j.error.message)||('ত্রুটি '+r.status));if(r.status==429)break;await slp(1500)}if(!first&&last)first=md+': '+last}throw first||last||'ত্রুটি'}
+async function readInv(fs){RVF=fs;RVAb=new AbortController();setH('md',`<div class=box><h3>ইনভয়েস পড়া হচ্ছে…</h3><p class=mut>ছবি থেকে ওষুধের তালিকা বের করা হচ্ছে, একটু অপেক্ষা করুন।</p><div class=bar><button onclick="RVAb.abort();closeM()">বাতিল</button></div></div>`);$('md').className='m on';
+try{const imgs=await Promise.all(fs.map(shrink));
+const B=th=>({contents:[{parts:[...imgs.map(d=>({inline_data:{mime_type:'image/jpeg',data:d}})),{text:AIP}]}],generationConfig:{temperature:0,responseMimeType:'application/json',...(th?{thinkingConfig:{thinkingBudget:0}}:{})}});let j;try{j=await gem(B(1),RVAb.signal)}catch(e){if(typeof e=='string'&&/thinking|budget/i.test(e))j=await gem(B(0),RVAb.signal);else throw e}
+const t=(((j.candidates||[])[0]||{}).content||{parts:[]}).parts.map(x=>x.text||'').join(''),a=t.indexOf('{'),b=t.lastIndexOf('}');const d=JSON.parse(t.slice(a,b+1));
+if(!d.items||!d.items.length)throw 'কোনো ওষুধ পাওয়া যায়নি';
+RVC=mkMap();const R2=(v,n)=>Math.round(v*n)/n;
+RV={sup:d.supplier||'',d:d.date||today(),tot:d.invoice_total,paid:'',pm:'ক্যাশ',rows:d.items.map(x=>{const m=bestMed(x.name),q=+x.qty||'',pk=+x.pieces_per_pack>0?+x.pieces_per_pack:1,sz=+x.pieces_per_strip>1?+x.pieces_per_strip:((m&&SZ(m))||'');
+let cost=x.unit_price!=null?+x.unit_price:(x.line_total!=null&&q?+x.line_total/q:'');
+let mrp='';if(x.mrp!=null){const v=+x.mrp;mrp=x.mrp_per=='pack'?v/pk:x.mrp_per=='strip'?(sz?v/sz:''):v}else if(m)mrp=m.p;
+return {n:m?m.n:(x.name||''),g:x.generic||'',c:x.company||'',q,pk,sz,tp:cost===''?'':R2(cost,100),vat:(x.unit_vat!=null&&+x.unit_vat>0)?R2(+x.unit_vat,100):'',disc:'',cost:'',mrp:mrp===''?'':R2(mrp,1000),b:x.batch||'',e:x.expiry||'',skip:0}})};
+await rvFill();RV.dall='';RV.rows.forEach(r=>r.cost=rvCost(r));rvShow()}catch(e){if(e&&e.name=='AbortError')return;setH('md',`<div class=box><h3>স্ক্যান হয়নি</h3><p>${esc(typeof e=='string'?e:(e&&e.message)||'ত্রুটি')}</p><div class=bar><button onclick=closeM()>বন্ধ করুন</button><button class=pr onclick="readInv(RVF)">আবার চেষ্টা</button></div></div>`)}}
+function rvCost(r){if(r.tp===''||r.tp==null||isNaN(+r.tp))return '';const tp=+r.tp;return Math.round((tp+(+r.vat||0)-tp*(+r.disc||0)/100)*1e4)/1e4}
+function rvCt(i){const r=RV.rows[i],e=$('rvC'+i);if(!e)return;e.innerHTML=r.cost===''?'':L('ক্রয়মূল্য (প্যাক)')+': <b>'+tk(r.cost)+'</b>'+((+r.vat||+r.disc)?' <small>(TP '+tk(+r.tp)+(+r.vat?' + VAT '+tk(+r.vat):'')+(+r.disc?' − '+L('ছাড়')+' '+tk(+r.tp*(+r.disc)/100):'')+')</small>':'')}
+function rvAll(v){RV.dall=v;RV.rows.forEach((r,i)=>{r.disc=v;r.cost=rvCost(r);const e=$('rvD'+i);if(e)e.value=v;rvCt(i);const f=$('rvI'+i);if(f)f.textContent=L(rvInfo(r))});rvTot()}
+function rvCalc(){let t=0;RV.rows.forEach(r=>{r._t=r.skip?0:(+r.q||0)*(+r.cost||0);t+=r._t});return t}
+function rvInfo(r){const pk=+r.pk||1,q=+r.q||0,cp=(+r.cost||0)/pk,sz=+r.sz>1?+r.sz:0,mp=+r.mrp||0;return L('মোট')+' '+(q*pk)+' '+L('পিস')+' · '+L('প্রতি পিস ক্রয়')+' '+tk(cp)+' · '+L('লাইন মোট')+' '+tk(q*(+r.cost||0))+(sz&&mp?' · '+L('স্ট্রিপের দাম')+' '+tk(mp*sz):'')}
+function rvTot(){const t=rvCalc();$('rvT').innerHTML=L('আপনার মোট: ')+'<b>'+tk(t)+'</b>'+(RV.tot?` <small>${L('ইনভয়েসে লেখা মোট: ')}${tk(RV.tot)}${Math.abs(RV.tot-t)>1?' ⚠':' ✓'}</small>`:'')}
+function rvSet(i,k,v){RV.rows[i][k]=v;if(k=='tp'||k=='vat'||k=='disc'){RV.rows[i].cost=rvCost(RV.rows[i]);rvCt(i)}if(k=='n'){const m=RVC.get(nz(v))||RVC.get('~'+ft(v))||RVC.get('k:'+nk(v)),e=$('rvS'+i);e.style.color=m?'var(--pr)':'var(--wn)';e.textContent=L(m?'✓ আগের ওষুধ · স্টক '+m.q+' পিস':'➕ নতুন ওষুধ হিসেবে যোগ হবে')}$('rvI'+i).textContent=L(rvInfo(RV.rows[i]));rvTot()}
+function rvDel(i){RV.rows[i].skip=RV.rows[i].skip?0:1;rvShow()}
+function rvShow(){const bx=document.querySelector('#md .box'),sc=bx?bx.scrollTop:0,E=x=>esc(x??''),W=v=>v===''||v==null?' style="border-color:var(--wn)"':'';
+const rows=RV.rows.map((r,i)=>{const m=RVC.get(nz(r.n))||RVC.get('~'+ft(r.n))||RVC.get('k:'+nk(r.n));return `<div class=card style="${r.skip?'opacity:.4':''}"><div class=bar style="margin:0"><b>${i+1}.</b><input value="${E(r.n)}" list=rvDl oninput="rvSet(${i},'n',this.value)" style="flex:1"><button onclick="rvDel(${i})">${r.skip?'↩':'✕'}</button></div>
+<small id=rvS${i} style="color:${m?'var(--pr)':'var(--wn)'}">${m?'✓ আগের ওষুধ · স্টক '+m.q+' পিস':'➕ নতুন ওষুধ হিসেবে যোগ হবে'}</small>
+<div class=g2><label>পরিমাণ (প্যাক/বক্স)<input type=number step=any inputmode=decimal value="${E(r.q)}"${W(r.q)} oninput="rvSet(${i},'q',this.value)"></label>
+<label>প্রতি প্যাকে পিস<input type=number inputmode=numeric value="${E(r.pk)}" oninput="rvSet(${i},'pk',this.value)"></label>
+<label>প্রতি স্ট্রিপে পিস (না থাকলে খালি)<input type=number inputmode=numeric value="${E(r.sz)}" oninput="rvSet(${i},'sz',this.value)"></label>
+<label>প্যাকের দাম (ইনভয়েস অনুযায়ী, ইউনিট TP)<input type=number step=any inputmode=decimal value="${E(r.tp)}"${W(r.tp)} oninput="rvSet(${i},'tp',this.value)"></label>
+<label>ইউনিট VAT (থাকলে)<input type=number step=any inputmode=decimal value="${E(r.vat)}" oninput="rvSet(${i},'vat',this.value)"></label>
+<label>ছাড় % (TP থেকে)<input id=rvD${i} type=number step=any inputmode=decimal value="${E(r.disc)}" oninput="rvSet(${i},'disc',this.value)"></label>
+<div id=rvC${i} style="grid-column:1/-1;align-self:center"></div>
+<label>বিক্রয়মূল্য (প্রতি পিস)<input type=number step=any inputmode=decimal value="${E(r.mrp)}"${W(r.mrp)} oninput="rvSet(${i},'mrp',this.value)"></label>
+<button type=button onclick="window.open(mxUrl(RV.rows[${i}].n),'_blank')" style="grid-column:1/-1">Medex-এ দেখুন</button><label>জেনেরিক<input id=rvG${i} value="${E(r.g)}" oninput="RV.rows[${i}].g=this.value"></label>
+<label>কোম্পানি<input id=rvK${i} value="${E(r.c)}" oninput="RV.rows[${i}].c=this.value"></label>
+<label>ব্যাচ<input value="${E(r.b)}" oninput="rvSet(${i},'b',this.value)"></label>
+<label>মেয়াদ<input type=date value="${E(r.e)}" oninput="rvSet(${i},'e',this.value)"></label></div><small id=rvI${i}>${L(rvInfo(r))}</small></div>`}).join('');
+setH('md',`<div class=box style="max-width:560px"><h3>ইনভয়েস যাচাই করুন</h3><small>সব ঠিক আছে কিনা দেখুন, ভুল থাকলে ঠিক করুন। কমলা ঘর = ফাঁকা। নিশ্চিত না করা পর্যন্ত কিছু যোগ হবে না।<br>প্যাক সাইজ: 3*10's = প্রতি প্যাকে ৩০ পিস, প্রতি স্ট্রিপে ১০ পিস। 50's = প্রতি প্যাকে ৫০ পিস।</small>
+<div class=g2 style="margin-top:8px"><label>সরবরাহকারী<input value="${E(RV.sup)}" list=rvSl oninput="RV.sup=this.value"></label><label>তারিখ<input type=date value="${E(RV.d)}" oninput="RV.d=this.value"></label></div>
+<label>সব ওষুধে ছাড় % (TP থেকে, সব লাইনে বসবে)<input id=rvDa type=number step=any inputmode=decimal value="${E(RV.dall)}" oninput="rvAll(this.value)"></label>
+<datalist id=rvSl>${db.sups.map(s=>`<option value="${E(s.n)}">`).join('')}</datalist><datalist id=rvDl>${db.meds.map(m=>`<option value="${E(m.n)}">`).join('')}</datalist>
+${rows}<div class=g2><label>পরিশোধ (খালি = পুরো)<input type=number step=any inputmode=decimal value="${E(RV.paid)}" oninput="RV.paid=this.value"></label><label>পেমেন্ট মাধ্যম<select onchange="RV.pm=this.value">${PM.map(o=>`<option value="${o[0]}" ${o[0]==RV.pm?'selected':''}>${o[1]}</option>`).join('')}</select></label></div>
+<div class=tt id=rvT></div><div class=bar><button onclick=closeM()>বাতিল</button><button class=pr onclick=rvOk()>ঠিক আছে, যোগ করুন</button></div></div>`);$('md').className='m on';RV.rows.forEach((r,i)=>rvCt(i));rvTot();const nb=document.querySelector('#md .box');if(nb)nb.scrollTop=sc}
+function rvOk(){const rs=RV.rows.filter(r=>!r.skip);if(!rs.length)return toast('কোনো ওষুধ নেই');
+for(const r of rs){if(!r.n.trim())return toast('ওষুধের নাম দিন');if(!(+r.q>0))return toast(r.n+': পরিমাণ দিন');if(!(+r.pk>=1))return toast(r.n+': প্রতি প্যাকে কয় পিস দিন');if(r.cost===''||r.cost==null||+r.cost<0)return toast(r.n+': দাম দিন');if(+r.disc<0||+r.disc>100)return toast(r.n+': ছাড় ০–১০০ এর মধ্যে দিন')}
+const sn=RV.sup.trim();let s=null;if(sn){s=db.sups.find(z=>z.n.toLowerCase()==sn.toLowerCase());if(!s)db.sups.push(s={id:nid(),n:sn,ph:'',due:0})}
+const tot=rvCalc();let left=RV.paid===''?tot:Math.max(0,+RV.paid||0),nw=0;
+rs.forEach(r=>{let m=RVC.get(nz(r.n))||RVC.get('~'+ft(r.n))||RVC.get('k:'+nk(r.n));if(m){if(!m.g&&r.g)m.g=r.g;if(!m.c&&r.c)m.c=r.c}if(!m){m={id:nid(),n:r.n.trim(),g:r.g,c:r.c,sp:sn,b:'',e:'',cost:0,p:0,sz:0,ps:0,q:0,min:0};db.meds.push(m);RVC.set(nz(m.n),m);RVC.set('~'+ft(m.n),m);RVC.set('k:'+nk(m.n),m);nw++}
+const pk=+r.pk||1,qp=Math.round(+r.q*pk),c=+r.cost/pk,t=+r.q*(+r.cost),pd=Math.min(t,left),sz=+r.sz>1?+r.sz:0,mrp=(r.mrp!==''&&r.mrp!=null&&+r.mrp>=0)?+r.mrp:null;left-=pd;
+if((sz&&sz!=SZ(m))||(mrp!=null&&mrp!=m.p))m.ps=0;if(sz)m.sz=sz;if(mrp!=null)m.p=mrp;
+m.q+=qp;m.cost=c;if(r.b)m.b=r.b;if(r.e)m.e=r.e;if(s)s.due+=Math.max(0,t-pd);
+db.buys.push({id:nid(),d:RV.d||today(),m:m.n,mid:m.id,sid:s?s.id:'',sn:s?s.n:'',q:qp,c,t,p:pd,pm:RV.pm,bu:'p',bq:qp,tp:+r.tp/pk,vt:(+r.vat||0)/pk,dc:+r.disc||0})});
+normCo();save();closeM();render();toast(rs.length+'টি ওষুধ যোগ হয়েছে'+(nw?' (নতুন '+nw+')':''))}
+
+;(()=>{const X={"স্ট্রিপ": "strip", "স্ট্রিপ?": "Strip?", "বিক্রয়মূল্য নেই": "No selling price", "← ফিরুন": "← Back", "টি যোগ হয়েছে": "items added", "বিল দেখুন": "View bill", "কার্টে": "In cart", "বিক্রয়মূল্য নেই — ইনভেন্টরি থেকে দাম দিন": "No selling price — set it in Inventory", "প্রতি স্ট্রিপে কয় পিস?": "Pieces per strip?", "(একবার দিলেই মনে থাকবে)": "(set once, it is remembered)", "অন্য সংখ্যা": "Other number", "ঠিক আছে": "OK", "১-এর বেশি সংখ্যা দিন": "Enter a number greater than 1", "📷 ইনভয়েস স্ক্যান": "📷 Scan invoice", "ইনভয়েসের ছবি": "Invoice photos", "ক্যামেরায় ছবি তুলুন বা গ্যালারি থেকে নিন। একাধিক পাতা থাকলে একে একে যোগ করুন (সর্বোচ্চ ৫টি)।": "Take a photo with the camera or pick from the gallery. For several pages, add them one by one (max 5).", "📷 ক্যামেরা": "📷 Camera", "🖼 গ্যালারি": "🖼 Gallery", "স্ক্যান করুন": "Scan", "ইনভয়েস পড়া হচ্ছে…": "Reading invoice…", "ছবি থেকে ওষুধের তালিকা বের করা হচ্ছে, একটু অপেক্ষা করুন।": "Extracting the medicine list from the photo, please wait.", "স্ক্যান হয়নি": "Scan failed", "আবার চেষ্টা": "Try again", "কোনো ওষুধ পাওয়া যায়নি": "No medicines found", "ইন্টারনেট সংযোগ দেখুন": "Check your internet connection", "API Key ঠিক নয় বা অনুমতি নেই": "API key is invalid or not allowed", "ফ্রি সীমা শেষ, কিছুক্ষণ পরে আবার চেষ্টা করুন": "Free limit reached, try again later", "Google-এর সার্ভারে এখন চাপ বেশি, একটু পরে আবার চেষ্টা করুন": "Google servers are busy, try again shortly", "ত্রুটি": "Error", "ইনভয়েস যাচাই করুন": "Check invoice", "সব ঠিক আছে কিনা দেখুন, ভুল থাকলে ঠিক করুন। কমলা ঘর = ফাঁকা। নিশ্চিত না করা পর্যন্ত কিছু যোগ হবে না।": "Check everything and fix any mistakes. Orange box = empty. Nothing is added until you confirm.", "প্যাক সাইজ: 3*10's = প্রতি প্যাকে ৩০ পিস, প্রতি স্ট্রিপে ১০ পিস। 50's = প্রতি প্যাকে ৫০ পিস।": "Pack size: 3*10's = 30 pcs per pack, 10 pcs per strip. 50's = 50 pcs per pack.", "✓ আগের ওষুধ · স্টক": "✓ Existing medicine · Stock", "➕ নতুন ওষুধ হিসেবে যোগ হবে": "➕ Will be added as a new medicine", "পরিমাণ (প্যাক/বক্স)": "Quantity (pack/box)", "প্রতি প্যাকে পিস": "Pieces per pack", "প্রতি স্ট্রিপে পিস (না থাকলে খালি)": "Pieces per strip (blank if none)", "প্যাকের দাম (ইনভয়েস অনুযায়ী)": "Pack price (per invoice)", "বিক্রয়মূল্য (প্রতি পিস)": "Selling price (per piece)", "প্রতি পিস ক্রয়": "Cost per piece", "লাইন মোট": "Line total", "স্ট্রিপের দাম": "Strip price", "আপনার মোট:": "Your total:", "ইনভয়েসে লেখা মোট:": "Invoice total:", "ঠিক আছে, যোগ করুন": "Confirm & add", "কোনো ওষুধ নেই": "No medicines", "ওষুধের নাম দিন": "Enter medicine name", "পরিমাণ দিন": "enter quantity", "প্রতি প্যাকে কয় পিস দিন": "enter pieces per pack", "দাম দিন": "enter price", "টি ওষুধ যোগ হয়েছে": " medicines added", "(নতুন": "(new", "AI API Key (ইনভয়েস স্ক্যানের জন্য)": "AI API Key (for invoice scan)", "ফ্রি Gemini Key: aistudio.google.com/apikey থেকে Google অ্যাকাউন্ট দিয়ে নিন।": "Free Gemini key: get it at aistudio.google.com/apikey with a Google account.", "চাবিটি শুধু এই ডিভাইসের ব্রাউজারে থাকবে, Drive ব্যাকআপে যাবে না। খালি রেখে সংরক্ষণ করলে মুছে যাবে।": "The key stays only in this device's browser and is not part of the Drive backup. Saving it blank deletes it.", "API Key সংরক্ষিত": "API key saved", "API Key মুছে গেছে": "API key removed", "আগে AI API Key বসান": "Add the AI API key first", "AI API Key বসান": "Set AI API Key", "AI API Key (সেট আছে)": "AI API Key (set)", "Drive ব্যাকআপ": "Drive backup", "ইউজারনেম ও পাসওয়ার্ড": "Username & Password", "ডেটা স্টোরেজ: স্থায়ী ✓": "Data storage: persistent ✓", "ডেটা স্টোরেজ: অস্থায়ী ⚠ (ফোন মুছে দিতে পারে)": "Data storage: temporary ⚠ (phone may clear it)", "Drive-এ আগের ব্যাকআপ পাওয়া গেছে। সেটা ফিরিয়ে আনবেন? (ঠিক আছে = ফিরিয়ে আনুন)": "A previous backup was found on Drive. Restore it? (OK = restore)", "তাহলে Drive-এর আগের ব্যাকআপ মুছে এই ডিভাইসের নতুন ডেটা বসানো হবে। নিশ্চিত?": "Then the previous Drive backup will be replaced with this device's new data. Are you sure?"};for(const k in X)if(!(k in EN)||['স্ট্রিপ','ঠিক আছে'].includes(k))EN[k]=X[k];RX=null})();
+;(()=>{const X={'ওষুধ খুঁজুন বা নতুন নাম লিখুন':'Search medicine or type a new name','ওষুধ বেছে নিন বা নতুন নাম দিন':'Select a medicine or enter a new name','নতুন ওষুধ যোগ করুন':'Add new medicine','নতুন ওষুধের তথ্য':'New medicine details','কোনো ওষুধ নেই। নাম লিখে নতুন যোগ করুন।':'No medicines. Type a name to add a new one.','অথবা নতুন সরবরাহকারীর নাম':'Or add a new supplier name','ইউনিট TP (প্রতি একক, খালি = আগের দাম)':'Unit TP (per unit, blank = previous price)','ইউনিট VAT (থাকলে)':'Unit VAT (if any)','ছাড় % (ইউনিট TP থেকে)':'Discount % (off unit TP)','ছাড় % (TP থেকে)':'Discount % (off TP)','সব ওষুধে ছাড় % (TP থেকে, সব লাইনে বসবে)':'Discount % on all medicines (off TP, applies to every line)','প্যাকের দাম (ইনভয়েস অনুযায়ী, ইউনিট TP)':'Pack price (per invoice, unit TP)','ক্রয়মূল্য (প্রতি একক)':'Cost (per unit)','ক্রয়মূল্য (প্যাক)':'Cost (per pack)','দাম না দিলে আগের ক্রয়মূল্য ধরা হবে':'If blank, the previous cost price is used','ছাড় ০–১০০ এর মধ্যে দিন':'Enter a discount between 0 and 100','সঠিক দাম দিন':'Enter a valid price','স্ট্রিপে কয় পিস তা দিন':'Enter pieces per strip','নতুন ওষুধসহ ক্রয় যোগ হয়েছে':'Purchase added with the new medicine','সংরক্ষিত':'Saved','দাম দিন':'enter price','প্রতি স্ট্রিপে পিস (না থাকলে খালি)':'Pieces per strip (blank if none)','বিক্রয়মূল্য (MRP, প্রতি পিস)':'Selling price (MRP, per pc)','জেনেরিক নাম':'Generic name','কোম্পানি':'Company'};for(const k in X)if(!(k in EN))EN[k]=X[k];RX=null})();
+
+
+;(()=>{const X={'ওষুধ, জেনেরিক বা কোম্পানির নাম':'Medicine, generic or company name','কোম্পানির নাম':'Company name','জেনেরিক ভরুন — দেখে নিন':'Fill generics — review','জেনেরিক ভরুন':'Fill generics','ভুল থাকলে ঠিক করুন, ভুল ওষুধের টিক তুলে দিন।':'Fix any mistakes and untick the wrong ones.','জেনেরিক নাম':'Generic name','প্রয়োগ করুন':'Apply','জেনেরিক খোঁজা হচ্ছে…':'Searching generics…','আগে AI API Key বসান':'Set the AI API key first','সব ওষুধে জেনেরিক আছে':'All medicines have generics','কিছু পাওয়া যায়নি':'Nothing found','টি ওষুধ আপডেট হয়েছে':' medicines updated','বাতিল':'Cancel'};for(const k in X)if(!(k in EN))EN[k]=X[k];RX=null})();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
